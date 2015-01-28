@@ -1,18 +1,20 @@
+addpath('../Data_Loading');
+
 %%% Folders used
 folders={'Petia2','Mariella','Estefania1','Estefania2'};
+folders={'Petia1'};
+formats={'.jpg'};
 % folders={'Day1','Day2','Day3','Day4','Day6'};
 % folders={'day2','day3','day4','day5','day6','day7','day8','day9'};
 % folders={'Petia1','Petia2','Mariella','Estefania1','Estefania2','Day1','Day2','Day3','Day4','Day6'};
 % folders = {'Estefania1'};
 
-%% PETIA 1 IS WRONG!!
-
 %%% Data path
-files_path = '/HDD 2TB/LIFELOG_DATASETS/Narrative/imageSets';
+files_path = 'D:/LIFELOG_DATASETS/Narrative/imageSets';
 % files_path = '/HDD 2TB/LIFELOG_DATASETS/SenseCam/imageSets/terrassaPatient1';
 
 %%% GT path
-GT_path = '/HDD 2TB/LIFELOG_DATASETS/Narrative/GT';
+GT_path = 'D:/LIFELOG_DATASETS/Narrative/GT';
 
 %%% Methods used
 % methods_indx={'ward', 'complete','centroid','average','single','weighted','median'};
@@ -37,15 +39,12 @@ prop_div = 20; % rest?
 
 use_GT = true;
 
-% volume = '/Volumes/SHARED HD';
-% volume = 'D:';
-volume = '/media/lifelogging';
 
-sfigureGC=([volume '/HDD 2TB/IBPRIA/Sets/GC/GC_']);%leer narrative
+% sfigureGC=([volume '/HDD 2TB/IBPRIA/Sets/GC/GC_']);%leer narrative
 % sfigureGC=([volume files_path '/GC/GC_']);%leer patient
 % sfigureGC=([volume '/Segmentation_Adwin_Cluster_GC/IbPRIA GC Results_new/GC/GC_']);%leer
 
-results = 'PlotResults_GT';
+results = 'D:/R-Clustering_Results/PlotResults_GT';
 
 for i_met=1:length(methods_indx)
      method=methods_indx{i_met};
@@ -54,7 +53,15 @@ for i_met=1:length(methods_indx)
         for i_fold=1:length(folders)
             folder=folders{i_fold};
             
-            path_source = [volume files_path '/' folder];
+            path_source = [files_path '/' folder];
+            files_aux = dir([path_source '/*' formats{i_fold}]);
+            count = 1;
+            for n_files = 1:length(files_aux)
+                if(files_aux(n_files).name(1) ~= '.')
+                    files(count) = files_aux(n_files);
+                    count = count+1;
+                end
+            end
 %             path_source = [volume '/Segmentation_Adwin_Cluster_GC/GC_IBPRIA/' folder];
 %             path_source = [volume '/Segmentation_Adwin_Cluster_GC/GC_IBPRIA/petia_2'];
             
@@ -83,8 +90,8 @@ for i_met=1:length(methods_indx)
                 end
             %% Use GT segmentation
             else
-                path_source_GT = [volume GT_path '/GT_' folder];
-                [~,cl_limGT,nFrames]=analizarExcel_Narrative(path_source_GT,path_source, format);
+                path_source_GT = [GT_path '/GT_' folder];
+                [~, ~,cl_limGT, nFrames]=analizarExcel_Narrative(path_source_GT, files);
                 
                 event = zeros(1, nFrames);
                 for i = 2:length(cl_limGT)
@@ -128,10 +135,10 @@ for i_met=1:length(methods_indx)
             img_ex = imread([path_source '/' fileList(1).name]);
             props = round([size(img_ex,1)/prop_div, size(img_ex,2)/prop_div]);
             %% Get summary image
-%             try
-%                 gen_image = summaryImage(props, num_clus, 30, res_dat, fileList, path_source, 'images', '', []);
-%                 imwrite(gen_image, [results '/' folder '.jpg']);
-%             end
+            try
+                gen_image = summaryImage(props, num_clus, 30, res_dat, fileList, path_source, 'images', '', []);
+                imwrite(gen_image, [results '/' folder '.jpg']);
+            end
             %% Get an image per segment
             summaryImageSegment(props, num_clus, 10, res_dat, fileList, path_source, 'images', '', [], [results '/' folder]);
         end%End_folder
