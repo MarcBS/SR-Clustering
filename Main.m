@@ -132,7 +132,7 @@ for i_fold=1:length(folders)
 
                     %% Store results
                     % Plot
-                    fig_save = ([method '_cutVal_' cut_indx(idx_cut) '.fig']);
+                    fig_save = ([method '_cutVal_' num2str(cut_indx(idx_cut)) '.fig']);
                     saveas(fig,[root_results '/' fig_save]);
                     % Results Evaluation
                     Results{idx_cut}.cut_value = cut_indx(idx_cut);
@@ -140,8 +140,10 @@ for i_fold=1:length(folders)
                     Results{idx_cut}.num_clus_GC = num_clus_GC;
                     Results{idx_cut}.eventsIDs = eventsIDs;
                     Results{idx_cut}.fMeasure_GC = fMeasure_GC;
-                    Results{idx_cut}.fMeasure_Clustering = fMeasure_Clus; 
-                    Results{idx_cut}.fMeasure_Adwin = fMeasure_Adwin;
+                    Results{idx_cut}.fMeasure_Clustering = fMeasure_Clus;
+                    if strcmp(clus_type,'Both')
+                        Results{idx_cut}.fMeasure_Adwin = fMeasure_Adwin;
+                    end
 
                 elseif(evalType == 1)
                     [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W2, features_norm, tol, delim, doEvaluation, clus_type);

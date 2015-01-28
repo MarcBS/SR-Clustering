@@ -57,7 +57,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
 %             tic
 %             disp('Applying Graph-Cut smoothing...');
             % TESTS: num_i*increment+offset
-            LH_GC = buildGraphCuts(LH_Clus, features, win_len, (num_i-1)*W_unary+offset); 
+            LH_GC = buildGraphCuts(LH_Clus, features, win_len, (num_i-1)*W_unary+offset, dists); 
         %     LH_GC = buildGraphCuts(LH_Clus, features, win_len, power((num_i-1)*W, num_i-1)+offset); 
                                         % (the higher the less events)
 %             toc                                                             
@@ -68,6 +68,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
 
 
         %%%%%%%%%%% TESTS
+            clusterIds(num_i,:) = labels;
             vec_numC(num_i) = num_clusters;
             if(has_GT)
                 [~,~,~,vec_perC(num_i)]=Rec_Pre_Acc_Evaluation(GT,start_GC,nSamples,tolerance);
