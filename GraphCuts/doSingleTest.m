@@ -1,4 +1,4 @@
-function doSingleTest( LHs, clusterId, bound_GC, win_len, W, W2, features, tolerance, GT, doEvaluation, clus_type )
+function doSingleTest( LHs, clusterId, bound_GC, win_len, W_unary, W_pairwise, features, tolerance, GT, doEvaluation, clus_type )
 %%
 %   Applies a single GC test.
 %
@@ -33,7 +33,7 @@ function doSingleTest( LHs, clusterId, bound_GC, win_len, W, W2, features, toler
         %[~, start_clus{2}, ~] = getEventsFromLH(LHs{2});
         [recClus,precClus,accClus,fMeasureClus]=Rec_Pre_Acc_Evaluation(GT,bound_GC{1},nSamples,tolerance);
         [recClus2,precClus2,accClus2,fMeasureClus2]=Rec_Pre_Acc_Evaluation(GT,bound_GC{2},nSamples,tolerance);
-        LH_Clus = joinLHs(LHs, clusterId, W2);
+        LH_Clus = joinLHs(LHs, clusterId, W_pairwise);
     elseif(length(LHs) == 1 && length(clusterId) == 1)
         nClus = 1;
         %[~, start_clus{1}, ~] = getEventsFromLH(LHs{1});
@@ -44,7 +44,7 @@ function doSingleTest( LHs, clusterId, bound_GC, win_len, W, W2, features, toler
     end
     
     %% Execute Graph-Cuts
-    LH_GC = buildGraphCuts(LH_Clus, features, win_len, W, dists); 
+    LH_GC = buildGraphCuts(LH_Clus, features, win_len, W_unary, dists); 
     
     %% Convert LH results on events separation (on GC result)
     [ labels, start_GC, num_clusters ] = getEventsFromLH(LH_GC);

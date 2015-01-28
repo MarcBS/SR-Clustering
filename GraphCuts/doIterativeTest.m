@@ -1,4 +1,4 @@
-function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId, bound, maxTest, win_len, W, W2, features, tolerance, GT, clus_type, has_GT )
+function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId, bound, maxTest, win_len, W_unary, W_pairwise, features, tolerance, GT, clus_type, has_GT, nPairwiseDivisions )
 %%
 %   Applies an iterative GC test increasing the value of the weighting term
 %   by increments of W.
@@ -23,7 +23,6 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
 %
 %%%%%%
     nSamples = size(features,1);
-    nW = 5;
     
     dists = pdist(features);
 %     dists = normalizeHistograms(dists);
@@ -58,7 +57,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
 %             tic
 %             disp('Applying Graph-Cut smoothing...');
             % TESTS: num_i*increment+offset
-            LH_GC = buildGraphCuts(LH_Clus, features, win_len, (num_i-1)*W+offset); 
+            LH_GC = buildGraphCuts(LH_Clus, features, win_len, (num_i-1)*W_unary+offset); 
         %     LH_GC = buildGraphCuts(LH_Clus, features, win_len, power((num_i-1)*W, num_i-1)+offset); 
                                         % (the higher the less events)
 %             toc                                                             
@@ -82,7 +81,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
             line([1:maxTest]-1, ones(1,maxTest)*fMeasureClus, 'Color', 'r', 'LineWidth', 2) % Clustering accuracy
             legend('Number Events', 'GC F-Measure', [clus_type ' F-Measure'], 1);
             set(gca,'XTick', [1:maxTest]-1 ); % x axis labels positions
-            xticklabel_rotate([1:maxTest]-1,90,num2cell(([1:maxTest]-1).*W+offset), 'FontSize', 16,'interpreter','none');
+            xticklabel_rotate([1:maxTest]-1,90,num2cell(([1:maxTest]-1).*W_unary+offset), 'FontSize', 16,'interpreter','none');
             title('Test data F-Measure comparison.', 'FontSize', 18);
             ylabel('F-Measure', 'FontSize', 16);
             xlabel('GC tuning value.', 'FontSize', 16);
@@ -92,16 +91,16 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
         
     %% Dual clustering plot
     elseif(nClus == 2)
-        W2 = linspace(0,1,nW);
+        W_pairwise = linspace(0,1,nPairwiseDivisions);
         
-        vec_numC = zeros(length(W2),maxTest);
-        vec_perC = zeros(length(W2),maxTest);
-        clusterIds = zeros(length(W2),maxTest,nSamples);
+        vec_numC = zeros(length(W_pairwise),maxTest);
+        vec_perC = zeros(length(W_pairwise),maxTest);
+        clusterIds = zeros(length(W_pairwise),maxTest,nSamples);
         
         fig = figure; hold all;
         
         count_w2 = 1;
-        for w2 = W2
+        for w2 = W_pairwise
             % Calculate combined likelihoods
             LH_Clus = joinLHs(LHs, clusterId, w2);
             
@@ -111,7 +110,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
 %                 tic
 %                 disp('Applying Graph-Cut smoothing...');
                 % TESTS: num_i*increment+offset
-                LH_GC = buildGraphCuts(LH_Clus, features, win_len, (num_i-1)*W+offset, dists); 
+                LH_GC = buildGraphCuts(LH_Clus, features, win_len, (num_i-1)*W_unary+offset, dists); 
             %     LH_GC = buildGraphCuts(LH_Clus, features, win_len, power((num_i-1)*W, num_i-1)+offset); 
                                             % (the higher the less events)
 %                 toc                                                             
@@ -139,19 +138,19 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
                 hold all;
                 text([1:maxTest]-1+0.05, ones(1,maxTest)*w2, pos+0.02, cellstr(num2str(vec_numC(count_w2,:)'))); % num events labels
             end
-            disp(['Tested ' num2str(count_w2) '/' num2str(nW) ' different weights.']);
+            disp(['Tested ' num2str(count_w2) '/' num2str(nPairwiseDivisions) ' different weights.']);
             count_w2 = count_w2+1;
         end
         
-        white = ones(nW,maxTest,3);
+        white = ones(nPairwiseDivisions,maxTest,3);
         red = white; red(:,:,[2 3]) = 0;
         green = white; green(:,:,[1 3]) = 0;
         orange = white; orange(:,:,3) = 0; orange(:,:,2) = 0.65;
         
         if(has_GT)
-            surf([1:maxTest]-1, W2, vec_perC, green) % GC accuracy
-            surf([1:maxTest]-1, W2, repmat((ones(1,maxTest)*fMeasureClus),nW,1), red) % Clustering accuracy
-            surf([1:maxTest]-1, W2, repmat((ones(1,maxTest)*fMeasureClus2),nW,1), orange) % Clustering2 accuracy
+            surf([1:maxTest]-1, W_pairwise, vec_perC, green) % GC accuracy
+            surf([1:maxTest]-1, W_pairwise, repmat((ones(1,maxTest)*fMeasureClus),nPairwiseDivisions,1), red) % Clustering accuracy
+            surf([1:maxTest]-1, W_pairwise, repmat((ones(1,maxTest)*fMeasureClus2),nPairwiseDivisions,1), orange) % Clustering2 accuracy
 %         line([1:maxTest]-1, vec_perC, 'Color', 'g', 'LineWidth', 1.5) % GC accuracy
 %         line([1:maxTest]-1, ones(1,maxTest)*fMeasureClus, 'Color', 'r', 'LineWidth', 2) % Clustering accuracy
 %         line([1:maxTest]-1, ones(1,maxTest)*fMeasureClus2, 'Color', 'r', 'LineWidth', 2) % Clustering2 accuracy
@@ -166,7 +165,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
 
             %% Set other text
             set(gca,'XTick', [1:maxTest]-1 ); % x axis labels positions
-            xticklabel_rotate([1:maxTest]-1,90,num2cell(([1:maxTest]-1).*W+offset), 'FontSize', 16,'interpreter','none');
+            xticklabel_rotate([1:maxTest]-1,90,num2cell(([1:maxTest]-1).*W_unary+offset), 'FontSize', 16,'interpreter','none');
             title('Test data F-Measure comparison.', 'FontSize', 18);
             zlabel('F-Measure', 'FontSize', 16);
             ylabel('LH weighting term', 'FontSize', 16);

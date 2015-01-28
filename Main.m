@@ -6,11 +6,13 @@ loadParameters;
 %% Folders
 for i_fold=1:length(folders)
     
-    %% Paths images and excel
+    %% Build paths for images, excel, features and results
     folder=folders{i_fold};
     fichero=([directorio_im '/' camera{i_fold} '/imageSets/' folder]);
     path_excel = [directorio_im '/' camera{i_fold} '/GT/GT_' folder '.xls'];
     path_features = [directorio_im '/' camera{i_fold} '/CNNfeatures/CNNfeatures_' folder '.mat'];
+    root_results = [directorio_results '/' folder];
+    mkdir(root_results);
     
     %% Images
     files_aux=dir([fichero '/*' formats{i_fold}]);
@@ -57,7 +59,7 @@ for i_fold=1:length(folders)
                     if (exist('automatic2','var')==0)
                         automatic2=0;
                     end
-                [~,~,~,fMeasure_Ad]=Rec_Pre_Acc_Evaluation(delim,automatic2,Nframes,tol);
+                [~,~,~,fMeasure_Adwin]=Rec_Pre_Acc_Evaluation(delim,automatic2,Nframes,tol);
                     
 
                 % Normalize distances
@@ -106,15 +108,15 @@ for i_fold=1:length(folders)
                                  automatic=automatic(2:end);
                              end
 
-                            [rec,prec,acc,fMeasure]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
+                            [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
 
 
-                            RPAF{idx_cut,1}=clustersId;
-                            RPAF{idx_cut,2}=bound;
-                            RPAF{idx_cut,3}=rec;
-                            RPAF{idx_cut,4}=prec;
-                            RPAF{idx_cut,5}=acc;
-                            RPAF{idx_cut,6}=fMeasure;
+                            RPAF_Clustering{idx_cut,1}=clustersId;
+                            RPAF_Clustering{idx_cut,2}=bound;
+                            RPAF_Clustering{idx_cut,3}=rec;
+                            RPAF_Clustering{idx_cut,4}=prec;
+                            RPAF_Clustering{idx_cut,5}=acc;
+                            RPAF_Clustering{idx_cut,6}=fMeasure_Clus;
 
                 P=getLHFromClustering(features_clus,clustersId);
                 LH_Clus{1} = P;
@@ -126,36 +128,35 @@ for i_fold=1:length(folders)
                 % Build and calculate the Graph-Cuts
                 [features_norm, ~, ~] = normalize(features);
                 if(evalType == 2)
-                    [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest(LH_Clus, start_clus, bound_GC, maxTest, win_len, W, W2, features_norm, tol, delim, clus_type,1);
+                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs ] = doIterativeTest(LH_Clus, start_clus, bound_GC, nTestsGrid, window_len, W_unary, W_pairwise, features_norm, tol, delim, clus_type,1, nPairwiseDivisions);
 
-                    aux_save2=([sfigureGC folder '_' method '_' clus_type '_' num2str(idx_cut) '.fig']);
-                    saveas(fig,aux_save2);
-
-                    Results{idx_cut,1}=RPAF; 
-                    Results{idx_cut,2}=0;%vec_numC;
-                    Results{idx_cut,3}=0;%vec_perC;
-                    Results{idx_cut,4}=0;%clusterIds;
-                    Results{idx_cut,5}=fMeasure; 
-                    Results{idx_cut,6}=0;%fMeasure_Ad;
+                    %% Store results
+                    % Plot
+                    fig_save = ([method '_cutVal_' cut_indx(idx_cut) '.fig']);
+                    saveas(fig,[root_results '/' fig_save]);
+                    % Results Evaluation
+                    Results{idx_cut}.cut_value = cut_indx(idx_cut);
+                    Results{idx_cut}.RPAF_Clustering = RPAF_Clustering; 
+                    Results{idx_cut}.num_clus_GC = num_clus_GC;
+                    Results{idx_cut}.eventsIDs = eventsIDs;
+                    Results{idx_cut}.fMeasure_GC = fMeasure_GC;
+                    Results{idx_cut}.fMeasure_Clustering = fMeasure_Clus; 
+                    Results{idx_cut}.fMeasure_Adwin = fMeasure_Adwin;
 
                 elseif(evalType == 1)
-                    [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,win_len, W, W2, features_norm, tol, delim, doEvaluation, clus_type);
+                    [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W2, features_norm, tol, delim, doEvaluation, clus_type);
                 end % end GC
 
                 close all;
                 clearvars bound clustersId
              end%end cut
-              
-%     sfigure=(['/media/lifelogging/Shared SSD/IBPRIA/Sets/Im_' folder '/']);
-%     sfigureRPAF=(['D:\IBPRIA\Sets\GC\GCPrueba_' folder '\']);
-%     sfigureGC=(['D:\IBPRIA\Sets\GC\GCPrueba_' folder '\']);
+
              
              %% SAVE
-             aux_save3=([sfigureGC folder '_' method '_Res_' clus_type '_' num2str(idx_cut) '.mat']);
-             save(aux_save3,'Results');
-             aux_Save=([sfigureRPAF 'RPAF_' folder '_' method]);
-             save(aux_Save,'RPAF')
-             clearvars Results vec_numC vec_perC clusterIds RPAF
+             if(evalType == 2)
+                file_save=(['Results_' method '_Res_' clus_type '.mat']);
+                save([root_results '/' file_save], 'Results');
+             end
              
         end %end method
         clearvars LH_Clus start_clus

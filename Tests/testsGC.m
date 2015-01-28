@@ -7,19 +7,18 @@ data_path = '../GC_IBPRIA';
 clus_type = 'Both'; % Clustering type used before the GraphCuts. 
                     % It can take the following values:
                     %           'Clustering'
-                    %           'Adwin'
                     %           'Both'
 
 win_len = 11;
-W = 1e3;    % W > 0
-W2 = 0.5;   % 0 <= W2 <= 1
+W_unary = 1e3;    % W > 0
+W_pairwise = 0.5;   % 0 <= W2 <= 1
 
 tolerance = 3; % tolerance for the final evaluation
 
 evalType = 2; % 1 = single test, 2 = iterative W increase
 
 doEvaluation = true; % plot precision/recall and f-measure when performing single test
-maxTest = 25+1; % 25+1
+maxTest = 10+1; % 25+1
 
 
 %% Load previous data
@@ -56,10 +55,10 @@ LH_Clus = getLHFromClustering(features_time, classes);
 %% Build and calculate the Graph-Cuts
 if(evalType == 2)
     
-    fig = doIterativeTest({LH_Clus}, {start_clus}, maxTest, win_len, W, W2, features, tolerance, GT, clus_type);
+    fig = doIterativeTest({LH_Clus}, {start_clus}, maxTest, win_len, W_unary, W_pairwise, features, tolerance, GT, clus_type);
     
 elseif(evalType == 1)
     
-    doSingleTest({LH_Clus}, {start_clus}, win_len, W, W2, features, tolerance, GT, doEvaluation, clus_type);
+    doSingleTest({LH_Clus}, {start_clus}, win_len, W_unary, W_pairwise, features, tolerance, GT, doEvaluation, clus_type);
 
 end
