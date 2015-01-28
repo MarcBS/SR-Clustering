@@ -14,7 +14,7 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
   
     [~,textA] = xlsread(excelfile);
     [f,c]=size(textA);
-    eventsString=textA(3:f,1);
+    eventsString=textA(3:f,2);
     
     num_clustauto_def=f-2;
     
