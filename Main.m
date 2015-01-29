@@ -148,9 +148,10 @@ for i_fold=1:length(folders)
                 if(paramsPCA.usePCA_GC)
                     features_GC = featuresPCA;
                 else
-                    features_GC = features_norm;
+                    features_GC = features;
                 end
-
+                
+                [features_GC, ~, ~] = normalize(features_GC);
                 if(evalType == 2)
                     [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, nTestsGrid, window_len, W_unary, W_pairwise, features_GC, tol, delim, clus_type,1, nPairwiseDivisions);
 

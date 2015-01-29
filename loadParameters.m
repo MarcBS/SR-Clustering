@@ -44,7 +44,7 @@ confidence = 0.1;
 paramsPCA.usePCA_Adwin = true;
 
 %% GraphCuts parameters
-paramsPCA.usePCA_GC = true;
+paramsPCA.usePCA_GC = false;
 window_len = 11;
 W_unary = 200;      % 0 <= W_unary <= 400
 W_pairwise = 0.5;   % 0 <= W_pairwise <= 1
