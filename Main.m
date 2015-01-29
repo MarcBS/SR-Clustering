@@ -80,50 +80,50 @@ for i_fold=1:length(folders)
             similarities=pdist(featuresPCA,'cosine');
            
            
-            for met_indx=1:length(methods_indx)
+        for met_indx=1:length(methods_indx)
                 
-                method=methods_indx{met_indx};    
-                Z = linkage(similarities, method);
-                
-                %% Cut value
-                for idx_cut=1:length(cut_indx)
+            method=methods_indx{met_indx};    
+            Z = linkage(similarities, method);
 
-                            cut=cut_indx(idx_cut);
-                            clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
+            %% Cut value
+            for idx_cut=1:length(cut_indx)
 
-                            index=1;
-                            
-                            for pos=1:length(clustersId)-1
-                                if clustersId(pos)~=clustersId(pos+1)
-                                    bound(index)=pos;
-                                    index=index+1;
-                                end
-                            end
-                            if (exist('bound','var')==0)
-                                bound=0;
-                            end
+                cut=cut_indx(idx_cut);
+                clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
 
-                             automatic=bound;
-                             if automatic(1) == 1
-                                 automatic=automatic(2:end);
-                             end
+                index=1;
 
-                            [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
+                for pos=1:length(clustersId)-1
+                    if clustersId(pos)~=clustersId(pos+1)
+                        bound(index)=pos;
+                        index=index+1;
+                    end
+                end
+                if (exist('bound','var')==0)
+                    bound=0;
+                end
+
+                 automatic=bound;
+                 if automatic(1) == 1
+                     automatic=automatic(2:end);
+                 end
+
+                [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
 
 
-                            RPAF_Clustering{idx_cut,1}=clustersId;
-                            RPAF_Clustering{idx_cut,2}=bound;
-                            RPAF_Clustering{idx_cut,3}=rec;
-                            RPAF_Clustering{idx_cut,4}=prec;
-                            RPAF_Clustering{idx_cut,5}=acc;
-                            RPAF_Clustering{idx_cut,6}=fMeasure_Clus;
+                RPAF_Clustering{idx_cut}.clustersIDs = clustersId;
+                RPAF_Clustering{idx_cut}.bound = bound;
+                RPAF_Clustering{idx_cut}.recall = rec;
+                RPAF_Clustering{idx_cut}.precision = prec;
+                RPAF_Clustering{idx_cut}.accuracy = acc;
+                RPAF_Clustering{idx_cut}.fMeasure = fMeasure_Clus;
 
                 P=getLHFromClustering(features_clus,clustersId);
                 LH_Clus{1} = P;
                 start_clus{1}=clustersId';
                 bound_GC{1}=automatic;
-       
-    
+
+
                 %% Graph Cut
                 % Build and calculate the Graph-Cuts
                 [features_norm, ~, ~] = normalize(features);
@@ -131,9 +131,11 @@ for i_fold=1:length(folders)
                     [ fig , num_clus_GC, fMeasure_GC, eventsIDs ] = doIterativeTest(LH_Clus, start_clus, bound_GC, nTestsGrid, window_len, W_unary, W_pairwise, features_norm, tol, delim, clus_type,1, nPairwiseDivisions);
 
                     %% Store results
+                    
                     % Plot
                     fig_save = ([method '_cutVal_' num2str(cut_indx(idx_cut)) '.fig']);
                     saveas(fig,[root_results '/' fig_save]);
+                    
                     % Results Evaluation
                     Results{idx_cut}.cut_value = cut_indx(idx_cut);
                     Results{idx_cut}.RPAF_Clustering = RPAF_Clustering; 
@@ -153,7 +155,7 @@ for i_fold=1:length(folders)
                 clearvars bound clustersId
              end%end cut
 
-             
+
              %% SAVE
              if(evalType == 2)
                 file_save=(['Results_' method '_Res_' clus_type '.mat']);
