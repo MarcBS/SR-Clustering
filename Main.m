@@ -147,7 +147,7 @@ for i_fold=1:length(folders)
                 clust_man_ImagName=image_assig(clust_manId,files);
                 
                 [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
-                [JaccardIndex,JaccardVar,~,~,long]=JaccardIndex(clust_man_ImagName,clust_auto_ImagName);  
+                [JaccardIndex,JaccardVar,~,~,~]=JaccardIndex(clust_man_ImagName,clust_auto_ImagName);  
 
                 RPAF_Clustering.clustersIDs = clustersId;
                 RPAF_Clustering.boundaries = bound;
@@ -156,15 +156,8 @@ for i_fold=1:length(folders)
                 RPAF_Clustering.accuracy = acc;
                 RPAF_Clustering.fMeasure = fMeasure_Clus;
                 RPAF_Clustering.JaccardIndex = JaccardIndex;
-                RPAF_Clustering.JaccardVar = JaccardVar;               
-                RPAF_Clustering.long = long; 
-                RPAF_Clustering.NumClusters = length(clust_auto_ImagName{1});
-
-                
-                
-                
-                
-                
+                RPAF_Clustering.JaccardVariance = JaccardVar;               
+                RPAF_Clustering.NumClusters = length(clust_auto_ImagName);
                 
                 
                 P=getLHFromClustering(features_norm,clustersId);
