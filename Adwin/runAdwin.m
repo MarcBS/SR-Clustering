@@ -1,28 +1,5 @@
-function [labels,dist2mean] = runAdwin(cnndata, fi, p)
-%filename = '/home/mariella/MATLAB/Mariella/data/Narrative/CNNfeatures.mat'
-%filename = '/home/mariella/MATLAB/Mariella/data/SenseCam/CNNfeatures_4254.mat'
-%filename = '/home/mariella/MATLAB/Mariella/data/SenseCam/CNNfeatures_9000.mat'
-%filename = '/home/mariella/MATLAB/Mariella/data/Narrative/estefania2_CNN.mat'
-alpha = 0.5;%coefficient of the signed root normalization
-pcadim = 500;%dimension of data after pca
-% stringvec = strsplit(filename,'.');
-%load CCN features from the .mat and put them into a variable called 'data'
-% datastruct = load(filename);
-% names = fieldnames(datastruct);
-% cnndata = datastruct.(names{1});
-%signed root normalization to produce more uniformly distributed data
-% X = sign(cnndata).*(abs(cnndata).^alpha);
-X = normalizeL2(cnndata);
-%compute PCA
-C = cov(double(X));
-%eigenvectors of the covariance matrix
-[V,D] = eigs(C, pcadim);
-%project onto the new basis
-X = double(X*V);
-%after PCA there are negative values, rescale between 0 and 1
-%data = zeros(size(X,1),size(X,2));
-%data = (X-min(X(:))) ./ (max(X(:)-min(X(:))));
-data=X;
+function [labels,dist2mean] = runAdwin(X, fi, p)
+
 
 %set parameters
 
