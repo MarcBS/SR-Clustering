@@ -1,4 +1,4 @@
-function [labels,dist2mean] = runAdwin(X, fi, p)
+function [labels,dist2mean] = runAdwin(data, fi, p)
 
 
 %set parameters
