@@ -103,20 +103,20 @@ for i_fold=1:length(folders)
                     bound=0;
                 end
 
-                 automatic=bound;
-                 if automatic(1) == 1
-                     automatic=automatic(2:end);
-                 end
+                automatic=bound;
+                if automatic(1) == 1
+                    automatic=automatic(2:end);
+                end
 
                 [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
 
 
-                RPAF_Clustering{idx_cut}.clustersIDs = clustersId;
-                RPAF_Clustering{idx_cut}.bound = bound;
-                RPAF_Clustering{idx_cut}.recall = rec;
-                RPAF_Clustering{idx_cut}.precision = prec;
-                RPAF_Clustering{idx_cut}.accuracy = acc;
-                RPAF_Clustering{idx_cut}.fMeasure = fMeasure_Clus;
+                RPAF_Clustering.clustersIDs = clustersId;
+                RPAF_Clustering.bound = bound;
+                RPAF_Clustering.recall = rec;
+                RPAF_Clustering.precision = prec;
+                RPAF_Clustering.accuracy = acc;
+                RPAF_Clustering.fMeasure = fMeasure_Clus;
 
                 P=getLHFromClustering(features_clus,clustersId);
                 LH_Clus{1} = P;
@@ -133,11 +133,11 @@ for i_fold=1:length(folders)
                     %% Store results
                     
                     % Plot
-                    fig_save = ([method '_cutVal_' num2str(cut_indx(idx_cut)) '.fig']);
+                    fig_save = ([method '_cutVal_' num2str(cut) '.fig']);
                     saveas(fig,[root_results '/' fig_save]);
                     
                     % Results Evaluation
-                    Results{idx_cut}.cut_value = cut_indx(idx_cut);
+                    Results{idx_cut}.cut_value = cut;
                     Results{idx_cut}.RPAF_Clustering = RPAF_Clustering; 
                     Results{idx_cut}.num_clus_GC = num_clus_GC;
                     Results{idx_cut}.eventsIDs = eventsIDs;
