@@ -8,6 +8,8 @@ epsilon= 1; % epsilon, 1 - sensitive segmentation; 0 - robust segmentation;
 
 [w, indexes]=k_dim_segmentation(data,fi, p, epsilon);
 
+
+
 indexes = indexes(2:end);
 labels = zeros(1,size(data,1));
 label = 1;
@@ -46,6 +48,4 @@ end
             dist2mean(j,i) = dist2mean(j,i)/nneigh;
         end
     end
-
-
 
