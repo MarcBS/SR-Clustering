@@ -23,25 +23,28 @@ formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.J
 directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
 % directorio_results = ''; % put your own results location
 
+
 %% R-Clustering parameters
 clus_type = 'Clustering'; % Clustering type used before the GraphCuts. 
                         % It can take the following values:
                         %           'Clustering'
                         %           'Both'
-
+paramsPCA.minVarPCA=0.95;
+paramsPCA.standarizePCA=false;
                         
 %% Clustering parameters
 methods_indx={'ward','centroid','complete','weighted','single','median','average'};
 %methods_indx={'average'};
 cut_indx=(0.2:0.05:1.6);
-paramsPCA.minVarPCA=0.95;
-paramsPCA.standarizePCA=true;
+paramsPCA.usePCA_Clustering = true;
 
 %% Adwin parameters
 pnorm = 2;
 confidence = 0.1;
+paramsPCA.usePCA_Adwin = true;
 
 %% GraphCuts parameters
+paramsPCA.usePCA_GC = true;
 window_len = 11;
 W_unary = 200;      % 0 <= W_unary <= 400
 W_pairwise = 0.5;   % 0 <= W_pairwise <= 1

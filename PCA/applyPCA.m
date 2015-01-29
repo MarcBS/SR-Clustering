@@ -1,4 +1,4 @@
-function [ new_features mean stdDev ] = applyPCA( features, params )
+function [ new_features, mean, stdDev ] = applyPCA( features, params )
 %APPLYPCA Applies PCA using the given parameters.
 %
 %   params.minVarPCA --> value between 0 and 1. Minimum variance covered by

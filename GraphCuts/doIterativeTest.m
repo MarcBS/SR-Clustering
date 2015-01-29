@@ -1,4 +1,4 @@
-function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId, bound, maxTest, win_len, W_unary, W_pairwise, features, tolerance, GT, clus_type, has_GT, nPairwiseDivisions )
+function [ fig ,vec_numC,vec_perC,clusterIds, W_unary_tested, W_pairwise ] = doIterativeTest( LHs, clusterId, bound, maxTest, win_len, W_unary, W_pairwise, features, tolerance, GT, clus_type, has_GT, nPairwiseDivisions )
 %%
 %   Applies an iterative GC test increasing the value of the weighting term
 %   by increments of W.
@@ -47,13 +47,14 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
     
     %% Single clustering plot
     if(nClus == 1)
+        W_pairwise = [];
         %%%%%%%%%%% TESTS
         offset = 1e-99;
         vec_numC = zeros(1,maxTest);
         vec_perC = zeros(1,maxTest);
         for num_i = [1:maxTest]
         %%%%%%%%%%
-
+            W_unary_tested(num_i) = (num_i-1)*W_unary+offset;
 %             tic
 %             disp('Applying Graph-Cut smoothing...');
             % TESTS: num_i*increment+offset
@@ -107,7 +108,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds ] = doIterativeTest( LHs, clusterId
             
             offset = 1e-99;
             for num_i = [1:maxTest]
-
+                W_unary_tested(num_i) = (num_i-1)*W_unary+offset;
 %                 tic
 %                 disp('Applying Graph-Cut smoothing...');
                 % TESTS: num_i*increment+offset

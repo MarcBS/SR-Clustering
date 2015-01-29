@@ -11,6 +11,7 @@ for i_fold=1:length(folders)
     fichero=([directorio_im '/' camera{i_fold} '/imageSets/' folder]);
     path_excel = [directorio_im '/' camera{i_fold} '/GT/GT_' folder '.xls'];
     path_features = [directorio_im '/' camera{i_fold} '/CNNfeatures/CNNfeatures_' folder '.mat'];
+    path_features_PCA = [directorio_im '/' camera{i_fold} '/CNNfeatures/CNNfeaturesPCA_' folder '.mat'];
     root_results = [directorio_results '/' folder];
     mkdir(root_results);
     
@@ -38,6 +39,16 @@ for i_fold=1:length(folders)
     %% Features
 	load(path_features);
     
+    % Features
+    [features_norm] = signedRootNormalization(features);
+
+    %PCA FEATURES
+    if(exist(path_features_PCA) > 0)
+        load(path_features_PCA);
+    else
+        [ featuresPCA, ~, ~ ] = applyPCA( features_norm, paramsPCA ) ; 
+        save(path_features_PCA, 'featuresPCA');
+    end
     
     %% Methods
     if strcmp(clus_type,'Both')||strcmp(clus_type,'Clustering')
@@ -48,17 +59,23 @@ for i_fold=1:length(folders)
             %% ADWIN
             if strcmp(clus_type,'Both')%||strcmp(clus_type,'Adwin')
                 
-                [labels,dist2mean] = runAdwin(features, confidence, pnorm, folder);                
-                    index=1;
-                    for pos=1:length(labels)-1
-                        if labels(pos)~=labels(pos+1)
-                            automatic2(index)=pos;
-                            index=index+1;
-                        end
+                %% PCA
+                if(paramsPCA.usePCA_Adwin)
+                    [labels,dist2mean] = runAdwin(featuresPCA, confidence, pnorm, folder); 
+                else
+                    [labels,dist2mean] = runAdwin(features_norm, confidence, pnorm, folder); 
+                end
+          
+                index=1;
+                for pos=1:length(labels)-1
+                    if labels(pos)~=labels(pos+1)
+                        automatic2(index)=pos;
+                        index=index+1;
                     end
-                    if (exist('automatic2','var')==0)
-                        automatic2=0;
-                    end
+                end
+                if (exist('automatic2','var')==0)
+                    automatic2=0;
+                end
                 [~,~,~,fMeasure_Adwin]=Rec_Pre_Acc_Evaluation(delim,automatic2,Nframes,tol);
                     
 
@@ -71,17 +88,18 @@ for i_fold=1:length(folders)
             end % end Adwin
             
             
-            %% Clustering
-           
-            % Features
-            [features_clus] = normalizeL2(features);
-            %PCA FEATURES
-            [ featuresPCA, ~, ~ ] = applyPCA( features_clus, paramsPCA ) ;   
-            similarities=pdist(featuresPCA,'cosine');
-           
-           
+        %% Clustering
+
         for met_indx=1:length(methods_indx)
-                
+            
+            %% PCA
+            if(paramsPCA.usePCA_Clustering)
+                similarities=pdist(featuresPCA,'cosine');
+            else
+                similarities=pdist(features_norm,'cosine');
+            end
+            
+            %% Clustering
             method=methods_indx{met_indx};    
             Z = linkage(similarities, method);
 
@@ -92,7 +110,6 @@ for i_fold=1:length(folders)
                 clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
 
                 index=1;
-
                 for pos=1:length(clustersId)-1
                     if clustersId(pos)~=clustersId(pos+1)
                         bound(index)=pos;
@@ -112,13 +129,13 @@ for i_fold=1:length(folders)
 
 
                 RPAF_Clustering.clustersIDs = clustersId;
-                RPAF_Clustering.bound = bound;
+                RPAF_Clustering.boundaries = bound;
                 RPAF_Clustering.recall = rec;
                 RPAF_Clustering.precision = prec;
                 RPAF_Clustering.accuracy = acc;
                 RPAF_Clustering.fMeasure = fMeasure_Clus;
 
-                P=getLHFromClustering(features_clus,clustersId);
+                P=getLHFromClustering(features_norm,clustersId);
                 LH_Clus{1} = P;
                 start_clus{1}=clustersId';
                 bound_GC{1}=automatic;
@@ -126,9 +143,16 @@ for i_fold=1:length(folders)
 
                 %% Graph Cut
                 % Build and calculate the Graph-Cuts
-                [features_norm, ~, ~] = normalize(features);
+                
+                %% PCA
+                if(paramsPCA.usePCA_GC)
+                    features_GC = featuresPCA;
+                else
+                    features_GC = features_norm;
+                end
+
                 if(evalType == 2)
-                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs ] = doIterativeTest(LH_Clus, start_clus, bound_GC, nTestsGrid, window_len, W_unary, W_pairwise, features_norm, tol, delim, clus_type,1, nPairwiseDivisions);
+                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, nTestsGrid, window_len, W_unary, W_pairwise, features_GC, tol, delim, clus_type,1, nPairwiseDivisions);
 
                     %% Store results
                     
@@ -140,6 +164,8 @@ for i_fold=1:length(folders)
                     Results{idx_cut}.cut_value = cut;
                     Results{idx_cut}.RPAF_Clustering = RPAF_Clustering; 
                     Results{idx_cut}.num_clus_GC = num_clus_GC;
+                    Results{idx_cut}.Wunary_tested = W_u_tested;
+                    Results{idx_cut}.Wpairwise_tested = W_p_tested;
                     Results{idx_cut}.eventsIDs = eventsIDs;
                     Results{idx_cut}.fMeasure_GC = fMeasure_GC;
                     Results{idx_cut}.fMeasure_Clustering = fMeasure_Clus;
@@ -148,7 +174,7 @@ for i_fold=1:length(folders)
                     end
 
                 elseif(evalType == 1)
-                    [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W2, features_norm, tol, delim, doEvaluation, clus_type);
+                    [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W2, features_GC, tol, delim, doEvaluation, clus_type);
                 end % end GC
 
                 close all;
