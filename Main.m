@@ -124,9 +124,30 @@ for i_fold=1:length(folders)
                 if automatic(1) == 1
                     automatic=automatic(2:end);
                 end
+            
+                % clust_man & clust_auto = array of cells     
+                % LH MATRIX: Nos permite aplicar el mismo criterio que hemos
+                % aplicado con FMeasuer-> separar cuando imagenes consecutivas
+                % con coinciden
+                for i_cl=1:max(clustersId)
+                    [val_pos,~]=find(clustersId==i_cl);
+                    for pos_LH=1:length(val_pos)
+                        LH(val_pos(pos_LH),i_cl)=1;
+                    end
+                end 
+                [ labels_event, ~, ~ ] = getEventsFromLH(LH);
+                %Agrupamos por etiqueta
+                for i_lab=1:max(labels_event)
+                    [~,b]=find(labels_event==i_lab);
+                    clust_autoId{i_lab,1}=b;
+                end 
 
+                % Asignar el nombre de la imagen
+                clust_auto_ImagName=image_assig(clust_autoId,files);
+                clust_man_ImagName=image_assig(clust_manId,files);
+                
                 [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
-
+                [JaccardIndex,JaccardVar,~,~,long]=JaccardIndex(clust_man_ImagName,clust_auto_ImagName);  
 
                 RPAF_Clustering.clustersIDs = clustersId;
                 RPAF_Clustering.boundaries = bound;
@@ -134,7 +155,18 @@ for i_fold=1:length(folders)
                 RPAF_Clustering.precision = prec;
                 RPAF_Clustering.accuracy = acc;
                 RPAF_Clustering.fMeasure = fMeasure_Clus;
+                RPAF_Clustering.JaccardIndex = JaccardIndex;
+                RPAF_Clustering.JaccardVar = JaccardVar;               
+                RPAF_Clustering.long = long; 
+                RPAF_Clustering.NumClusters = length(clust_auto_ImagName{1});
 
+                
+                
+                
+                
+                
+                
+                
                 P=getLHFromClustering(features_norm,clustersId);
                 LH_Clus{1} = P;
                 start_clus{1}=clustersId';
