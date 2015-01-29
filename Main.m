@@ -61,9 +61,9 @@ for i_fold=1:length(folders)
                 
                 %% PCA
                 if(paramsPCA.usePCA_Adwin)
-                    [labels,dist2mean] = runAdwin(featuresPCA, confidence, pnorm, folder); 
+                    [labels,dist2mean] = runAdwin(featuresPCA, confidence, pnorm); 
                 else
-                    [labels,dist2mean] = runAdwin(features_norm, confidence, pnorm, folder); 
+                    [labels,dist2mean] = runAdwin(features_norm, confidence, pnorm); 
                 end
           
                 index=1;
