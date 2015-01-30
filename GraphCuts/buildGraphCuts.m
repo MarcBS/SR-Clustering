@@ -34,6 +34,11 @@ function LH = buildGraphCuts( LH, features, win_len, W, dists )
         adj(i,cat(2, minN:(i-1), (i+1):maxN)) = 1;
     end
     
+%     dists(adj==0) = 0;
+%     dists = dists.^2;
+%     expectancy = mean(dists(dists>0));
+
+    
     % The pairwise potential (adj here) must be higher if the neighbouring variables
     % are similar in some way. Preventing from producing a
     % cut (being separated with different labels) between them when 
@@ -43,10 +48,8 @@ function LH = buildGraphCuts( LH, features, win_len, W, dists )
 %             [~, li] = max(LH(i,:));
         lenN = length(neighbours);
         for k = neighbours
-%                 [~, lk] = max(LH(k,:));
-%               adj(i, k) = exp(-dists(features(i,:), features(k,:))) / lenN;
-               adj(i, k) = exp(-dists(i, k)) / lenN;
-%                 adj(i, k) = exp(-( (li==lk) * (distance(features(i,:), features(k,:)))  ) )/W;
+%                adj(i, k) = exp(-dists(i, k)^2 / (2*expectancy));
+               adj(i, k) = exp(-dists(i, k));
         end
     end
 
@@ -71,9 +74,9 @@ function LH = buildGraphCuts( LH, features, win_len, W, dists )
 
 end
 
-function d = distance( X, Y )
-    d = (X-Y).^2;
-    d = sqrt(sum(d));
-%     d = d/length(X);
-end
+% function d = distance( X, Y )
+%     d = (X-Y).^2;
+%     d = sqrt(sum(d));
+% %     d = d/length(X);
+% end
 

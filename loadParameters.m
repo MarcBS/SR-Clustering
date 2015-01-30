@@ -25,7 +25,7 @@ directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
 
 
 %% R-Clustering parameters
-clus_type = 'Clustering'; % Clustering type used before the GraphCuts. 
+clus_type = 'Both'; % Clustering type used before the GraphCuts. 
                         % It can take the following values:
                         %           'Clustering'
                         %           'Both'
@@ -33,9 +33,10 @@ paramsPCA.minVarPCA=0.95;
 paramsPCA.standarizePCA=false;
                         
 %% Clustering parameters
-methods_indx={'ward','centroid','complete','weighted','single','median','average'};
-%methods_indx={'average'};
-cut_indx=(0.2:0.05:1.6);
+% methods_indx={'ward','centroid','complete','weighted','single','median','average'};
+methods_indx={'average'};
+% cut_indx=(0.2:0.05:1.6);
+cut_indx = [1];
 paramsPCA.usePCA_Clustering = true;
 
 %% Adwin parameters
@@ -46,7 +47,7 @@ paramsPCA.usePCA_Adwin = true;
 %% GraphCuts parameters
 paramsPCA.usePCA_GC = false;
 window_len = 11;
-W_unary = 200;      % 0 <= W_unary <= 400
+W_unary = 0.1;      % 0 <= W_unary <= 1
 W_pairwise = 0.5;   % 0 <= W_pairwise <= 1
 nPairwiseDivisions = 5; % number of equally spaced W_pairwise values for evalType == 2
 nTestsGrid = 10+1; % 25+1
