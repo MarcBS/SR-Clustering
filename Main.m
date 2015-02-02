@@ -160,6 +160,7 @@ for i_fold=1:length(folders)
                 clust_man_ImagName=image_assig(clust_manId,files);
                 
                 [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
+                fMeasure_Clus
                 [JaccardIndex_result,JaccardVar,~,~,~]=JaccardIndex(clust_man_ImagName,clust_auto_ImagName);  
 
                 RPAF_Clustering.clustersIDs = clustersId;
