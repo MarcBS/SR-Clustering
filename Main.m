@@ -124,7 +124,7 @@ for i_fold=1:length(folders)
 
                 index=1;
                 for pos=1:length(clustersId)-1
-                    if clustersId(pos)~=clustersId(pos+1)
+                    if (clustersId(pos)~=clustersId(pos+1))>0
                         bound(index)=pos;
                         index=index+1;
                     end

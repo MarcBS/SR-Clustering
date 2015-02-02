@@ -38,7 +38,7 @@ paramsPCA.standarizePCA=false;
                         
 %% Clustering parameters
 % methods_indx={'ward','centroid','complete','weighted','single','median','average'};
-methods_indx={'ward'};
+methods_indx={'average'};
 % cut_indx=(0.2:0.05:1.6);
 cut_indx = [1];
 paramsPCA.usePCA_Clustering = true;
