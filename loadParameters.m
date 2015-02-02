@@ -38,9 +38,9 @@ paramsPCA.standarizePCA=false;
                         
 %% Clustering parameters
 % methods_indx={'ward','centroid','complete','weighted','single','median','average'};
-methods_indx={'average'};
+methods_indx={'complete'};
 % cut_indx=(0.2:0.05:1.6);
-cut_indx = [1];
+cut_indx = [1.35];
 paramsPCA.usePCA_Clustering = true;
 
 %% Adwin parameters

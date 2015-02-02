@@ -123,6 +123,7 @@ for i_fold=1:length(folders)
                 clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
 
                 index=1;
+                bound=[];
                 for pos=1:length(clustersId)-1
                     if (clustersId(pos)~=clustersId(pos+1))>0
                         bound(index)=pos;
