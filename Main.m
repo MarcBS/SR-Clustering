@@ -78,12 +78,25 @@ for i_fold=1:length(folders)
                 end
                 [~,~,~,fMeasure_Adwin]=Rec_Pre_Acc_Evaluation(delim,automatic2,Nframes,tol);
                     
+%%%%%%
 
+% c = (labels/max(labels))';
+% id = unique(c);
+% matriz=zeros(size(c,1),size(id,1));
+% for i=1:size(id,1)
+%     matriz(:,i)=c-id(i);
+% end
+% matriz = 1-abs(matriz);
+
+                
+%%%%%%          
                 % Normalize distances
                 dist2mean = normalizeAll(dist2mean);
+%                 dist2mean = signedRootNormalization(dist2mean')';
 
                 bound_GC{2}=automatic2;
                 LH_Clus{2}=getLHFromDists(dist2mean);
+%                 LH_Clus{2} = matriz;
                 start_clus{2}=labels;
             end % end Adwin
             
@@ -110,19 +123,21 @@ for i_fold=1:length(folders)
                 clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
 
                 index=1;
+                bound=[];
                 for pos=1:length(clustersId)-1
-                    if clustersId(pos)~=clustersId(pos+1)
+                    if (clustersId(pos)~=clustersId(pos+1))>0
                         bound(index)=pos;
                         index=index+1;
                     end
                 end
-                if (exist('bound','var')==0)
+                if (isempty(bound)==1)
                     bound=0;
-                end
-
-                automatic=bound;
-                if automatic(1) == 1
-                    automatic=automatic(2:end);
+                    automatic=bound;
+                else
+                    automatic=bound;
+                    if automatic(1) == 1
+                        automatic=automatic(2:end);
+                    end
                 end
             
                 % clust_man & clust_auto = array of cells     
@@ -147,7 +162,7 @@ for i_fold=1:length(folders)
                 clust_man_ImagName=image_assig(clust_manId,files);
                 
                 [rec,prec,acc,fMeasure_Clus]=Rec_Pre_Acc_Evaluation(delim,automatic,Nframes,tol);
-                [JaccardIndex,JaccardVar,~,~,~]=JaccardIndex(clust_man_ImagName,clust_auto_ImagName);  
+                [JaccardIndex_result,JaccardVar,~,~,~]=JaccardIndex(clust_man_ImagName,clust_auto_ImagName);  
 
                 RPAF_Clustering.clustersIDs = clustersId;
                 RPAF_Clustering.boundaries = bound;
@@ -155,7 +170,7 @@ for i_fold=1:length(folders)
                 RPAF_Clustering.precision = prec;
                 RPAF_Clustering.accuracy = acc;
                 RPAF_Clustering.fMeasure = fMeasure_Clus;
-                RPAF_Clustering.JaccardIndex = JaccardIndex;
+                RPAF_Clustering.JaccardIndex = JaccardIndex_result;
                 RPAF_Clustering.JaccardVariance = JaccardVar;               
                 RPAF_Clustering.NumClusters = length(clust_auto_ImagName);
                 
@@ -204,13 +219,12 @@ for i_fold=1:length(folders)
                 end % end GC
 
                 close all;
-                clearvars bound clustersId
              end%end cut
 
 
              %% SAVE
              if(evalType == 2)
-                file_save=(['Results_' method '_Res_' clus_type '.mat']);
+                file_save=(['Results_' method '_Res_' clus_type '_' folder '.mat']);
                 save([root_results '/' file_save], 'Results');
              end
              
