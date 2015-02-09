@@ -12,24 +12,24 @@ addpath('GCMex;GraphCuts;PCA;Tests;Utils');
 
 %% Data loading
 % directorio_im = 'D:/LIFELOG_DATASETS'; % SHARED PC
-%directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
-directorio_im='/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Sets'; % EST PC
+directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
+% directorio_im='/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Sets'; % EST PC
 
 % directorio_im = ''; % put your own datasets location
 
 camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
-%folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
-folders={'Petia2'};
+folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
+% folders={'Petia2'};
 formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
 directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
-directorio_results = '/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Results'; % EST PC
+% directorio_results = '/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Results'; % EST PC
 % directorio_results = ''; % put your own results location
 
 
 %% R-Clustering parameters
-clus_type = 'Clustering'; % Clustering type used before the GraphCuts. 
+clus_type = 'Both'; % Clustering type used before the GraphCuts. 
                         % It can take the following values:
                         %           'Clustering'
                         %           'Both'
@@ -37,10 +37,10 @@ paramsPCA.minVarPCA=0.95;
 paramsPCA.standarizePCA=false;
                         
 %% Clustering parameters
-% methods_indx={'ward','centroid','complete','weighted','single','median','average'};
-methods_indx={'complete'};
-% cut_indx=(0.2:0.05:1.6);
-cut_indx = [1.35];
+methods_indx={'ward','centroid','complete','weighted','single','median','average'};
+% methods_indx={'average'};
+cut_indx=(0.2:0.2:1.2);
+% cut_indx = [0.45];
 paramsPCA.usePCA_Clustering = true;
 
 %% Adwin parameters
@@ -51,10 +51,13 @@ paramsPCA.usePCA_Adwin = true;
 %% GraphCuts parameters
 paramsPCA.usePCA_GC = false;
 window_len = 11;
-W_unary = 0.1;      % 0 <= W_unary <= 1
-W_pairwise = 0.5;   % 0 <= W_pairwise <= 1
+
+W_unary = 0.1;      % 0 <= W_unary <= 1 for evalType == 1
+W_pairwise = 0.5;   % 0 <= W_pairwise <= 1 for evalType == 1
+
+nUnaryDivisions = 5; % number of equally spaces W_unary values for evalType == 2
 nPairwiseDivisions = 5; % number of equally spaced W_pairwise values for evalType == 2
-nTestsGrid = 10+1; % 25+1
+
 evalType = 2; % 1 = single test, 2 = iterative W increase
 doEvaluation = true; % plot precision/recall and f-measure when performing single test
 

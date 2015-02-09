@@ -59,6 +59,8 @@ for i_fold=1:length(folders)
             %% ADWIN
             if strcmp(clus_type,'Both')%||strcmp(clus_type,'Adwin')
                 
+                disp(['Start ADWIN ' folder]);
+                
                 %% PCA
                 if(paramsPCA.usePCA_Adwin)
                     [labels,dist2mean] = runAdwin(featuresPCA, confidence, pnorm); 
@@ -78,25 +80,13 @@ for i_fold=1:length(folders)
                 end
                 [~,~,~,fMeasure_Adwin]=Rec_Pre_Acc_Evaluation(delim,automatic2,Nframes,tol);
                     
-%%%%%%
-
-% c = (labels/max(labels))';
-% id = unique(c);
-% matriz=zeros(size(c,1),size(id,1));
-% for i=1:size(id,1)
-%     matriz(:,i)=c-id(i);
-% end
-% matriz = 1-abs(matriz);
-
-                
-%%%%%%          
+      
                 % Normalize distances
                 dist2mean = normalizeAll(dist2mean);
 %                 dist2mean = signedRootNormalization(dist2mean')';
 
                 bound_GC{2}=automatic2;
                 LH_Clus{2}=getLHFromDists(dist2mean);
-%                 LH_Clus{2} = matriz;
                 start_clus{2}=labels;
             end % end Adwin
             
@@ -120,6 +110,8 @@ for i_fold=1:length(folders)
             for idx_cut=1:length(cut_indx)
 
                 cut=cut_indx(idx_cut);
+                disp(['Start Clustering ' folder ', method ' method ', cutval ' num2str(cut)]);
+                
                 clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
 
                 index=1;
@@ -184,6 +176,8 @@ for i_fold=1:length(folders)
                 %% Graph Cut
                 % Build and calculate the Graph-Cuts
                 
+                disp('Start GC');
+                
                 %% PCA
                 if(paramsPCA.usePCA_GC)
                     features_GC = featuresPCA;
@@ -193,7 +187,7 @@ for i_fold=1:length(folders)
                 
                 [features_GC, ~, ~] = normalize(features_GC);
                 if(evalType == 2)
-                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, nTestsGrid, window_len, W_unary, W_pairwise, features_GC, tol, delim, clus_type,1, nPairwiseDivisions);
+                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim, clus_type,1, nUnaryDivisions, nPairwiseDivisions);
 
                     %% Store results
                     
