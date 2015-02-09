@@ -68,7 +68,7 @@ for i_fold=1:length(folders)
           
                 index=1;
                 for pos=1:length(labels)-1
-                    if labels(pos)~=labels(pos+1)
+                    if (labels(pos)~=labels(pos+1))>0
                         automatic2(index)=pos;
                         index=index+1;
                     end
