@@ -6,7 +6,7 @@ doPlot = false;
 doVarColormap = false;
 text=20; text_leg = 15;
 
-doPlotClus = true;
+doPlotClus = false;
 text=25; text_leg = 15;
 
 set_used = 'Both';
@@ -29,7 +29,7 @@ directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clus
 
 camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
 % folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
-folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2'};
+folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1', 'Day2'};
 formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC

@@ -33,7 +33,7 @@ for i_fold=1:length(folders)
     for i=1:length(clust_man)
          [a,b]=find(clustersIdGT==i);
          clust_manId{i,1}=b;
-    end     
+    end
       
 
     %% Features
@@ -95,6 +95,19 @@ for i_fold=1:length(folders)
 
         for met_indx=1:length(methods_indx)
             
+            method=methods_indx{met_indx};  
+            
+            %% Load Results file if exists
+            if(evalType == 2)
+                file_save=(['Results_' method '_Res_' clus_type '_' folder '.mat']);
+                if(exist([root_results '/' file_save]) > 0)
+                    load([root_results '/' file_save]);
+                    offset_results = length(Results);
+                else
+                    offset_results = 0;
+                end
+            end
+            
             %% PCA
             if(paramsPCA.usePCA_Clustering)
                 similarities=pdist(featuresPCA,'cosine');
@@ -102,8 +115,7 @@ for i_fold=1:length(folders)
                 similarities=pdist(features_norm,'cosine');
             end
             
-            %% Clustering
-            method=methods_indx{met_indx};    
+            %% Clustering  
             Z = linkage(similarities, method);
 
             %% Cut value
@@ -196,16 +208,16 @@ for i_fold=1:length(folders)
                     saveas(fig,[root_results '/' fig_save]);
                     
                     % Results Evaluation
-                    Results{idx_cut}.cut_value = cut;
-                    Results{idx_cut}.RPAF_Clustering = RPAF_Clustering; 
-                    Results{idx_cut}.num_clus_GC = num_clus_GC;
-                    Results{idx_cut}.Wunary_tested = W_u_tested;
-                    Results{idx_cut}.Wpairwise_tested = W_p_tested;
-                    Results{idx_cut}.eventsIDs = eventsIDs;
-                    Results{idx_cut}.fMeasure_GC = fMeasure_GC;
-                    Results{idx_cut}.fMeasure_Clustering = fMeasure_Clus;
+                    Results{idx_cut+offset_results}.cut_value = cut;
+                    Results{idx_cut+offset_results}.RPAF_Clustering = RPAF_Clustering; 
+                    Results{idx_cut+offset_results}.num_clus_GC = num_clus_GC;
+                    Results{idx_cut+offset_results}.Wunary_tested = W_u_tested;
+                    Results{idx_cut+offset_results}.Wpairwise_tested = W_p_tested;
+                    Results{idx_cut+offset_results}.eventsIDs = eventsIDs;
+                    Results{idx_cut+offset_results}.fMeasure_GC = fMeasure_GC;
+                    Results{idx_cut+offset_results}.fMeasure_Clustering = fMeasure_Clus;
                     if strcmp(clus_type,'Both')
-                        Results{idx_cut}.fMeasure_Adwin = fMeasure_Adwin;
+                        Results{idx_cut+offset_results}.fMeasure_Adwin = fMeasure_Adwin;
                     end
 
                 elseif(evalType == 1)
@@ -218,7 +230,6 @@ for i_fold=1:length(folders)
 
              %% SAVE
              if(evalType == 2)
-                file_save=(['Results_' method '_Res_' clus_type '_' folder '.mat']);
                 save([root_results '/' file_save], 'Results');
              end
              
