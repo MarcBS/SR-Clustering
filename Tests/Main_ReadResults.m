@@ -1,6 +1,6 @@
 %MAIN LEER Results
 clc, close all, clear all
-addpath('GraphCuts');
+addpath('../GraphCuts');
 
 doPlot = false;
 doVarColormap = false;
@@ -12,12 +12,12 @@ text=25; text_leg = 15;
 set_used = 'Both';
 
 % Pair-wise weight
-nPairwiseWeights = 5;
+nPairwiseWeights = 11;
 pairwise_weights = linspace(0,1,nPairwiseWeights);
 pairwise_weights(1) = 1e-99;
 
 % Unary weight
-nUnaryWeights = 5;
+nUnaryWeights = 11;
 unary_weights = linspace(0,1,nUnaryWeights);
 
 %% Data loading
@@ -28,9 +28,12 @@ directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clus
 % directorio_im = ''; % put your own datasets location
 
 camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
-% folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
-folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1', 'Day2'};
+% camera = {'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
+folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
+% folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella'};
+% folders={'Day1','Day2','Day3','Day4','Day6'};
 formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
+% formats={'.JPG','.JPG','.JPG','.JPG','.JPG'};
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
 directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
@@ -45,7 +48,7 @@ mkdir(final_results);
 %% Clustering parameters
 methods_indx={'ward','centroid','complete','weighted','single','median','average'};
 % methods_indx={'ward'};
-cut_indx=(0.2:0.2:1.2);
+cut_indx=(0.1:0.1:1.2);
 % cut_indx = [0.2];
 
 
