@@ -11,6 +11,10 @@ text=25; text_leg = 15;
 
 set_used = 'SenseCam';
 
+% Motion-based tests
+check_motion_based = false;
+
+
 % Pair-wise weight
 nPairwiseWeights = 11;
 pairwise_weights = linspace(0,1,nPairwiseWeights);
@@ -69,9 +73,23 @@ max_mean = 0;
 max_mean_metGC = zeros(1,length(methods_indx));
 max_mean_metClus = zeros(1,length(methods_indx));
 max_mean_metAdwin = zeros(1,length(methods_indx));
-
+max_mean_Motion = 0;
  
 %% Start evaluation
+
+%%% Motion-based segmentation
+fMeasureMotion = zeros(length(folders), nPairwiseWeights);
+if(check_motion_based)
+    for i_fold=1:length(folders)
+        folder=folders{i_fold};
+        load([directorio_results '/' folder '/Results_Motion-Based' folder '.mat']);
+        fMeasureMotion(i_fold, :) = Results_Motion.fMeasure_Motion;
+    end
+    mean_fm_motion = mean(fMeasureMotion);
+end
+
+
+%%% R-Clustering
 for i_met=1:length(methods_indx)
      method=methods_indx{i_met};
      accMean_cut = zeros(nUnaryWeights,nPairwiseWeights,length(cut_indx));
@@ -218,7 +236,7 @@ for i_met=1:length(methods_indx)
 %         props = round([size(img_ex,1)/prop_div, size(img_ex,2)/prop_div]);
 % %         gen_image = summaryImage(props, num_clusters, 15, result_data, fileList, path_source, 'images', '', []);
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+
         % Get max GC
         [v,max_row] = max(mean_M);
         [max_this,max_col] = max(v);
@@ -274,8 +292,16 @@ if(doPlotClus)
     set(leg,'FontSize',text_leg);
     set(gca,'FontSize',text);
 end
-    
 
+%% Show final results Motion
+if(check_motion_based)
+    [max_mean_Motion,p] = max(mean_fm_motion);
+    disp('Motion-Based segmentation:');
+    disp(['f-measure ' num2str(max_mean_Motion) ', pair-wise weight ' num2str(pairwise_weights(p))]);
+end
+
+
+%% Show final results GC
 disp([num2str(max_method) ' ' num2str(max_cut) ' '  num2str(max_mean)])
 disp(['std_dev = ' num2str(max_std)]);
 disp(['unary: ' num2str(max_unary) ' pair-wise: ' num2str(max_pairwise)]);
