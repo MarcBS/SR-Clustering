@@ -1,6 +1,6 @@
 %MAIN LEER Results
 clc, close all, clear all
-addpath('../GraphCuts');
+addpath('../GraphCuts;../Features_Preprocessing');
 
 doPlot = false;
 doVarColormap = false;
@@ -9,7 +9,7 @@ text=20; text_leg = 15;
 doPlotClus = false;
 text=25; text_leg = 15;
 
-set_used = 'Both';
+set_used = 'SenseCam';
 
 % Pair-wise weight
 nPairwiseWeights = 11;
@@ -46,10 +46,10 @@ mkdir(final_results);
 
 
 %% Clustering parameters
-methods_indx={'ward','centroid','complete','weighted','single','median','average'};
-% methods_indx={'ward'};
-cut_indx=(0.1:0.1:1.2);
-% cut_indx = [0.2];
+% methods_indx={'ward','centroid','complete','weighted','single','median','average'};
+methods_indx={'average'};
+% cut_indx=(0.1:0.1:1.2);
+cut_indx = [0.6];
 
 
 %% Plot colours
@@ -114,23 +114,45 @@ for i_met=1:length(methods_indx)
         %Figure 
         if(doPlot)
             %% Prepare std dev plot
-            round_std = round(std_M*100);
-            max_std = max(max(round_std));
-            min_std = min(min(round_std));
-            c = colormap(jet);close(gcf);
-            col = c(round(linspace(1,size(c,1),max_std-min_std+1)),:);
-            round_std = round_std-min_std+1;
-            col = reshape(col(reshape(round_std,1,size(round_std,1)*size(round_std,2)),:),[nUnaryWeights,nPairwiseWeights,3]);
+%             round_std = round(std_M*100);
+%             max_std = max(max(round_std));
+%             min_std = min(min(round_std));
+%             c = colormap(jet);close(gcf);
+%             col = c(round(linspace(1,size(c,1),max_std-min_std+1)),:);
+%             round_std = round_std-min_std+1;
+%             col = reshape(col(reshape(round_std,1,size(round_std,1)*size(round_std,2)),:),[nUnaryWeights,nPairwiseWeights,3]);
             
             fig=figure; hold all;
-            if(~doVarColormap)
+            
+            if(doVarColormap)
                 surf(pairwise_weights, unary_weights,  mean_M, green) % GC accuracy
-            else
-                surf(pairwise_weights, unary_weights,  mean_M, col) % GC accuracy
-            end
-            surf(pairwise_weights, unary_weights, repmat((ones(1,nPairwiseWeights)*mean_fm_clus(i_ind)),nUnaryWeights,1), red) % Clustering accuracy
-            surf(pairwise_weights, unary_weights, repmat((ones(1,nPairwiseWeights)*mean_fm_adwin),nUnaryWeights,1), orange) % Clustering2 accuracy
+                surf(pairwise_weights, unary_weights, repmat((ones(1,nPairwiseWeights)*mean_fm_clus(i_ind)),nUnaryWeights,1), red) % Clustering accuracy
+                surf(pairwise_weights, unary_weights, repmat((ones(1,nPairwiseWeights)*mean_fm_adwin),nUnaryWeights,1), orange) % Clustering2 accuracy
+                
+                x = pairwise_weights;
+                y = unary_weights;
+                z = mean_M;
+                e = normalizeAll(std_M, [0.01 0.25]);
+                for i=1:length(x)
+                    for j=1:length(y)
+                        xV = [x(i); x(i)];
+                        yV = [y(j); y(j)];
+                        zMin = z(j,i) + e(j,i);
+                        zMax = z(j,i) - e(j,i);
 
+                        zV = [zMin, zMax];
+                        % draw vertical error bar
+                        h=plot3(xV, yV, zV, '-b');
+                        set(h, 'LineWidth', 2);
+                    end
+                end
+%                 surf(pairwise_weights, unary_weights,  mean_M, col) % GC accuracy
+            else
+                surf(pairwise_weights, unary_weights,  mean_M, green) % GC accuracy
+                surf(pairwise_weights, unary_weights, repmat((ones(1,nPairwiseWeights)*mean_fm_clus(i_ind)),nUnaryWeights,1), red) % Clustering accuracy
+                surf(pairwise_weights, unary_weights, repmat((ones(1,nPairwiseWeights)*mean_fm_adwin),nUnaryWeights,1), orange) % Clustering2 accuracy
+            end
+                
             colors = [reshape(green(1,1,:), 1, 3); reshape(red(1,1,:), 1, 3); reshape(orange(1,1,:), 1, 3)];
             h(1) = scatter3([], [], [], 50, colors(1,:), 'filled');
             h(2) = scatter3([], [], [], 50, colors(2,:), 'filled');
@@ -206,7 +228,7 @@ for i_met=1:length(methods_indx)
             max_unary = unary_weights(max_row(max_col));
             max_pairwise = pairwise_weights(max_col);
             max_mean = max_this;
-            max_std = std_M(max_row(max_col));
+            max_std = std_M(max_row(max_col), max_col);
         end
         disp(['cut value '  num2str(method) ' ' num2str(cut_indx(i_ind)) ' '  num2str(max_this)])
         disp(['mean f-measure clus: ' num2str(mean_fm_clus(i_ind))]);
