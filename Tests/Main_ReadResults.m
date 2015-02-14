@@ -12,7 +12,7 @@ text=25; text_leg = 15;
 set_used = 'SenseCam';
 
 % Motion-based tests
-check_motion_based = false;
+check_motion_based = true;
 
 
 % Pair-wise weight
@@ -82,7 +82,7 @@ fMeasureMotion = zeros(length(folders), nPairwiseWeights);
 if(check_motion_based)
     for i_fold=1:length(folders)
         folder=folders{i_fold};
-        load([directorio_results '/' folder '/Results_Motion-Based' folder '.mat']);
+        load([directorio_results '/' folder '/Results_Motion-Based_' folder '.mat']);
         fMeasureMotion(i_fold, :) = Results_Motion.fMeasure_Motion;
     end
     mean_fm_motion = mean(fMeasureMotion);
@@ -298,6 +298,7 @@ if(check_motion_based)
     [max_mean_Motion,p] = max(mean_fm_motion);
     disp('Motion-Based segmentation:');
     disp(['f-measure ' num2str(max_mean_Motion) ', pair-wise weight ' num2str(pairwise_weights(p))]);
+    disp(' ');
 end
 
 
