@@ -24,17 +24,17 @@ formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.J
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
 %directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
- directorio_results = '/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Results'; % EST PC
+ directorio_results = '../Results/Spectral_GC'; % EST PC
 % directorio_results = ''; % put your own results location
 
 
 %% R-Clustering parameters
-clus_type = 'Both2'; % Clustering type used before the GraphCuts. 
+clus_type = 'Spectral'; % Clustering type used before the GraphCuts. 
                         % It can take the following values:
-                        %           'Clustering'
-                        %           'Both1'
-                        %           'Spectral'
-                        %           'Both2'
+                        %           'Clustering' : Clustering + GC
+                        %           'Both1' : Clustering + Adwin + GC
+                        %           'Spectral' : Spectral + GC
+                        %           'Both2' : Spectral + Adwin + GC
                         
 paramsPCA.minVarPCA=0.95;
 paramsPCA.standarizePCA=false;
@@ -52,8 +52,8 @@ paramsPCA.usePCA_Clustering = true;
 %paramsSpec.Eps = false;
 
 NN=5; 
-Sig=0.5; 
-Eps=0.5; 
+Sig=1; 
+Eps=1; 
 
 sim_matrix={'Sigma','NN','Epsilon'};
 

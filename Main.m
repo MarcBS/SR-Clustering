@@ -131,10 +131,8 @@ for i_fold=1:length(folders)
                 [JIndex,fMeasure,automatic]=evaluationClustIDs(clustersId,tol,delim,clust_manId,files);
 
                 RPAF_Clustering.clustersIDs = clustersId;
-                RPAF_Clustering.boundaries = bound;
                 RPAF_Clustering.fMeasure = fMeasure;
                 RPAF_Clustering.JaccardIndex = JIndex;
-                RPAF_Clustering.NumClusters = length(clust_auto_ImagName);
                 
                 
                 P=getLHFromClustering(features_norm,clustersId);
@@ -226,6 +224,19 @@ for i_fold=1:length(folders)
             %%SpectralClust Type
             for Type=1:1:3
                 Results={};
+                
+                
+                %% Load Results file if exists
+                if(evalType == 2)
+                    file_save=(['Results_'  SimM '_Type_' num2str(Type) '_Parm_' num2str(Spectral_Param) '_' folder '.mat']);
+                    if(exist([root_results '/' file_save]) > 0)
+                        load([root_results '/' file_save]);
+                        offset_results = length(Results);
+                    else
+                        offset_results = 0;
+                    end
+                end
+             
                 %%Kvalue
                 for k_indx=1:length(k_valuesSp)
                     k_Sp=k_valuesSp(k_indx);
@@ -243,10 +254,8 @@ for i_fold=1:length(folders)
                     [JIndex,fMeasure,automatic]=evaluationClustIDs(clustersId,tol,delim,clust_manId,files);
  
                     RPAF_Spectral.clustersIDs = clustersId;
-                    RPAF_Spectral.boundaries = bound;
                     RPAF_Spectral.fMeasure = fMeasure;
                     RPAF_Spectral.JaccardIndex = JIndex;
-                    RPAF_Spectral.NumClusters = length(clust_auto_ImagName);
 
                     P=getLHFromClustering(features_norm,clustersId);
                     LH_Clus{1} = P;
@@ -273,20 +282,20 @@ for i_fold=1:length(folders)
                         %% Store results
 
                         % Plot
-                        fig_save = ([method '_cutVal_' num2str(cut) '.fig']);
+                        fig_save = ([SimM '_Type_' num2str(Type) '_Parm_' num2str(Spectral_Param) '_k_' num2str(k_Sp) '.fig']);
                         saveas(fig,[root_results '/' fig_save]);
 
                         % Results Evaluation
-                        Results{idx_cut+offset_results}.Similarity_Matrix = SimM;
-                        Results{idx_cut+offset_results}.RPAF_Clustering = RPAF_Spectral; 
-                        Results{idx_cut+offset_results}.Type = Type;
-                        Results{idx_cut+offset_results}.k_valueSP = k_Sp;
-                        Results{idx_cut+offset_results}.num_clus_GC = num_clus_GC;
-                        Results{idx_cut+offset_results}.Wunary_tested = W_u_tested;
-                        Results{idx_cut+offset_results}.Wpairwise_tested = W_p_tested;
-                        Results{idx_cut+offset_results}.eventsIDs = eventsIDs;
-                        Results{idx_cut+offset_results}.fMeasure_GC = fMeasure_GC;
-                        Results{idx_cut+offset_results}.fMeasure_Clustering = fMeasure;
+                        Results{k_indx+offset_results}.Similarity_Matrix = SimM;
+                        Results{k_indx+offset_results}.RPAF_Clustering = RPAF_Spectral; 
+                        Results{k_indx+offset_results}.Type = Type;
+                        Results{k_indx+offset_results}.k_valueSP = k_Sp;
+                        Results{k_indx+offset_results}.num_clus_GC = num_clus_GC;
+                        Results{k_indx+offset_results}.Wunary_tested = W_u_tested;
+                        Results{k_indx+offset_results}.Wpairwise_tested = W_p_tested;
+                        Results{k_indx+offset_results}.eventsIDs = eventsIDs;
+                        Results{k_indx+offset_results}.fMeasure_GC = fMeasure_GC;
+                        Results{k_indx+offset_results}.fMeasure_Clustering = fMeasure;
                         if strcmp(clus_type,'Both')
                             Results{idx_cut+offset_results}.fMeasure_Adwin = fMeasure_Adwin;
                         end
@@ -304,9 +313,9 @@ for i_fold=1:length(folders)
                  end
 
             end %end Type
-            clearvars LH_Clus start_clus
         end%similarity matrices
-    end %end if spectral clustering || both2    
+        
+    end %end if spectral clustering || both2 
 end %end folder
 
 
