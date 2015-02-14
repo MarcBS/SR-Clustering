@@ -78,13 +78,13 @@ function [ fig ,vec_numC,vec_perC,clusterIds, W_pairwise, W_unary ] = doIterativ
         end    
         fig = figure;
         if(has_GT)
-            scatter([1:maxTest]-1, ((vec_numC-min(vec_numC))./(max(vec_numC) - min(vec_numC))), 25, [0 0 0.8], 'filled'); % num events points
-            text([1:maxTest]-1-0.05, ((vec_numC-min(vec_numC))./(max(vec_numC) - min(vec_numC))), cellstr(num2str(vec_numC'))); % num events labels
-            line([1:maxTest]-1, vec_perC, 'Color', 'g', 'LineWidth', 1.5) % GC accuracy
-            line([1:maxTest]-1, ones(1,maxTest)*fMeasureClus, 'Color', 'r', 'LineWidth', 2) % Clustering accuracy
+            scatter(W_pairwise, ((vec_numC-min(vec_numC))./(max(vec_numC) - min(vec_numC))), 25, [0 0 0.8], 'filled'); % num events points
+            text(W_pairwise, ((vec_numC-min(vec_numC))./(max(vec_numC) - min(vec_numC))), cellstr(num2str(vec_numC'))); % num events labels
+            line(W_pairwise, vec_perC, 'Color', 'g', 'LineWidth', 1.5) % GC accuracy
+            line(W_pairwise, ones(1,maxTest)*fMeasureClus, 'Color', 'r', 'LineWidth', 2) % Clustering accuracy
             legend('Number Events', 'GC F-Measure', [clus_type ' F-Measure'], 1);
-            set(gca,'XTick', [1:maxTest]-1 ); % x axis labels positions
-            xticklabel_rotate([1:maxTest]-1,90,num2cell(([1:maxTest]-1).*W_unary+offset), 'FontSize', 16,'interpreter','none');
+%             set(gca,'XTick', [1:maxTest]-1 ); % x axis labels positions
+%             xticklabel_rotate([1:maxTest]-1,90,num2cell(([1:maxTest]-1).*W_unary+offset), 'FontSize', 16,'interpreter','none');
             title('Test data F-Measure comparison.', 'FontSize', 18);
             ylabel('F-Measure', 'FontSize', 16);
             xlabel('GC tuning value.', 'FontSize', 16);
@@ -140,7 +140,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds, W_pairwise, W_unary ] = doIterativ
                 pos = ((this_nums-min(this_nums))./(max(this_nums) - min(this_nums)));
                 scatter3(W_pairwise, ones(1,maxTest)*w2, pos, 25, blue, 'filled'); % num events points
                 hold all;
-                text(W_pairwise+0.05, ones(1,maxTest)*w2, pos+0.02, cellstr(num2str(vec_numC(count_w2,:)'))); % num events labels
+                text(W_pairwise, ones(1,maxTest)*w2, pos+0.02, cellstr(num2str(vec_numC(count_w2,:)'))); % num events labels
             end
             disp(['Tested ' num2str(count_w2) '/' num2str(nUnaryDivisions) ' different weights.']);
             count_w2 = count_w2+1;
