@@ -18,9 +18,10 @@ for i_fold=1:length(folders)
     %% Images
     files_aux=dir([fichero '/*' formats{i_fold}]);
     count = 1;
+	files = struct('name', []);
     for n_files = 1:length(files_aux)
         if(files_aux(n_files).name(1) ~= '.')
-            files(count) = files_aux(n_files);
+            files(count).name = files_aux(n_files).name;
             count = count+1;
         end
     end
