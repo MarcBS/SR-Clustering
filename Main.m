@@ -69,6 +69,7 @@ for i_fold=1:length(folders)
         end
 
         index=1;
+        automatic2 = [];
         for pos=1:length(labels)-1
             if (labels(pos)~=labels(pos+1))>0
                 automatic2(index)=pos;
@@ -223,7 +224,7 @@ for i_fold=1:length(folders)
             end
 
             %%SpectralClust Type
-            for Type=1:1:3
+            for Type=1:3
                 Results={};
                 
                 
