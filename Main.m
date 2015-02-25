@@ -55,6 +55,7 @@ for i_fold=1:length(folders)
 
     LH_Clus={};
     start_clus={};
+    previousMethods = {};
             
     %% ADWIN
     if strcmp(clus_type,'Both1')||strcmp(clus_type,'Both2')
@@ -89,6 +90,7 @@ for i_fold=1:length(folders)
         bound_GC{2}=automatic2;
         LH_Clus{2}=getLHFromDists(dist2mean);
         start_clus{2}=labels;
+        previousMethods{2} = 'ADWIN';
     end % end Adwin
             
             
@@ -141,7 +143,7 @@ for i_fold=1:length(folders)
                 LH_Clus{1} = P;
                 start_clus{1}=clustersId';
                 bound_GC{1}=automatic;
-
+                previousMethods{1} = 'AC';
 
                 %% Graph Cut
                 % Build and calculate the Graph-Cuts
@@ -157,12 +159,14 @@ for i_fold=1:length(folders)
                 
                 [features_GC, ~, ~] = normalize(features_GC);
                 if(evalType == 2)
-                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim, clus_type,1, nUnaryDivisions, nPairwiseDivisions);
+                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim,1, nUnaryDivisions, nPairwiseDivisions, previousMethods);
 
                     %% Store results
                     
                     % Plot
-                    fig_save = ([method '_cutVal_' num2str(cut) '.fig']);
+                    if(~isempty(fig))
+                        fig_save = ([method '_cutVal_' num2str(cut) '.fig']);
+                    end
                     saveas(fig,[root_results '/' fig_save]);
                     
                     % Results Evaluation
@@ -179,7 +183,7 @@ for i_fold=1:length(folders)
                     end
 
                 elseif(evalType == 1)
-                    [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W2, features_GC, tol, delim, doEvaluation, clus_type);
+                    [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W_pairwise, features_GC, tol, delim, doEvaluation, previousMethods);
                 end % end GC
 
                 close all;
@@ -263,7 +267,7 @@ for i_fold=1:length(folders)
                     LH_Clus{1} = P;
                     start_clus{1}=clustersId';
                     bound_GC{1}=automatic;
-
+                    previousMethods{1} = 'Spectral';
 
                     %% Graph Cut
                     % Build and calculate the Graph-Cuts
@@ -279,12 +283,14 @@ for i_fold=1:length(folders)
 
                     [features_GC, ~, ~] = normalize(features_GC);
                     if(evalType == 2)
-                        [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim, clus_type,1, nUnaryDivisions, nPairwiseDivisions);
+                        [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim,1, nUnaryDivisions, nPairwiseDivisions, previousMethods);
 
                         %% Store results
 
                         % Plot
-                        fig_save = ([SimM '_Type_' num2str(Type) '_Parm_' num2str(Spectral_Param) '_k_' num2str(k_Sp) '.fig']);
+                        if(~isempty(fig))
+                            fig_save = ([SimM '_Type_' num2str(Type) '_Parm_' num2str(Spectral_Param) '_k_' num2str(k_Sp) '.fig']);
+                        end
                         saveas(fig,[root_results '/' fig_save]);
 
                         % Results Evaluation
@@ -303,7 +309,7 @@ for i_fold=1:length(folders)
                         end
 
                     elseif(evalType == 1)
-                        [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W2, features_GC, tol, delim, doEvaluation, clus_type);
+                        [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W_pairwise, features_GC, tol, delim, doEvaluation, previousMethods);
                     end % end GC
 
                     close all;

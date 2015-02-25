@@ -12,9 +12,8 @@ addpath('GCMex;GraphCuts;PCA;Tests;Utils;SpectralClust');
 
 %% Data loading
 % directorio_im = 'D:/LIFELOG_DATASETS'; % SHARED PC
-%directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
-directorio_im='/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Sets'; % EST PC
-
+directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
+% directorio_im='/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Sets'; % EST PC
 % directorio_im = ''; % put your own datasets location
 
 camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
@@ -23,13 +22,13 @@ folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day
 formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
-%directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
- directorio_results = '../Results/Spectral_GC'; % EST PC
+directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
+%  directorio_results = '../Results/Spectral_GC'; % EST PC
 % directorio_results = ''; % put your own results location
 
 
 %% R-Clustering parameters
-clus_type = 'Spectral'; % Clustering type used before the GraphCuts. 
+clus_type = 'Both2'; % Clustering type used before the GraphCuts. 
                         % It can take the following values:
                         %           'Clustering' : Clustering + GC
                         %           'Both1' : Clustering + Adwin + GC
