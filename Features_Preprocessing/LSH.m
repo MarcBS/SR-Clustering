@@ -18,3 +18,4 @@ for i = 1:nHyperplanes
     h_tmp(h_tmp < 0) = 0;
     h(:,i) = h_tmp';
 end
+end
