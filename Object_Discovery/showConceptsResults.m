@@ -15,10 +15,10 @@ format = {'.jpg', '.JPG'};
 prop_res = 1.25; % (SenseCam 4, PASCAL 1, MSRC 1.25, Perina 1.25, Toy Problem 1, Narrative_stnd 1) resize proportion for the loaded images --> size(img)/prop_res
 
 nConcepts = 100;
-
+feat_type = 'CNN'; % 'CNN' or 'LSH'
 
 %% Start extraction of samples
-folder = sprintf('Concepts_%0.4d_split', nConcepts);
+folder = sprintf(['Concepts_%0.4d_' feat_type '_split'], nConcepts);
 
 
 %% Load objects file

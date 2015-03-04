@@ -89,7 +89,7 @@ final_clusters = unique(clustersId);
 
 %% Split samples in different concepts
 disp(['Storing final ' num2str(length(final_clusters)) ' concepts split...']);
-folder_name = sprintf('Concepts_%0.4d_split', nConcepts);
+folder_name = sprintf(['Concepts_%0.4d_' feat_type '_split'], nConcepts);
 mkdir(folder_name);
 for i = 1:length(final_clusters)
     this_samples = clustersId == final_clusters(i);
