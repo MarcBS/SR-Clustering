@@ -10,6 +10,7 @@ for i_fold=1:length(folders)
     folder=folders{i_fold};
     fichero=([directorio_im '/' camera{i_fold} '/imageSets/' folder]);
     path_excel = [directorio_im '/' camera{i_fold} '/GT/GT_' folder '.xls'];
+    path_features_MOPCNN = [directorio_im '/' camera{i_fold} '/CNNfeatures/' folder '/MOPCNN.mat'];
     path_features = [directorio_im '/' camera{i_fold} '/CNNfeatures/CNNfeatures_' folder '.mat'];
     path_features_PCA = [directorio_im '/' camera{i_fold} '/CNNfeatures/CNNfeaturesPCA_' folder '.mat'];
     root_results = [directorio_results '/' folder];
@@ -31,6 +32,7 @@ for i_fold=1:length(folders)
     [clust_man,clustersIdGT,cl_limGT, ~]=analizarExcel_Narrative(path_excel, files);
     delim=cl_limGT';
     if delim(1) == 1, delim=delim(2:end); end
+    clust_manId = {};
     for i=1:length(clust_man)
          [a,b]=find(clustersIdGT==i);
          clust_manId{i,1}=b;
@@ -38,17 +40,22 @@ for i_fold=1:length(folders)
       
 
     %% Features
-	load(path_features);
-    
-    % Features
-    [features_norm] = signedRootNormalization(features);
+    if strcmp(paramsfeatures.type, 'CNN')
+        load(path_features);
+   
 
-    %PCA FEATURES
-    if(exist(path_features_PCA) > 0)
-        load(path_features_PCA);
-    else
-        [ featuresPCA, ~, ~ ] = applyPCA( features_norm, paramsPCA ) ; 
-        save(path_features_PCA, 'featuresPCA');
+        %PCA FEATURES
+        if(exist(path_features_PCA) > 0)
+            load(path_features_PCA);
+        else
+            [features_norm] = signedRootNormalization(features);
+            [ featuresPCA, ~, ~ ] = applyPCA( features_norm, paramsPCA ) ; 
+            save(path_features_PCA, 'featuresPCA');
+        end
+    elseif strcmp(paramsfeatures.type, 'MOPCNN')
+        load(path_features_MOPCNN);
+        features = X;
+        clearvars X;
     end
     
     %% CLUSTERING 
@@ -63,10 +70,13 @@ for i_fold=1:length(folders)
         disp(['Start ADWIN ' folder]);
 
         % PCA
-        if(paramsPCA.usePCA_Adwin)
+        if(paramsPCA.usePCA_Adwin && strcmp(paramsfeatures.type, 'CNN'))
             [labels,dist2mean] = runAdwin(featuresPCA, confidence, pnorm); 
-        else
+        elseif( strcmp(paramsfeatures.type, 'CNN'))
+            [features_norm] = signedRootNormalization(features);
             [labels,dist2mean] = runAdwin(features_norm, confidence, pnorm); 
+        else
+            [labels,dist2mean] = runAdwin(features, confidence, pnorm); 
         end
 
         index=1;
@@ -98,10 +108,12 @@ for i_fold=1:length(folders)
     if strcmp(clus_type,'Both1')||strcmp(clus_type,'Clustering')
         
         %% PCA
-        if(paramsPCA.usePCA_Clustering)
+        if(paramsPCA.usePCA_Clustering &&   strcmp(paramsfeatures.type, 'CNN'))
             similarities=pdist(featuresPCA,'cosine');
-        else
+        elseif( strcmp(paramsfeatures.type, 'CNN'))
             similarities=pdist(features_norm,'cosine');
+        else
+            similarities=pdist(features,'cosine');          
         end  
         
         for met_indx=1:length(methods_indx)
@@ -120,7 +132,7 @@ for i_fold=1:length(folders)
             end
             
 
-            %% Clustering  
+            %% Clustering 
             Z = linkage(similarities, method);
 
             %% Cut value
@@ -128,7 +140,7 @@ for i_fold=1:length(folders)
 
                 cut=cut_indx(idx_cut);
                 disp(['Start Clustering ' folder ', method ' method ', cutval ' num2str(cut)]);
-                
+
                 clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
 
                 %% AFTER IDs EXTRACTION - Evaluation
@@ -138,8 +150,11 @@ for i_fold=1:length(folders)
                 RPAF_Clustering.fMeasure = fMeasure;
                 RPAF_Clustering.JaccardIndex = JIndex;
                 
-                
-                P=getLHFromClustering(features_norm,clustersId);
+                if( strcmp(paramsfeatures.type, 'CNN'))
+                    P=getLHFromClustering(features_norm,clustersId);
+                else
+                    P=getLHFromClustering(features,clustersId);                
+                end
                 LH_Clus{1} = P;
                 start_clus{1}=clustersId';
                 bound_GC{1}=automatic;
@@ -151,7 +166,7 @@ for i_fold=1:length(folders)
                 disp('Start GC');
                 
                 %% PCA
-                if(paramsPCA.usePCA_GC)
+                if(paramsPCA.usePCA_GC && strcmp(paramsfeatures.type, 'CNN'))
                     features_GC = featuresPCA;
                 else
                     features_GC = features;
@@ -159,15 +174,17 @@ for i_fold=1:length(folders)
                 
                 [features_GC, ~, ~] = normalize(features_GC);
                 if(evalType == 2)
-                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim,1, nUnaryDivisions, nPairwiseDivisions, previousMethods);
+                    [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim,1, nUnaryDivisions, nPairwiseDivisions, previousMethods, plotFigResults);
 
                     %% Store results
                     
                     % Plot
-                    if(~isempty(fig))
-                        fig_save = ([method '_cutVal_' num2str(cut) '.fig']);
+                    if(plotFigResults)
+                        if(~isempty(fig))
+                            fig_save = ([method '_cutVal_' num2str(cut) '.fig']);
+                        end
+                        saveas(fig,[root_results '/' fig_save]);
                     end
-                    saveas(fig,[root_results '/' fig_save]);
                     
                     % Results Evaluation
                     Results{idx_cut+offset_results}.cut_value = cut;
@@ -203,10 +220,12 @@ for i_fold=1:length(folders)
     if strcmp(clus_type,'Both2')||strcmp(clus_type,'Spectral')
 
         %% PCA
-        if(paramsPCA.usePCA_Spect)
+        if(paramsPCA.usePCA_Spect && strcmp(paramsfeatures.type, 'CNN') )
             features_Sp = featuresPCA;
+        elseif(strcmp(paramsfeatures.type, 'CNN'))
+            [features_Sp] = signedRootNormalization(features);
         else
-            features_Sp = features;
+            features_Sp = features;    
         end
     
         for matrix_indx=1:length(sim_matrix)
@@ -262,8 +281,11 @@ for i_fold=1:length(folders)
                     RPAF_Spectral.clustersIDs = clustersId;
                     RPAF_Spectral.fMeasure = fMeasure;
                     RPAF_Spectral.JaccardIndex = JIndex;
-
-                    P=getLHFromClustering(features_norm,clustersId);
+                    if(strcmp(paramsfeatures.type, 'CNN'))
+                        P=getLHFromClustering(features_norm,clustersId);
+                    else
+                        P=getLHFromClustering(features,clustersId);                   
+                    end
                     LH_Clus{1} = P;
                     start_clus{1}=clustersId';
                     bound_GC{1}=automatic;
@@ -275,23 +297,26 @@ for i_fold=1:length(folders)
                     disp('Start GC');
 
                     %% PCA
-                    if(paramsPCA.usePCA_GC)
+                    if(paramsPCA.usePCA_GC && strcmp(paramsfeatures.type, 'CNN') )
                         features_GC = featuresPCA;
+                    elseif(strcmp(paramsfeatures.type, 'CNN'))
+                        [features_GC] = signedRootNormalization(features);
                     else
-                        features_GC = features;
+                        features_GC = features;    
                     end
-
                     [features_GC, ~, ~] = normalize(features_GC);
                     if(evalType == 2)
-                        [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim,1, nUnaryDivisions, nPairwiseDivisions, previousMethods);
+                        [ fig , num_clus_GC, fMeasure_GC, eventsIDs, W_u_tested, W_p_tested ] = doIterativeTest(LH_Clus, start_clus, bound_GC, window_len, features_GC, tol, delim,1, nUnaryDivisions, nPairwiseDivisions, previousMethods, plotFigResults);
 
                         %% Store results
 
                         % Plot
-                        if(~isempty(fig))
-                            fig_save = ([SimM '_Type_' num2str(Type) '_Parm_' num2str(Spectral_Param) '_k_' num2str(k_Sp) '.fig']);
+                        if(plotFigResults)
+                            if(~isempty(fig))
+                                fig_save = ([SimM '_Type_' num2str(Type) '_Parm_' num2str(Spectral_Param) '_k_' num2str(k_Sp) '.fig']);
+                            end
+                            saveas(fig,[root_results '/' fig_save]);
                         end
-                        saveas(fig,[root_results '/' fig_save]);
 
                         % Results Evaluation
                         Results{k_indx+offset_results}.Similarity_Matrix = SimM;
