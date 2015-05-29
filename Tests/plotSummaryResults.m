@@ -1,53 +1,79 @@
-addpath('../Data_Loading');
+addpath('../Data_Loading;..');
 
 %%% Folders used
-folders={'Petia1', 'Petia2','Mariella','Estefania1','Estefania2'};
+% folders={'Petia1', 'Petia2','Mariella','Estefania1','Estefania2'};
 % folders={'Petia1'};
 % folders={'Day1','Day2','Day3','Day4','Day6'};
 % folders={'day2','day3','day4','day5','day6','day7','day8','day9'};
 % folders={'Petia1','Petia2','Mariella','Estefania1','Estefania2','Day1','Day2','Day3','Day4','Day6'};
 % folders = {'Estefania1'};
+folders={'Marc1', 'MAngeles1', 'MAngeles2', 'MAngeles3'};
+cameras = {'Narrative', 'Narrative', 'Narrative', 'Narrative'};
+
 
 %%% Data path
-% files_path = 'D:/LIFELOG_DATASETS/Narrative/imageSets';
-% files_path = '/HDD_2TB/LIFELOG_DATASETS/SenseCam/imageSets/terrassaPatient1';
-files_path = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering/Narrative/imageSets'; % MARC
+% files_path_base = 'D:/LIFELOG_DATASETS';
+files_path_base = '/media/lifelogging/HDD_2TB/LIFELOG_DATASETS';
+% files_path_base = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC
 
 %%% GT path
 % GT_path = 'D:/LIFELOG_DATASETS/Narrative/GT';
 GT_path = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering/Narrative/GT'; % MARC PC
 
+%%% R-Clustering results path
+RC_results_path = 'media/lifelogging/HDD_2TB/R-Clustering_Results';
+
 %%% Methods used
 % methods_indx={'ward', 'complete','centroid','average','single','weighted','median'};
-methods_indx={'average'};
+methods_indx={'single'}; % IbPRIA single best
+clus_type = 'Both1'; % Clustering type used before the GraphCuts. 
+                        % It can take the following values:
+                        %           'Clustering' : Clustering + GC
+                        %           'Both1' : Clustering + Adwin + GC
+                        %           'Spectral' : Spectral + GC
+                        %           'Both2' : Spectral + Adwin + GC
 
 %%% Cut values used
 cut_indx=(0.45:0.05:0.8); % narrative
 % cut_indx = [0.8]; % patient
-cut_indx_use = [0.8];
+cut_indx_use = [0.2]; % IbPRIA 0.2 best??
 
 %%% Images format
 formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg'};
 
-w1 = 2; % 0 <= w1 <= 1
-w2 = 2; % 0 <= w2 <= 1
+W_unary = 1;      % 0 <= W_unary <= 1 for evalType == 1
+W_pairwise = 0.5;   % 0 <= W_pairwise <= 1 for evalType == 1
 
-min_imgs_event = 4;
+min_imgs_event = 0;
 
 prop_div = 20; % rest?
 % prop_div = 2; % patient day 1
 
 % Use the real data GT or use the segmentation software
-use_GT = true;
+use_GT = false;
 
-% {image whole dataet,   image per segment,    single images splitted by segments}
+% {image whole dataset,   image per segment,    single images splitted by segments}
 doPlots = {false, false, true};
+
+%% Build params in case the results are not generated
+params.RC_results_path = RC_results_path;
+
+params.doEvaluation = false;
+
+%%% Clustering parameters
+params.methods_indx = methods_indx;
+params.cut_indx_use = cut_indx_use;
+
+%%% R-Clustering parameters
+params.clus_type = clus_type;
+
+params.W_unary = W_unary;
+params.W_pairwise = W_pairwise;
 
 %% Results path
 % results = 'D:/R-Clustering_Results/PlotResults_GT';
-results = '/Volumes/SHARED HD/R-Clustering Results/PlotResults_GT'; % MARC
-
-
+% results = '/Volumes/SHARED HD/R-Clustering Results/PlotResults_GT'; % MARC
+results = '/media/lifelogging/HDD_2TB/R-Clustering_Results/PlotResults_R-Clustering';
 
 %% Start data processing
 for i_met=1:length(methods_indx)
@@ -58,6 +84,7 @@ for i_met=1:length(methods_indx)
             folder = folders{i_fold};
             format = formats{i_fold};
             
+            files_path = [files_path_base '/' cameras{i_fold} '/imageSets'];
             path_source = [files_path '/' folder];
             files_aux = dir([path_source '/*' formats{i_fold}]);
             count = 1;
@@ -73,11 +100,21 @@ for i_met=1:length(methods_indx)
             
             %% Use R-Clustering results
             if(~use_GT)
-                load([sfigureGC folder '/' folder '_' method '_Res_Both_' num2str(find(cut_indx==cut_indx_use(i_ind))) '.mat']);
-
-                %% Get cluster indices of best narrative result
-                clusIds = [Results{4}(w1,w2,:)];
-                clusIds = reshape(clusIds,[1 size(clusIds,3)]);
+                try
+%                     file_saved=(['Results_' method '_Res_' clus_type '_' folder '.mat']);
+                    load([RC_results_path '/' folder '/' folder '_' method '_Res_Both_' num2str(find(cut_indx==cut_indx_use(i_ind))) '.mat']);
+                    %% Get cluster indices of best narrative result
+                    clusIds = [Results{4}(W_unary,W_pairwise,:)];
+                    clusIds = reshape(clusIds,[1 size(clusIds,3)]);
+                catch
+                    % If file does not exist
+                    params.files_path = files_path_base;
+                    params.formats = format;
+                    %% Get cluster indices applying R-Clustering
+                    cd ..
+                    clusIds = process_single_sequence(cameras{i_fold}, folder, params);
+                    cd Tests
+                end
                 
                 nFrames = length(clusIds);
                 event = zeros(1, nFrames); event(1) = 1;

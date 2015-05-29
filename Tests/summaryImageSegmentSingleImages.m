@@ -10,9 +10,11 @@
 % results_path: folder where all the segment images will be stored.
 function summaryImageSegmentSingleImages( num_clusters, result_data, fileList, source, source_type, ini, results_path)
 
-    mkdir(results_path);
+    if(~exist(results_path))
+        mkdir(results_path);
+    end
 
-    %$ For each segment
+    %% For each segment
     for n_clus = 1:num_clusters
         
         % Get images in the segment
@@ -20,7 +22,9 @@ function summaryImageSegmentSingleImages( num_clusters, result_data, fileList, s
         
         % Create folder for storing images
         store_path = [results_path '/Segment_' num2str(n_clus)];
-        mkdir(store_path);
+        if(~exist(store_path))
+            mkdir(store_path);
+        end
 
         %% For each sub-image
         for i_im = this_clus

@@ -49,7 +49,7 @@ for t=len+1:n_tot
             elseif flag==0             
                 ecut2=(k)^(1/p)*((1/(2*m)) * log((4)/fi_prime) )^(1/2);
             end
-            
+%             ecut2
             mu_w0=(z(i,:))/i;
             mu_w1=(z(end,:)-z(i,:))/(n_frames+1-i);
             r1(i)=norm(mu_w0 - mu_w1, p);
@@ -63,6 +63,8 @@ for t=len+1:n_tot
             %disp(max(r1))
                         %disp(max(r1-r2))
             [aa bb]=max(r1-r2);
+%                 aa
+%                 bb
             W_tmp=W(bb+1:end,1:k);
             clear W;
             W=W_tmp;

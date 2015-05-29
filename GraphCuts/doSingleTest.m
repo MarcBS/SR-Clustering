@@ -50,10 +50,10 @@ function [ labels, start_GC ] = doSingleTest( LHs, clusterId, bound_GC, win_len,
     %% Convert LH results on events separation (on GC result)
     [ labels, start_GC, num_clusters ] = getEventsFromLH(LH_GC);
     
-    [recGC,precGC,accGC,fMeasureGC]=Rec_Pre_Acc_Evaluation(GT,start_GC,nSamples,tolerance);
-
     disp(' ');
     if(doEvaluation)
+        [recGC,precGC,accGC,fMeasureGC]=Rec_Pre_Acc_Evaluation(GT,start_GC,nSamples,tolerance);
+
         if(nClus == 2)
             disp('-------- Results Clustering --------');
             disp(['Precision: ' num2str(precClus)]);

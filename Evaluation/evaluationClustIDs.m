@@ -1,7 +1,7 @@
 function [JaccardIndex_result,fMeasure_Clus,automatic]=evaluationClustIDs(clustersId,tol,delim,clust_manId,files)
 
 Nframes=length(files);
-
+bound = [];
                     index=1;
                     for pos=1:length(clustersId)-1
                         if (clustersId(pos)~=clustersId(pos+1))>0

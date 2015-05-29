@@ -12,21 +12,27 @@ text=25; text_leg = 15;
 set_used = 'SenseCam';
 
 % Motion-based tests
-check_motion_based = true;
+check_motion_based = false;
 
+
+type_clustering = 'Both'; % IbPRIA results
+% type_clustering = 'Both1'; % MOP results
 
 % Pair-wise weight
-nPairwiseWeights = 11;
+nPairwiseWeights = 11; % IbPRIA results
+% nPairwiseWeights = 5; % MOP results
 pairwise_weights = linspace(0,1,nPairwiseWeights);
 pairwise_weights(1) = 1e-99;
 
 % Unary weight
-nUnaryWeights = 11;
+nUnaryWeights = 11; % IbPRIA results
+% nUnaryWeights = 5; % MOP results
 unary_weights = linspace(0,1,nUnaryWeights);
 
 %% Data loading
 % directorio_im = 'D:/LIFELOG_DATASETS'; % SHARED PC
-directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
+directorio_im = '/media/lifelogging/HDD_2TB/LIFELOG_DATASETS'; % SHARED PC
+% directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
 % directorio_im='/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Sets'; % EST PC
 
 % directorio_im = ''; % put your own datasets location
@@ -40,7 +46,9 @@ formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.J
 % formats={'.JPG','.JPG','.JPG','.JPG','.JPG'};
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
-directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
+% directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
+directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Results';  % IbPRIA results
+% directorio_results = '/media/lifelogging/HDD_2TB/R-ClusteringResultsMOPCNN';  % MOP results
 % directorio_results = '/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Results'; % EST PC
 % directorio_results = ''; % put your own results location
 
@@ -50,10 +58,11 @@ mkdir(final_results);
 
 
 %% Clustering parameters
-% methods_indx={'ward','centroid','complete','weighted','single','median','average'};
-methods_indx={'average'};
-% cut_indx=(0.1:0.1:1.2);
-cut_indx = [0.6];
+methods_indx={'ward','centroid','complete','weighted','single','median','average'};
+% methods_indx={'average'};
+% cut_indx=(0.1:0.1:1.2); % IbPRIA results
+cut_indx = 0.2:0.2:1.2; % MOP results
+% cut_indx = [0.6];
 
 
 %% Plot colours
@@ -100,7 +109,7 @@ for i_met=1:length(methods_indx)
         for i_fold=1:length(folders)
             folder=folders{i_fold};
             
-            load([directorio_results '/' folder '/Results_' method '_Res_Both_' folder '.mat']);
+            load([directorio_results '/' folder '/Results_' method '_Res_' type_clustering '_' folder '.mat']);
         
             n_cut = 1;
             while(abs(Results{n_cut}.cut_value - cut_indx(i_ind)) > 0.0001)

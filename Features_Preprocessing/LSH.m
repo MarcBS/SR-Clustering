@@ -3,6 +3,7 @@ function h = LSH(features)
 nHyperplanes = 128;
 nFeatures = size(features,2);
 
+
 features = signedRootNormalization(features);
 
 % Create hyperplane

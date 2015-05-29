@@ -14,7 +14,9 @@
 % results_path: folder where all the segment images will be stored.
 function summaryImageSegment( props, num_clusters, n_summaryImages, result_data, fileList, source, source_type, ini, labels_text, results_path)
 
-    mkdir(results_path);
+    if(~exist(results_path))
+        mkdir(results_path);
+    end
     border = 8;
     letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'};
 

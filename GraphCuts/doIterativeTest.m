@@ -1,4 +1,4 @@
-function [ fig ,vec_numC,vec_perC,clusterIds, W_pairwise, W_unary ] = doIterativeTest( LHs, clusterId, boundaries, win_len, features, tolerance, GT, has_GT, nUnaryDivisions, nPairwiseDivisions, previousMethods )
+function [ fig ,vec_numC,vec_perC,clusterIds, W_pairwise, W_unary ] = doIterativeTest( LHs, clusterId, boundaries, win_len, features, tolerance, GT, has_GT, nUnaryDivisions, nPairwiseDivisions, previousMethods, plotFigResults )
 %%
 %   Applies an iterative GC test increasing the value of the weighting term
 %   by increments of W.
@@ -116,7 +116,7 @@ function [ fig ,vec_numC,vec_perC,clusterIds, W_pairwise, W_unary ] = doIterativ
         end
 
         %% Show 3D results comparison plot if we have the GT
-        if(has_GT)
+        if(has_GT && plotFigResults)
             previousFM = {fMeasureClus, fMeasureClus2};
             fig = plotRClustering_3D(W_unary, W_pairwise, vec_numC, vec_perC, previousFM, previousMethods);
         else
