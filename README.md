@@ -7,4 +7,4 @@ If you use this code, please cite the following paper:
         “R-Clustering for Egocentric Video Segmentation”. 
         In 7th Iberian Conference on Pattern Recognition and Image Analysis (IbPRIA) (in press).
 
-Refer to code in Demo folder for a simple execution of our R-Clustering algorithm.
+Use code in Demo folder for a simple execution of our R-Clustering algorithm.
