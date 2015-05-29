@@ -17,6 +17,7 @@ eventsString = textA(3:f,2);
 eventsString = eventsString(arrayfun(@(x) ~strcmp(x,''),eventsString));
 num_clustauto_def=length(eventsString);
 
+
 for i=1:num_clustauto_def
 eString=eventsString{i,1};
 a=str2num(eString);

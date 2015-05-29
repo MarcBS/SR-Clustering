@@ -148,10 +148,12 @@ for i_fold=1:length(folders)
                 clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
 
                 %% AFTER IDs EXTRACTION - Evaluation
-                [JIndex,fMeasure,automatic]=evaluationClustIDs(clustersId,tol,delim,clust_manId,files);
+                [JIndex , FM_Bound , FM_Clust ,~]=evaluationClustIDs(clustersId,clustersIdGT,tol,delim,clust_manId,files);
+                %[JIndex,fMeasure,automatic]=evaluationClustIDs(clustersId,tol,delim,clust_manId,files);
 
                 RPAF_Clustering.clustersIDs = clustersId;
-                RPAF_Clustering.fMeasure = fMeasure;
+                RPAF_Clustering.fMeasure_Bound = FM_Bound;
+                RPAF_Clustering.fMeasure_Clusters = FM_Clust;
                 RPAF_Clustering.JaccardIndex = JIndex;
                 
                 if( strcmp(paramsfeatures.type, 'CNN'))
@@ -200,6 +202,11 @@ for i_fold=1:length(folders)
                     Results{idx_cut+offset_results}.fMeasure_GC = fMeasure_GC;
                     Results{idx_cut+offset_results}.fMeasure_Clustering = fMeasure;
                     if strcmp(clus_type,'Both1')
+% =======
+%                     Results{idx_cut+offset_results}.fMeasure_Clustering = FM_Bound;
+%                     Results{idx_cut+offset_results}.fMeasure_Events = FM_Clust;
+%                     if strcmp(clus_type,'Both')
+% >>>>>>> 726903b79a6284a7ce94064adef135f74f7f598c
                         Results{idx_cut+offset_results}.fMeasure_Adwin = fMeasure_Adwin;
                     end
 
@@ -280,11 +287,14 @@ for i_fold=1:length(folders)
                     end
 
                     %% AFTER IDs EXTRACTION - Evaluation
-                    [JIndex,fMeasure,automatic]=evaluationClustIDs(clustersId,tol,delim,clust_manId,files);
+                    [JIndex , FM_Bound , FM_Clust ,~]=evaluationClustIDs(clustersId,clustersIdGT,tol,delim,clust_manId,files);
+                    %[JIndex,fMeasure,automatic]=evaluationClustIDs(clustersId,tol,delim,clust_manId,files);
  
                     RPAF_Spectral.clustersIDs = clustersId;
-                    RPAF_Spectral.fMeasure = fMeasure;
+                    RPAF_Spectral.fMeasure_Bound = FM_Bound;
+                    RPAF_Spectral.fMeasure_Clusters = FM_Clust;
                     RPAF_Spectral.JaccardIndex = JIndex;
+
                     if(strcmp(paramsfeatures.type, 'CNN'))
                         P=getLHFromClustering(features_norm,clustersId);
                     else
@@ -334,6 +344,11 @@ for i_fold=1:length(folders)
                         Results{k_indx+offset_results}.fMeasure_GC = fMeasure_GC;
                         Results{k_indx+offset_results}.fMeasure_Clustering = fMeasure;
                         if strcmp(clus_type,'Both2')
+% =======
+%                         Results{idx_cut+offset_results}.fMeasure_Clustering = FM_Bound;
+%                         Results{idx_cut+offset_results}.fMeasure_Events = FM_Clust;
+%                         if strcmp(clus_type,'Both')
+% >>>>>>> 726903b79a6284a7ce94064adef135f74f7f598c
                             Results{idx_cut+offset_results}.fMeasure_Adwin = fMeasure_Adwin;
                         end
 
