@@ -87,8 +87,11 @@ function events = process_single_sequence(camera, folder, params, features)
     end
     path_features = [directorio_im '/' camera '/CNNfeatures/CNNfeatures_' folder '.mat'];
     path_features_PCA = [directorio_im '/' camera '/CNNfeatures/CNNfeaturesPCA_' folder '.mat'];
-    root_results = [directorio_results '/' folder];
-    mkdir(root_results);
+    if(evalType == 2)
+        root_results = [directorio_results '/' folder];
+        mkdir(root_results);
+    end
+    
     %% Images
     files_aux=dir([fichero '/*' formats]);
     count = 1;
@@ -269,14 +272,14 @@ function events = process_single_sequence(camera, folder, params, features)
     end %end if clustering || both1  
 
     
-    nFrames = length(clusIds);
+    nFrames = length(labels);
     events = zeros(1, nFrames); events(1) = 1;
     prev = 1;
     for i = 1:nFrames
-        if(clusIds(i) == 0)
+        if(labels(i) == 0)
             events(i) = 0;
         else
-            if(clusIds(i) == clusIds(prev))
+            if(labels(i) == labels(prev))
                 events(i) = events(prev);
             else
                 events(i) = events(prev)+1;
