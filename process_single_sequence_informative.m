@@ -9,14 +9,13 @@ function labels = process_single_sequence_informative(camera, folder, indexes)
     paramsPCA.minVarPCA=0.95;
     paramsPCA.standarizePCA=false;
     paramsPCA.usePCA_Clustering = true;
+    tol=5;
 %% Clustering parameters
 methods_indx={'single'};
 % methods_indx={'centroid'};
-cut_indx=(0.5:0.1:0.5);
+cut_indx=(0.45:0.1:0.45);
 % cut_indx = [0.45];
 paramsPCA.usePCA_Clustering = true;
-%% Evaluation parameters
-tol=5; % tolerance for the final evaluation   
 %% R-Clustering parameters
 clus_type = 'Both1';
     %% Adwin parameters
