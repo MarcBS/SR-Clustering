@@ -94,6 +94,10 @@ function extractLSDAFeatures( path_src, file, path_dest, version, doplot, top_pl
         end
     end
 
-    LSDAfeatures = found_classes';
+    LSDAfeatures = found_classes(sort_counts, :)';
     save([path_dest '/LSDAfeatures_' set_name '_v' num2str(version) '.mat'], 'LSDAfeatures');
+    % Save also classes names (for further analysis)
+    classes_names = {classes_names{sort_counts}};
+    save([path_dest '/LSDAfeatures_' set_name '_classes_names.mat'], 'classes_names');
+
 end

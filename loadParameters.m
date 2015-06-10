@@ -24,7 +24,7 @@ formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.J
 
 %directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
 %directorio_results = '/media/lifelogging/HDD_2TB/R-ClusteringResultsMOPCNN';
-directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Results_concepts';
+directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Results_concepts_v3';
 %directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
 %  directorio_results = '../Results/Spectral_GC'; % EST PC
 % directorio_results = ''; % put your own results location

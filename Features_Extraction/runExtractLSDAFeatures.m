@@ -29,3 +29,6 @@ for i = 1:nFolders
         extractLSDAFeatures( path_src, ['results_' folders{i} '.mat'], [path_dest '/' cameras{i} '/LSDAfeatures'], v, doplot, top_plots );
     end
 end
+
+disp('Done');
+exit;
