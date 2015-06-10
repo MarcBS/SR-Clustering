@@ -1,7 +1,15 @@
-function labels = process_single_sequence(camera, folder, params)  
+function events = process_single_sequence(camera, folder, params, features)
+
     %% Load paths
     addpath('Adwin;Data_Loading;Evaluation;Features_Preprocessing');
     addpath('GCMex;GraphCuts;PCA;Tests;Utils;SpectralClust');
+
+    %% If we do not provide features, they must be calculated in the corresponding folder
+    if(nargin < 4)
+        load_features = true;
+    else
+        load_features = false;
+    end
 
     %% Parameters loading
     if nargin < 3
@@ -72,7 +80,11 @@ function labels = process_single_sequence(camera, folder, params)
 
 
     %% Build paths for images, features and results
-    fichero=([directorio_im '/' camera '/imageSets/' folder]);
+    if(isempty(camera))
+        fichero=([directorio_im '/' folder]);
+    else
+        fichero=([directorio_im '/' camera '/imageSets/' folder]);
+    end
     path_features = [directorio_im '/' camera '/CNNfeatures/CNNfeatures_' folder '.mat'];
     path_features_PCA = [directorio_im '/' camera '/CNNfeatures/CNNfeaturesPCA_' folder '.mat'];
     root_results = [directorio_results '/' folder];
@@ -92,8 +104,9 @@ function labels = process_single_sequence(camera, folder, params)
 
     %% Features
     if strcmp(paramsfeatures.type, 'CNN')
-        load(path_features);
-   
+        if(load_features)
+            load(path_features);
+        end
 
         %PCA FEATURES
         if(exist(path_features_PCA) > 0)
@@ -101,7 +114,9 @@ function labels = process_single_sequence(camera, folder, params)
         else
             [features_norm] = signedRootNormalization(features);
             [ featuresPCA, ~, ~ ] = applyPCA( features_norm, paramsPCA ) ; 
-            save(path_features_PCA, 'featuresPCA');
+            if(load_features) % if we wanted to load the stored features, then we will also store PCA features
+                save(path_features_PCA, 'featuresPCA');
+            end
         end
     elseif strcmp(paramsfeatures.type, 'MOPCNN')
         load(path_features_MOPCNN);
@@ -236,8 +251,9 @@ function labels = process_single_sequence(camera, folder, params)
                 elseif(evalType == 1)
                     [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W_pairwise, features_GC, tol, GT, doEvaluation, previousMethods);
                 end % end GC
-                             %% SAVE
-        save([root_results '/' folder '_' num2str(idx_cut)],'automatic');
+                
+%                 %% SAVE
+%                 save([root_results '/' folder '_' num2str(idx_cut)],'automatic');
                 close all;
              end%end cut
 
@@ -252,3 +268,19 @@ function labels = process_single_sequence(camera, folder, params)
         clearvars LH_Clus start_clus
     end %end if clustering || both1  
 
+    
+    nFrames = length(clusIds);
+    events = zeros(1, nFrames); events(1) = 1;
+    prev = 1;
+    for i = 1:nFrames
+        if(clusIds(i) == 0)
+            events(i) = 0;
+        else
+            if(clusIds(i) == clusIds(prev))
+                events(i) = events(prev);
+            else
+                events(i) = events(prev)+1;
+            end
+            prev = i;
+        end
+    end

@@ -71,35 +71,18 @@ for i_met=1:length(methods_indx)
             %% Get cluster indices applying R-Clustering
             path_here = pwd;
             cd ..
-            clusIds = process_single_sequence(cameras{i_fold}, folder, params);
+            events = process_single_sequence(cameras{i_fold}, folder, params);
             cd(path_here)
-
-            %% Get split in events/segments
-            nFrames = length(clusIds);
-            event = zeros(1, nFrames); event(1) = 1;
-            prev = 1;
-            for i = 1:nFrames
-                if(clusIds(i) == 0)
-                    event(i) = 0;
-                else
-                    if(clusIds(i) == clusIds(prev))
-                        event(i) = event(prev);
-                    else
-                        event(i) = event(prev)+1;
-                    end
-                    prev = i;
-                end
-            end
                 
-            num_clusters = max(event);
+            num_clusters = max(events);
 
             result_data = {};
             for i = 1:num_clusters
                 result_data{i} = [];
             end
             for i = 1:nFrames
-                if(event(i) ~= 0)
-                    result_data{event(i)} = [result_data{event(i)} i];
+                if(events(i) ~= 0)
+                    result_data{events(i)} = [result_data{events(i)} i];
                 end
             end
             

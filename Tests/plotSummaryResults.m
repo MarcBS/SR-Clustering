@@ -112,46 +112,31 @@ for i_met=1:length(methods_indx)
                     params.formats = format;
                     %% Get cluster indices applying R-Clustering
                     cd ..
-                    clusIds = process_single_sequence(cameras{i_fold}, folder, params);
+                    events = process_single_sequence(cameras{i_fold}, folder, params);
                     cd Tests
                 end
                 
-                nFrames = length(clusIds);
-                event = zeros(1, nFrames); event(1) = 1;
-                prev = 1;
-                for i = 1:nFrames
-                    if(clusIds(i) == 0)
-                        event(i) = 0;
-                    else
-                        if(clusIds(i) == clusIds(prev))
-                            event(i) = event(prev);
-                        else
-                            event(i) = event(prev)+1;
-                        end
-                        prev = i;
-                    end
-                end
             %% Use GT segmentation
             else
                 path_source_GT = [GT_path '/GT_' folder];
                 [~, ~,cl_limGT, nFrames]=analizarExcel_Narrative(path_source_GT, files);
                 
-                event = zeros(1, nFrames);
+                events = zeros(1, nFrames);
                 for i = 2:length(cl_limGT)
-                    event(cl_limGT(i-1):cl_limGT(i)) = i-1;
+                    events(cl_limGT(i-1):cl_limGT(i)) = i-1;
                 end
-                event(cl_limGT(i):nFrames) = i;
+                events(cl_limGT(i):nFrames) = i;
             end
                 
-            num_clusters = max(event);
+            num_clusters = max(events);
 
             result_data = {};
             for i = 1:num_clusters
                 result_data{i} = [];
             end
             for i = 1:nFrames
-                if(event(i) ~= 0)
-                    result_data{event(i)} = [result_data{event(i)} i];
+                if(events(i) ~= 0)
+                    result_data{events(i)} = [result_data{events(i)} i];
                 end
             end
             
