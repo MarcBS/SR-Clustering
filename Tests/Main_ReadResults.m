@@ -15,8 +15,8 @@ set_used = 'SenseCam';
 check_motion_based = false;
 
 
-type_clustering = 'Both'; % IbPRIA results
-% type_clustering = 'Both1'; % MOP results
+% type_clustering = 'Both'; % IbPRIA results
+type_clustering = 'Both1'; % MOP results
 
 % Pair-wise weight
 nPairwiseWeights = 11; % IbPRIA results
@@ -31,27 +31,39 @@ unary_weights = linspace(0,1,nUnaryWeights);
 
 %% Data loading
 % directorio_im = 'D:/LIFELOG_DATASETS'; % SHARED PC
-directorio_im = '/media/lifelogging/HDD_2TB/LIFELOG_DATASETS'; % SHARED PC
+directorio_im = '/media/HDD_2TB/DATASETS/LIFELOG_DATASETS'; % SHARED PC
 % directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
 % directorio_im='/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Sets'; % EST PC
 
 % directorio_im = ''; % put your own datasets location
 
-camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
+% camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
 % camera = {'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
-folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
+% folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
 % folders={'Estefania1', 'Estefania2', 'Petia1', 'Petia2', 'Mariella'};
 % folders={'Day1','Day2','Day3','Day4','Day6'};
-formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
+% formats={'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
 % formats={'.JPG','.JPG','.JPG','.JPG','.JPG'};
+
+camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
+% folders = {'Maya1', 'Maya2', 'Maya3', 'Marc1', 'Estefania3'};
+folders = {'Maya1', 'Maya2', 'Maya3', 'Marc1', 'Estefania1', 'Estefania2', 'Estefania3', 'Petia1', 'Petia2', 'Mariella'};
+% folders = {'Maya1', 'Maya2', 'Maya3', 'Marc1', 'Estefania1', 'Estefania2', 'Estefania3', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
+formats = {'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
+
+% folders = {'Maya1'};
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
 % directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
-directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Results';  % IbPRIA results
-% directorio_results = '/media/lifelogging/HDD_2TB/R-ClusteringResultsMOPCNN';  % MOP results
+% directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_IBPRIA_new';  % IbPRIA results
+% directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v2';  % LSDA GC only
+% directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v2_allLSDA';  % LSDA everywhere
+% directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v3';  % IMAGGA
+directorio_results = '/media/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v3_smoothed';  % IMAGGA smoothed
+% directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v3_smoothed_50';  % IMAGGA smoothed 50
+% directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-ClusteringResultsMOPCNN';  % MOP results
 % directorio_results = '/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Results'; % EST PC
 % directorio_results = ''; % put your own results location
-
 
 final_results = [directorio_results '/FinalResults/'];
 mkdir(final_results);
@@ -121,8 +133,16 @@ for i_met=1:length(methods_indx)
             
             Matrix_aux(:,:,i_fold)=Results{n_cut}.fMeasure_GC;
             
-            fMeasureClus(i_fold)=Results{n_cut}.fMeasure_Clustering;
-            fMeasureAdwin(i_fold)=Results{n_cut}.fMeasure_Adwin;
+	    try
+            	fMeasureClus(i_fold)=Results{n_cut}.fMeasure_Clustering;
+            	fMeasureAdwin(i_fold)=Results{n_cut}.fMeasure_Adwin;
+	    catch
+		fMeasureClus(i_fold) = NaN;
+		fMeasureAdwin(i_fold) = NaN;
+	    end
+            
+%             fMeasureClus(i_fold)=0;
+%             fMeasureAdwin(i_fold)=0;
             
         end%End_folder
         
@@ -312,8 +332,20 @@ end
 
 
 %% Show final results GC
-disp([num2str(max_method) ' ' num2str(max_cut) ' '  num2str(max_mean)])
+disp(['max GC: ' num2str(max_method) ' ' num2str(max_cut) ' '  num2str(max_mean)])
 disp(['std_dev = ' num2str(max_std)]);
 disp(['unary: ' num2str(max_unary) ' pair-wise: ' num2str(max_pairwise)]);
-disp('Done');
 
+%% Show final results Clustering
+[max_AC, pos] = max(max_mean_metClus);
+disp(' ');
+disp(['max Clustering: ' num2str(max_AC)]);
+disp(['method: ' methods_indx{pos} ', cut_val: ' num2str(max_cut_metClus(pos))]);
+
+%% Show final results ADWIN
+disp(' ');
+disp(['max ADWIN: ' num2str(max(max_mean_metAdwin))]);
+
+disp(' ');
+disp('Done');
+exit;

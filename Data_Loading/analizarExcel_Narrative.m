@@ -22,7 +22,7 @@ for i=1:num_clustauto_def
 eString=eventsString{i,1};
 a=str2num(eString);
 p=1;
-%Buscamos si hay coincidencia en la carpeta de imagenes
+% %Buscamos si hay coincidencia en la carpeta de imagenes
 for j=a(1):1:a(2)
 if(find(array==j)>0)
 aux_Eve2(1,p)=j;

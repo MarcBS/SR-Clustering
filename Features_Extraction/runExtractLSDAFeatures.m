@@ -4,9 +4,11 @@ addpath('../Features_Preprocessing');
 
 
 %% Parameters
-path_dest = '/media/lifelogging/HDD_2TB/LIFELOG_DATASETS';
-folders = {'Petia1', 'Petia2', 'Mariella', 'Estefania1', 'Estefania2'};
+path_dest = '/media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS';
+folders = {'Maya2', 'Maya3', 'Estefania3'};
 cameras = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative'}; 
+% folders = {'Day6'};%, 'Day2', 'Day3', 'Day4', 'Day6'};
+% cameras = {'SenseCam'};%, 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'}; 
 versions = [1, 2, 3];   % 1 --> only pick max scoring class per detection
                         % 2 --> pick all scores > 0 per detection
                         % 3 --> sum of scores greater than 0

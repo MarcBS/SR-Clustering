@@ -1,70 +1,93 @@
 
-addpath('../Data_Loading;..;../Tests;../Features_Extraction');
+addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_Detector;../Concept_Detector/fastsmooth');
 
-%% Parameters
+%%%%%%%%%%% Parameters %%%%%%%%%%%
 
-%%% Folders used
-folders={'Subject1'};
-% folders={'Marc1', '...', '...', '...'};
-cameras = {'Narrative'}; % Camera used (dataset must be stored in the corresponding folder)
-% cameras = {'...', '...', '...', '...'};
-formats={'.jpg'}; % Images format
-% formats={'.jpg', '...', '...', '...'};
+%% Data parameters
 
-% Use GT to evaluate the result?
-eval_GT = true;
-
-%%% Data path
-files_path_base = '/media/lifelogging/HDD_2TB/R-Clustering/Demo/test_data';
+%%% Features path
+data_params.features_path = [pwd '/Features'];
 
 %%% R-Clustering results path
-RC_results_path = '/media/lifelogging/HDD_2TB/R-Clustering/Demo/test_data/Results';
-RC_plot_results_path = '/media/lifelogging/HDD_2TB/R-Clustering/Demo/test_data/Plot_Results';
+data_params.RC_results_path = [pwd '/Results'];
+data_params.RC_plot_results_path = [pwd '/Plot_Results'];
 
 
-%%% Methods used
+%% Methods used
 
 % Agglomerative clustering distance criterion
 % methods_indx={'ward', 'complete','centroid','average','single','weighted','median'};
-methods_indx={'single'}; % (IbPRIA 'single' best)
+R_Clustering_params.methods_indx = 'complete'; % (Narrative Semantic 'complete' best, All Non-Semantic 'single' best)
 
 % R-Clustering combined methods
-clus_type = 'Both1'; % Clustering type used before the GraphCuts. 
+R_Clustering_params.clus_type = 'Both1'; % Clustering type used before the GraphCuts. 
                         % It can take the following values:
                         %   'Clustering' : Clustering + GC
                         %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
-                        %   'Spectral' : Spectral + GC
-                        %   'Both2' : Spectral + Adwin + GC
 
 %%% Cut values used
-cut_indx_use = [0.2]; % ALL IbPRIA best
-% cut_indx_use = [0.8]; % SenseCam IbPRIA best
+R_Clustering_params.cut_indx_use = 0.8; % (Narrative Semantic 0.8 best, All Non-Semantic 0.2 best)
 
 %%% GT weight values
-W_unary = 1;      % 0 <= W_unary <= 1 for evalType == 1 (IbPRIA 1 best)
-W_pairwise = 0.5;   % 0 <= W_pairwise <= 1 for evalType == 1 (IbPRIA 0.5 best)
+R_Clustering_params.W_unary = 0.1;      % 0 <= W_unary <= 1  (Narrative Semantic 0.1 best, All Non-Semantic 1 best)
+R_Clustering_params.W_pairwise = 0.6;   % 0.00001 <= W_pairwise <= 1  (Narrative Semantic 0.6 best, All Non-Semantic 0.5 best)
+
+%%% Features used
+R_Clustering_params.features_used = 1; % 1 --> Global CNN only, 2 ---> Global and Semantic
 
 
-%%% CNN parameters
+%% CNN parameters (Global Features)
 % Installation-dependent
-CNN_params.caffe_path = '/usr/local/caffe-dev/matlab/caffe'; % installation path
+CNN_params.caffe_path = '/usr/local/caffe-master2/matlab/caffe'; % installation path
 CNN_params.use_gpu = 1;
 % Model-dependent
 CNN_params.batch_size = 10; % Depending on the deploy net structure!!
-CNN_params.model_def_file = '../../models/bvlc_reference_caffenet/deploy_signed_features.prototxt';
-CNN_params.model_file = '../../models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel';
+CNN_params.model_file = '/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
 CNN_params.size_features = 4096;
+CNN_params.parallel = false; % allow loading images in parallel
+CNN_params.mean_file = '../Utils/ilsvrc_2012_mean.mat';
+
+[structure_path, ~, ~] = fileparts(pwd);
+CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.prototxt'];
 
 
-%%% Plot results parameters
+%% Semantic Features parameters
+Semantic_params.endpoint = 'https://api.imagga.com/v1'; % link to Imagga's API
+Semantic_params.api_key = 'enter_key'; % API key of IMAGGA account
+Semantic_params.api_secret = 'enter_password'; % API password of IMAGGA account
+
+% Filters all tags with a mean value over or under times_std
+Semantic_params.filter_tags_high_mean = true;
+Semantic_params.times_std_over = 6; % the smaller, the more we filter
+Semantic_params.times_std_under = 1; % the smaller, the more we filter
+
+% Smoothing
+Semantic_params.use_smoothing = true;
+Semantic_params.smoothing_param = 10;
+
+
+%% Plot results parameters
 
 % Minimum #images allowed per segment when plotting
-min_imgs_event = 0;
+plot_params.min_imgs_event = 9;
 
 % Proportions for plot purposes
-prop_div = 20; % (Narrative)
-% prop_div = 2; % (SenseCam)
+plot_params.prop_div = 20;
 
 % Which plots apply?
 % {image whole dataset,   image per segment,    single images splitted by segments in folders}
-doPlots = {false, true, false};
+plot_params.doPlots = {true, false, false};
+
+
+%% Create some folders for results
+if(~exist(data_params.features_path, 'dir'))
+    mkdir(data_params.features_path);
+    mkdir([data_params.features_path '/CNNfeatures']);
+    mkdir([data_params.features_path '/SemanticFeatures']);
+end
+if(~exist(data_params.RC_results_path, 'dir'))
+    mkdir(data_params.RC_results_path);
+end
+if(~exist(data_params.RC_plot_results_path, 'dir'))
+    mkdir(data_params.RC_plot_results_path);
+end

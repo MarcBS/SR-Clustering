@@ -17,7 +17,7 @@ function extractCNNFeatures( data_path, folders, cameras, formats, CNN_params )
     this_path = pwd;
     addpath(CNN_params.caffe_path);
     cd(CNN_params.caffe_path)
-    matcaffe_init(CNN_params.use_gpu, CNN_params.model_def_file, CNN_params.model_file, 1); % initialize using or not GPU and model/network files
+    matcaffe_init(CNN_params.use_gpu, CNN_params.model_def_file, CNN_params.model_file); % initialize using or not GPU and model/network files
     nFold = length(folders);
     count_fold = 1;
     tic;
