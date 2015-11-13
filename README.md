@@ -1,5 +1,5 @@
 # SR-Clustering
-Semantic Segmentation of events in egocentric lifelogging videos.
+Semantic Segmentation of events in egocentric lifelogging photo streams.
 
 Requirements:
 
