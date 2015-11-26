@@ -32,6 +32,7 @@ function events = process_single_sequence_v2(folder, params)
 
     paramsfeatures.type = 'CNN'; %CNN ....
     paramsPCA.minVarPCA=0.95;
+% paramsPCA.minVarPCA=0.8;
     paramsPCA.standarizePCA=false;
     paramsPCA.usePCA_Clustering = true;
     
@@ -43,6 +44,9 @@ function events = process_single_sequence_v2(folder, params)
     %% GraphCuts parameters
     paramsPCA.usePCA_GC = false;
     window_len = 11;
+
+% window_len = 50;
+
     %% Evaluation parameters
     tol=5; % tolerance for the final evaluation  
 
@@ -67,28 +71,52 @@ function events = process_single_sequence_v2(folder, params)
     Nframes=length(files);
 
 
+
+% files = files(1:10:end);
+% Nframes = length(files);
+    
+
     %% Global Features
     if strcmp(paramsfeatures.type, 'CNN')
         if(load_features)
             load(path_features);
+
+
+
+% features = features(1:10:end,:);
+
+
             [features_norm] = signedRootNormalization(features);
         end
 
+	if(size(features,1) ~= Nframes)
+		error('The number of Global features does not match the number of images. TIP: remove the existent features file for re-calculation.');
+	end
+
         %PCA FEATURES
-        if(exist(path_features_PCA) > 0)
-            load(path_features_PCA);
-        else
+%         if(exist(path_features_PCA) > 0)
+%             load(path_features_PCA);
+%         else
             [ featuresPCA, ~, ~ ] = applyPCA( features_norm, paramsPCA ) ; 
             if(load_features) % if we wanted to load the stored features, then we will also store PCA features
                 save(path_features_PCA, 'featuresPCA');
             end
-        end
+%         end
     end
     
     %% Semantic Features
     if(params.use_semantic)
         if(load_features)
             load(path_semantic_features); % 'tag_matrix'
+        end
+	
+
+
+% tag_matrix = tag_matrix(:, 1:10:end);
+
+
+	if(size(tag_matrix,2) ~= Nframes)
+                error('The number of Semantic features does not match the number of images. TIP: remove the existent features file for re-calculation.');
         end
     else
         tag_matrix = [];
@@ -125,7 +153,9 @@ function events = process_single_sequence_v2(folder, params)
         if (exist('automatic2','var')==0)
             automatic2=0;
         end
-       
+      
+automatic2
+ 
         % Normalize distances
         dist2mean = normalizeAll(dist2mean);
         %dist2mean = signedRootNormalization(dist2mean')';

@@ -11,11 +11,28 @@ array(m)= str2num(filenumber{1});
 m=m+1;
 end
 end
-[~,textA] = xlsread(excelfile);
-[f,c]=size(textA);
-eventsString = textA(3:f,2);
-eventsString = eventsString(arrayfun(@(x) ~strcmp(x,''),eventsString));
+
+%%% Read GT file segments
+[~,~,format] = fileparts(excelfile);
+
+if(strcmp(format, '.xls'))
+	[~,textA] = xlsread(excelfile);
+	[f,c]=size(textA);
+	eventsString = textA(2:f,2);
+	eventsString = eventsString(arrayfun(@(x) ~strcmp(x,''),eventsString));
+elseif(strcmp(format, '.csv') || strcmp(format, '.txt'))
+	textA = fileread(excelfile);
+	eventsString = regexp(textA, '\n', 'split');
+	eventsString = regexprep(eventsString, ',', ' ');
+	if(isempty(eventsString{end}))
+		eventsString = {eventsString{1:end-1}};
+	end
+	eventsString = eventsString';
+else
+	error('Incorrect GT file format. Only .csv, .txt or .xls are valid formats.');
+end
 num_clustauto_def=length(eventsString);
+
 
 
 for i=1:num_clustauto_def

@@ -37,17 +37,18 @@ def main():
 		
 	    for i in range(ini,nList):
 			img_name = ntpath.basename(list_imgs[i])
+		
+			if(not os.path.isfile(result_dir + '/' + img_name + '.json')):
+				# Upload Image and get JSON tagging result
+				tags = req(list_imgs[i], auth, endpoint)
 				
-			# Upload Image and get JSON tagging result
-			tags = req(list_imgs[i], auth, endpoint)
+				# Post-process JSON data
+				tags = postProcessJSON(tags)
 				
-			# Post-process JSON data
-			tags = postProcessJSON(tags)
-				
-			# Store data
-			text_file = open(result_dir + '/' + img_name + '.json', "w")
-			text_file.write("%s" % tags)
-			text_file.close()
+				# Store data
+				text_file = open(result_dir + '/' + img_name + '.json', "w")
+				text_file.write("%s" % tags)
+				text_file.close()
 			
 			# Show progress
 			if((i+1)%50 == 0 or (i+1) == nList):

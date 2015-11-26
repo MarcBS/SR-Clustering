@@ -12,12 +12,13 @@ function [ features ] = extractSemanticFeaturesDemo( folder, format, Semantic_pa
     [folder_path, folder_name, ~] = fileparts(folder);
 
     % Create temporal directory for storing data
-    if(exist(tmp_dir, 'dir'))
+    if(~exist([tags_dir '/' folder_name], 'dir'))
         rmdir(tmp_dir, 's');
+
+	mkdir(tmp_dir);
+        mkdir(tags_dir);
+        mkdir(list_clusters_dir);
     end
-    mkdir(tmp_dir);
-    mkdir(tags_dir);
-    mkdir(list_clusters_dir);
     
     % File for handling the tagging connection errors
     errors_file = [tmp_dir '/errors_file.txt'];
@@ -49,6 +50,7 @@ function [ features ] = extractSemanticFeaturesDemo( folder, format, Semantic_pa
     fclose(f);
     
     disp('Requesting image tags to IMAGGA (this operation may take some minutes)...');
+    disp(['    Check ' tmp_dir '/' log_file ' for details.']);
     cd(path_concept_detector);
     system(['nohup python -u ' tmp_script ' >' tmp_dir '/' log_file ' 2>&1']);
     cd(this_path);
@@ -85,6 +87,7 @@ function [ features ] = extractSemanticFeaturesDemo( folder, format, Semantic_pa
     fclose(f);
     
     disp('Requesting again failed connections to IMAGGA...');
+    disp(['    Check ' tmp_dir '/' log_file ' for details.']);
     cd(path_concept_detector);
     system(['nohup python -u ' tmp_script ' >' tmp_dir '/' log_file ' 2>&1']);
     cd(this_path);
@@ -116,6 +119,7 @@ function [ features ] = extractSemanticFeaturesDemo( folder, format, Semantic_pa
     fclose(f);
     
     disp('Calculating word similarity and forming BoW...');
+    disp(['    Check ' tmp_dir '/' log_file ' for details.']);    
     cd(path_concept_detector);
     system(['nohup python -u ' tmp_script ' >' tmp_dir '/' log_file ' 2>&1']);
     cd(this_path);

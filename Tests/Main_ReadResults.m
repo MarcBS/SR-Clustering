@@ -31,9 +31,11 @@ unary_weights = linspace(0,1,nUnaryWeights);
 
 %% Data loading
 % directorio_im = 'D:/LIFELOG_DATASETS'; % SHARED PC
-directorio_im = '/media/HDD_2TB/DATASETS/LIFELOG_DATASETS'; % SHARED PC
+% directorio_im = '/media/HDD_2TB/DATASETS/LIFELOG_DATASETS'; % SHARED PC
 % directorio_im = '/Volumes/SHARED HD/Video Summarization Project Data Sets/R-Clustering'; % MARC PC
 % directorio_im='/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Sets'; % EST PC
+% directorio_im = '/media/HDD_2TB/R-Clustering/Demo/test_data'; 
+directorio_im = '/media/HDD_2TB/DATASETS/Peleg_data';
 
 % directorio_im = ''; % put your own datasets location
 
@@ -47,11 +49,13 @@ directorio_im = '/media/HDD_2TB/DATASETS/LIFELOG_DATASETS'; % SHARED PC
 
 camera = {'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'Narrative', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam', 'SenseCam'};
 % folders = {'Maya1', 'Maya2', 'Maya3', 'Marc1', 'Estefania3'};
-folders = {'Maya1', 'Maya2', 'Maya3', 'Marc1', 'Estefania1', 'Estefania2', 'Estefania3', 'Petia1', 'Petia2', 'Mariella'};
+% folders = {'Maya1', 'Maya2', 'Maya3', 'Marc1', 'Estefania1', 'Estefania2', 'Estefania3', 'Petia1', 'Petia2', 'Mariella'};
 % folders = {'Maya1', 'Maya2', 'Maya3', 'Marc1', 'Estefania1', 'Estefania2', 'Estefania3', 'Petia1', 'Petia2', 'Mariella', 'Day1','Day2','Day3','Day4','Day6'};
 formats = {'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.JPG','.JPG','.JPG','.JPG','.JPG'};
 
-% folders = {'Maya1'};
+% folders = {'Chetan_MergedFolders', 'Yair_MergedFolders'};
+% folders = {'Chetan_MergedFolders', 'Yair_MergedFoldersAll'};
+folders = {'FramesVideo_Huji_Yair_Sitting_Eating1'};
 
 % directorio_results = 'D:/R-Clustering_Results'; % SHARED PC
 % directorio_results = '/Volumes/SHARED HD/R-Clustering Results'; % MARC PC
@@ -59,11 +63,13 @@ formats = {'.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg', '.jpg
 % directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v2';  % LSDA GC only
 % directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v2_allLSDA';  % LSDA everywhere
 % directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v3';  % IMAGGA
-directorio_results = '/media/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v3_smoothed';  % IMAGGA smoothed
+% directorio_results = '/media/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v3_smoothed';  % IMAGGA smoothed
 % directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-Clustering_Results_concepts_v3_smoothed_50';  % IMAGGA smoothed 50
 % directorio_results = '/media/lifelogging/HDD_2TB/R-Clustering_Data/R-ClusteringResultsMOPCNN';  % MOP results
 % directorio_results = '/Users/estefaniatalaveramartinez/Desktop/LifeLogging/IbPRIA/Results'; % EST PC
 % directorio_results = ''; % put your own results location
+% directorio_results = '/media/HDD_2TB/R-Clustering_Data/R-Clustering_Results_short_Peleg';
+directorio_results = '/media/HDD_2TB/R-Clustering_Data/R-Clustering_Results_long_Peleg';
 
 final_results = [directorio_results '/FinalResults/'];
 mkdir(final_results);

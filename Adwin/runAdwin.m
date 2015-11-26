@@ -5,6 +5,7 @@ function [labels,dist2mean] = runAdwin(data, fi, p)
 
 epsilon= 1; % epsilon, 1 - sensitive segmentation; 0 - robust segmentation;
 
+% epsilon = 0;
 
 [w, indexes]=k_dim_segmentation(data,fi, p, epsilon);
 

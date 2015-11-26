@@ -1,1 +1,8 @@
 *~
+Concept_Detector/tmp/
+out_*
+Concept_Detector/*_tmp.py
+Demo/Features/
+Demo/Plot_Results/
+Demo/Results/
+Demo/tmp_demo.m

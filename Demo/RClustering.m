@@ -98,6 +98,11 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
     cd(path_here)
 
     num_clusters = max(events);
+
+
+%files = files(1:10:end);
+
+
     nFrames = length(files);
 
     result_data = cell(1, num_clusters);
@@ -148,7 +153,7 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
     
     
     %% Prepare output R-Clustering result
-    segmentation = cell(1, num_clusters);
+    segmentation = {};
     
     % Store result it in a .csv file
     segmentation_file = [data_params.RC_results_path '/result_' folder_name '.csv'];
@@ -159,7 +164,8 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
         line = ['Segment_' num2str(s)];
         for i = 1:nImgs
             img_name = files(result_data{s}(i)).name;
-            segmentation{s} = {segmentation{s}, img_name};
+            segmentation{s}{i} = img_name;
+%             segmentation{s} = {segmentation{s}, img_name};
             line = [line ',' img_name];
         end
         fprintf(f, [line '\n']);

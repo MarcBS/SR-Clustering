@@ -30,10 +30,10 @@ R_Clustering_params.cut_indx_use = 0.8; % (Narrative Semantic 0.8 best, All Non-
 
 %%% GT weight values
 R_Clustering_params.W_unary = 0.1;      % 0 <= W_unary <= 1  (Narrative Semantic 0.1 best, All Non-Semantic 1 best)
-R_Clustering_params.W_pairwise = 0.6;   % 0.00001 <= W_pairwise <= 1  (Narrative Semantic 0.6 best, All Non-Semantic 0.5 best)
+R_Clustering_params.W_pairwise = 1;   % 0.00001 <= W_pairwise <= 1  (Narrative Semantic 0.6 best, All Non-Semantic 0.5 best)
 
 %%% Features used
-R_Clustering_params.features_used = 1; % 1 --> Global CNN only, 2 ---> Global and Semantic
+R_Clustering_params.features_used = 2; % 1 --> Global CNN only, 2 ---> Global and Semantic
 
 
 %% CNN parameters (Global Features)
