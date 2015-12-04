@@ -61,8 +61,9 @@ function extractCNNFeatures( data_path, folders, cameras, formats, CNN_params )
         count_fold = count_fold+1;
     end
     toc
+  
+    caffe('reset');
+  
     cd(this_path)
-
-
 end
 

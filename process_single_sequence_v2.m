@@ -56,7 +56,12 @@ function events = process_single_sequence_v2(folder, params)
     [~, folder_name, ~] = fileparts(folder);
     path_features = [params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.mat'];
     path_features_PCA = [params.features_path '/CNNfeatures/CNNfeaturesPCA_' folder_name '.mat'];
-    path_semantic_features = [params.features_path '/SemanticFeatures/SemanticFeatures_' folder_name '.mat'];
+
+    if(params.semantic_type == 2) % IMAGGA
+        path_semantic_features = [params.features_path '/SemanticFeatures/SemanticFeatures_' folder_name '.mat'];
+    elseif(params.semantic_type == 3) % LSDA
+        path_semantic_features = [params.features_path '/SemanticFeatures/SemanticFeaturesLSDA_' folder_name '.mat'];
+    end
     
     %% Images
     files_aux=dir([fichero '/*' formats]);
@@ -109,14 +114,13 @@ function events = process_single_sequence_v2(folder, params)
         if(load_features)
             load(path_semantic_features); % 'tag_matrix'
         end
-	
-
-
-% tag_matrix = tag_matrix(:, 1:10:end);
-
+	tag_matrix_GC = tag_matrix;	
 
 	if(size(tag_matrix,2) ~= Nframes)
                 error('The number of Semantic features does not match the number of images. TIP: remove the existent features file for re-calculation.');
+        end
+	if(params.semantic_type == 3)
+            tag_matrix = [];
         end
     else
         tag_matrix = [];
@@ -154,7 +158,6 @@ function events = process_single_sequence_v2(folder, params)
             automatic2=0;
         end
       
-automatic2
  
         % Normalize distances
         dist2mean = normalizeAll(dist2mean);
@@ -212,9 +215,9 @@ automatic2
                 
                 %% PCA
                 if(paramsPCA.usePCA_GC && strcmp(paramsfeatures.type, 'CNN'))
-                    features_GC = [featuresPCA, tag_matrix'];
+                    features_GC = [featuresPCA, tag_matrix_GC'];
                 else
-                    features_GC = [features, tag_matrix'];
+                    features_GC = [features, tag_matrix_GC'];
                 end
                 
                 [features_GC, ~, ~] = normalize(features_GC);

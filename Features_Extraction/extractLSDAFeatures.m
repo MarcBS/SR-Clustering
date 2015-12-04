@@ -1,14 +1,25 @@
-function extractLSDAFeatures( path_src, file, path_dest, version, doplot, top_plots )
+%function extractLSDAFeatures( path_src, file, path_dest, version, doplot, top_plots )
+
+function [ LSDAfeatures, results, classes_names ] = extractLSDAFeatures(folder, format, Semantic_params) 
 %EXTRACTLSDAFEATURESS Extract features using the LSDA object detection and
 %recognition algorithm by building a semantical scores vector for each
 %image.
 
+
+    %% runLSDA.m
+    results = runLSDA(folder, format, Semantic_params);
+    
+    [~, set_name, ~] = fileparts(folder);
+    doplot = false;
+
+    version = 2;
+
     %% Load
-    load([path_src '/' file]); % results
-    set_name = regexp(file, '_', 'split');
-    set_name = set_name{2};
-    set_name = regexp(set_name, '\.', 'split');
-    set_name = set_name{1};
+%     load([path_src '/' file]); % results
+%     set_name = regexp(file, '_', 'split');
+%     set_name = set_name{2};
+%     set_name = regexp(set_name, '\.', 'split');
+%     set_name = set_name{1};
 
     classes_original_IDs = [];
     classes_names = {};
@@ -94,10 +105,10 @@ function extractLSDAFeatures( path_src, file, path_dest, version, doplot, top_pl
         end
     end
 
-    LSDAfeatures = found_classes(sort_counts, :)';
-    save([path_dest '/LSDAfeatures_' set_name '_v' num2str(version) '.mat'], 'LSDAfeatures');
+    LSDAfeatures = found_classes(sort_counts, :);
+%     save([path_dest '/LSDAfeatures_' set_name '_v' num2str(version) '.mat'], 'LSDAfeatures');
     % Save also classes names (for further analysis)
     classes_names = {classes_names{sort_counts}};
-    save([path_dest '/LSDAfeatures_' set_name '_classes_names.mat'], 'classes_names');
+%     save([path_dest '/LSDAfeatures_' set_name '_classes_names.mat'], 'classes_names');
 
 end

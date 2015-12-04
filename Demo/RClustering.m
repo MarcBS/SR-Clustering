@@ -60,7 +60,7 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
     end
     
     %% Check if semantic features are computed
-    if(R_Clustering_params.features_used == 2)
+    if(R_Clustering_params.features_used == 2) % IMAGGA's features
         params.use_semantic = true;
         path_semantic = [data_params.features_path '/SemanticFeatures/SemanticFeatures_' folder_name '.mat'];
         if(~exist(path_semantic, 'file'))
@@ -71,9 +71,22 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
             save([this_feat_path '/SemanticFeatures_' folder_name '.mat'], 'tag_matrix');
             clear tag_matrix;
         end
+    elseif(R_Clustering_params.features_used == 3) % LSDA's features
+        params.use_semantic = true;
+        path_semantic = [data_params.features_path '/SemanticFeatures/SemanticFeaturesLSDA_' folder_name '.mat'];
+        if(~exist(path_semantic, 'file'))
+            % Compute Semantic features
+            disp(['Extracting Semantic features of folder ' folder_name]);
+            [tag_matrix, resultsLSDA, tag_names] = extractLSDAFeatures(folder, format, Semantic_params);
+            this_feat_path = [data_params.features_path '/SemanticFeatures'];
+            save([this_feat_path '/SemanticFeaturesLSDA_' folder_name '.mat'], 'tag_matrix');
+	    save([this_feat_path '/LSDA_' folder_name '.mat'], 'resultsLSDA');
+            clear tag_matrix;
+        end
     else
         params.use_semantic = false;
     end
+    params.semantic_type = R_Clustering_params.features_used;
 
 
     %% APPLY R-CLUSTERING

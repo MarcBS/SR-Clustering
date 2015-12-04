@@ -1,5 +1,5 @@
 
-addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_Detector;../Concept_Detector/fastsmooth');
+addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_Detector;../Concept_Detector/fastsmooth;../LSDA');
 
 %%%%%%%%%%% Parameters %%%%%%%%%%%
 
@@ -17,7 +17,9 @@ data_params.RC_plot_results_path = [pwd '/Plot_Results'];
 
 % Agglomerative clustering distance criterion
 % methods_indx={'ward', 'complete','centroid','average','single','weighted','median'};
-R_Clustering_params.methods_indx = 'complete'; % (Narrative Semantic 'complete' best, All Non-Semantic 'single' best)
+R_Clustering_params.methods_indx = 'single'; 	% Narrative Semantic (Imagga) 'complete'
+						% Narrative LSDA 'single'
+						% All Non-Semantic 'single'
 
 % R-Clustering combined methods
 R_Clustering_params.clus_type = 'Both1'; % Clustering type used before the GraphCuts. 
@@ -26,14 +28,24 @@ R_Clustering_params.clus_type = 'Both1'; % Clustering type used before the Graph
                         %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
 
 %%% Cut values used
-R_Clustering_params.cut_indx_use = 0.8; % (Narrative Semantic 0.8 best, All Non-Semantic 0.2 best)
+R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.8
+					% Narrative LSDA 0.4
+					% All Non-Semantic 0.2
 
 %%% GT weight values
-R_Clustering_params.W_unary = 0.1;      % 0 <= W_unary <= 1  (Narrative Semantic 0.1 best, All Non-Semantic 1 best)
-R_Clustering_params.W_pairwise = 1;   % 0.00001 <= W_pairwise <= 1  (Narrative Semantic 0.6 best, All Non-Semantic 0.5 best)
+R_Clustering_params.W_unary = 0.9;	% 0 <= W_unary <= 1  
+						% Narrative Semantic (Imagga) 0.1
+						% Narrative LSDA 0.9
+						% All Non-Semantic 1
+R_Clustering_params.W_pairwise = 1;   	% 0.00001 <= W_pairwise <= 1  
+						% Narrative Semantic 0.6 
+						% Narrative LSDA 1
+						% All Non-Semantic 0.5
 
 %%% Features used
-R_Clustering_params.features_used = 2; % 1 --> Global CNN only, 2 ---> Global and Semantic
+R_Clustering_params.features_used = 3; 	% 1 -> Global CNN only
+					% 2 -> Global and Semantic (IMAGGA)
+					% 3 -> Global and Semantic (LSDA)
 
 
 %% CNN parameters (Global Features)
@@ -64,6 +76,9 @@ Semantic_params.times_std_under = 1; % the smaller, the more we filter
 % Smoothing
 Semantic_params.use_smoothing = true;
 Semantic_params.smoothing_param = 10;
+
+% LSDA
+Semantic_params.path_lsda_repository = '../LSDA/lsda';
 
 
 %% Plot results parameters
