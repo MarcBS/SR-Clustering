@@ -1,5 +1,5 @@
 
-function [ tag_matrix ] = analyzeIMAGGAoutput(tags_path, folder, bag_of_tags_path, Semantic_params)
+function [ tag_matrix, tags_results, complete_scores, complete_tags ] = analyzeIMAGGAoutput(tags_path, folder, bag_of_tags_path, Semantic_params)
 
     %% Parameters
     [folder_path, folder_name, ~] = fileparts(folder);
@@ -15,12 +15,12 @@ function [ tag_matrix ] = analyzeIMAGGAoutput(tags_path, folder, bag_of_tags_pat
     
 
     %% Analyse the folder
-    disp(['Reading bag of words from folder ' folder_name '.']);
+    disp(['Reading clusters from folder ' folder_name '.']);
 
     BoW = fileread([bag_of_tags_path '/list_' folder_name '.txt']);
     BoW = regexp(BoW, '\n', 'split');
     nWords = length(BoW)-1;
-    disp([num2str(nWords) ' words in BoW.']);
+    disp([num2str(nWords) ' clusters in graph.']);
     words = {};
     lists = {};
     for w = 1:nWords
@@ -38,9 +38,15 @@ function [ tag_matrix ] = analyzeIMAGGAoutput(tags_path, folder, bag_of_tags_pat
     imgs_list = imgs_list(arrayfun(@(x) x.name(1) ~= '.', imgs_list));
     nJSON = length(imgs_list);
     % Matrix for storing all the scores
-    scores = zeros(nJSON,0);
-    % Cell for storing all the tags
+    scores = zeros(nJSON,100);
+    % Cell for storing all the tags (after the clustering)
     all_tags = {};
+    % Cell for storing the complete list of tags available
+    complete_tags = {};
+    complete_scores = zeros(nJSON, 2000);
+
+    nFound = 0;
+    nFound_complete = 0;
 
     for i = 1:nJSON
         json = fileread([tags_path '/' folder_name '/' imgs_list(i).name]);
@@ -61,27 +67,42 @@ function [ tag_matrix ] = analyzeIMAGGAoutput(tags_path, folder, bag_of_tags_pat
             this_tag = regexp(tags{j}, '"', 'split');
             this_tag = this_tag{1};
 
-        pos_bow = 0;
-        w = 1;
-        while(pos_bow == 0 && w <= nWords)
-        pos_bow = sum(ismember(lists{w}, this_tag));
-        w = w+1;
-        end
-        w = w-1;
-
-        if(w <= nWords)
-        this_tag = words{w};
-
-            pos = find(ismember(all_tags, this_tag));
-            if(isempty(pos))
-                pos = size(scores,2)+1;
-                all_tags{pos} = this_tag;
+            pos_bow = 0;
+            w = 1;
+            while(pos_bow == 0 && w <= nWords)
+            	pos_bow = sum(ismember(lists{w}, this_tag));
+            	w = w+1;
             end
-            scores(i,pos) = these_confidences(j-1);
-        end
+            w = w-1;
+
+	    keep_this_tag = this_tag;
+            if(w <= nWords)
+            	this_tag = words{w};
+
+            	pos = find(ismember(all_tags, this_tag));
+            	if(isempty(pos))
+%                    pos = size(scores,2)+1;
+		    nFound = nFound+1;
+		    pos = nFound;
+                    all_tags{pos} = this_tag;
+            	end
+            	scores(i,pos) = these_confidences(j-1);
+            end
+
+	    % Insert into complete list of tags and scores
+	    pos = find(ismember(complete_tags, keep_this_tag));
+	    if(isempty(pos))
+		nFound_complete = nFound_complete+1;
+		pos = nFound_complete;
+		complete_tags{pos} = keep_this_tag;
+	    end
+	    complete_scores(i,pos) = these_confidences(j-1);
         end
     end
+    scores = scores(:,1:length(all_tags));
     found_classes = scores';
+
+    complete_scores = complete_scores(:,1:length(complete_tags))';
 
     %% Normalize
     found_classes = normalize(found_classes')';
@@ -103,6 +124,7 @@ function [ tag_matrix ] = analyzeIMAGGAoutput(tags_path, folder, bag_of_tags_pat
 
     %% Smooth top classes
     this_classes = found_classes(sort_counts(1:end), :);
+    tags_results = {all_tags{sort_counts}};
     if(use_smoothing)
         height = size(this_classes, 1);
         for j = 1:height

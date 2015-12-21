@@ -12,19 +12,41 @@
 % ini: initial image for the video extraction (0 if source_type == images)
 % labels_text: labels assigned to each of the events (leave empty [] for
 %               not writing it).
-function [ gen_image ] = summaryImage( props, num_clusters, n_summaryImages, result_data, fileList, source, source_type, ini, labels_text )
+function [ gen_image ] = summaryImage( props, num_clusters, n_summaryImages, result_data, fileList, source, source_type, ini, labels_text, semantic, semantic_tags )
+
+    top_sem = 8;
+    space_labels_horizontal = 20;
+    if(nargin < 10)
+	semantic = [];
+    end
+    if(~isempty(semantic))
+	use_semantic = true;
+	space_labels = 30;
+    else
+	use_semantic = false;
+	space_labels = 0;
+    end
 
     border = 8;
 
     if(isempty(labels_text))
-        gen_image = uint8(ones((props(1)+border)*num_clusters, props(2)*n_summaryImages, 3)*255);
+        gen_image = uint8(ones((props(1)+border+space_labels)*num_clusters, props(2)*n_summaryImages, 3)*255);
     else
-        gen_image = uint8(ones((props(1)+border)*num_clusters, props(2)*(n_summaryImages+1), 3)*255);
+        gen_image = uint8(ones((props(1)+border+space_labels)*num_clusters, props(2)*(n_summaryImages+1), 3)*255);
     end
     
     for i = 1:num_clusters
         this_c = result_data{i};
-        n_elems = length(this_c);
+	n_elems = length(this_c);
+
+	if(use_semantic)
+	    sem = semantic(:, this_c);
+	    sem = sum(sem,2)/n_elems;
+	    [vsem,psem] = sort(sem, 'descend');
+	    this_tags = {semantic_tags{psem(1:top_sem)}};
+	    this_tags_values = vsem(1:top_sem);
+	end
+
         if(n_elems < n_summaryImages)
             num_sum = n_elems;
             jump = 1;
@@ -59,8 +81,8 @@ function [ gen_image ] = summaryImage( props, num_clusters, n_summaryImages, res
                     im = read(fileList, (ini + this_c(j*jump)));
                 end
                 im = imresize(im, props);
-                x1 = ((i-1)*(props(1)+border)+1);
-                x2 = (i*props(1)+(i-1)*border);
+                x1 = ((i-1)*(props(1)+border+space_labels)+1);
+                x2 = (i*props(1)+(i-1)*border+(i-1)*space_labels);
                 y1 = ((j-1)*props(2)+1);
                 y2 = (j*props(2));
                 gen_image( x1:x2, y1:y2, 1 ) = im(:,:,1);
@@ -68,6 +90,29 @@ function [ gen_image ] = summaryImage( props, num_clusters, n_summaryImages, res
                 gen_image( x1:x2, y1:y2, 3 ) = im(:,:,3);
             end
         end
+
+	% Show tags
+	if(use_semantic)
+	    t = strjoin(this_tags, ', ');
+            x2 = (i*props(1)+(i-1)*border+(i-1)*space_labels);
+            y1 = 1;
+            htxtins = vision.TextInserter(t);
+            htxtins.Color = [0, 0, 0]; % [red, green, blue]
+            htxtins.FontSize = 20;
+            htxtins.Location = [y1+border x2+border]; % [x y]
+	    gen_image = step(htxtins, gen_image);
+%	    for j = 1:top_sem
+%		x1 = ((i-1)*(props(1)+border+space_labels)+1);
+%                x2 = (i*props(1)+(i-1)*border+(i-1)*space_labels);
+%                y1 = ((j-1)*props(2)+1)+(j-1)*space_labels_horizontal;
+%                y2 = (j*props(2))+(j-1)*space_labels_horizontal;
+%		htxtins = vision.TextInserter([' ' this_tags{j}]);
+%		htxtins.Color = [0, 0, 0]; % [red, green, blue]
+%                htxtins.FontSize = 20;
+%		htxtins.Location = [y1+border x2+border]; % [x y]
+%                gen_image = step(htxtins, gen_image);
+%	    end
+	end
     end
 
 end

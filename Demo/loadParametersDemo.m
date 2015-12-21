@@ -33,11 +33,12 @@ R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.8
 					% All Non-Semantic 0.2
 
 %%% GT weight values
-R_Clustering_params.W_unary = 0.9;	% 0 <= W_unary <= 1  
+R_Clustering_params.W_unary = 0.9;		% 0 <= W_unary <= 1  
 						% Narrative Semantic (Imagga) 0.1
 						% Narrative LSDA 0.9
 						% All Non-Semantic 1
-R_Clustering_params.W_pairwise = 1;   	% 0.00001 <= W_pairwise <= 1  
+
+R_Clustering_params.W_pairwise = 1;   		% 0.00001 <= W_pairwise <= 1  
 						% Narrative Semantic 0.6 
 						% Narrative LSDA 1
 						% All Non-Semantic 0.5

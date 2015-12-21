@@ -1,4 +1,4 @@
-function [ features ] = extractSemanticFeaturesDemo( folder, format, Semantic_params )
+function [ features, tags_names, scores_complete, tags_complete ] = extractSemanticFeaturesDemo( folder, format, Semantic_params )
 %EXTRACTSEMANTICFEATURESDEMO Extracts semantic features for the files
 %passed by parameter.
 
@@ -94,7 +94,7 @@ function [ features ] = extractSemanticFeaturesDemo( folder, format, Semantic_pa
     disp('Done requesting tags with errors.');
     
     
-    %% Calculate word similarity and BoW running Word_Similarity.py
+    %% Calculate word similarity and Graph running Word_Similarity.py
     tmp_script = 'Word_Similarity_tmp.py';
     log_file = 'Word_Similarity_log.txt';
     text = fileread([path_concept_detector '/Word_Similarity.py']);
@@ -118,18 +118,18 @@ function [ features ] = extractSemanticFeaturesDemo( folder, format, Semantic_pa
     fprintf(f, text);
     fclose(f);
     
-    disp('Calculating word similarity and forming BoW...');
+    disp('Calculating word similarity and forming Graph...');
     disp(['    Check ' tmp_dir '/' log_file ' for details.']);    
     cd(path_concept_detector);
     system(['nohup python -u ' tmp_script ' >' tmp_dir '/' log_file ' 2>&1']);
     cd(this_path);
-    disp('Done calculating BoW.');
+    disp('Done calculating Semantic Similarity Graph.');
     
     
     %% Create tag_matrix applying Density Estimation and filtering after 
-    % joining the confidences from all elements in each BoW
+    % joining the confidences from all elements in each Cluster
     disp('Applying Density Estimation...');
-    features = analyzeIMAGGAoutput(tags_dir, folder, list_clusters_dir, Semantic_params);
+    [features, tags_names, scores_complete, tags_complete] = analyzeIMAGGAoutput(tags_dir, folder, list_clusters_dir, Semantic_params);
     disp('Done preparing semantic features.');
     
 end
