@@ -18,7 +18,9 @@ Requirements:
 
 If you use this code, please cite the following papers:
 
-	New paper announced soon...
+	Dimiccoli, M., Bolaños, M., Talavera, E., Aghaei, M., Nikolov, S. & Radeva, P. (2015) 
+	"SR-Clustering: Semantic Regularized Clustering for Egocentric Photo Streams Segmentation". 
+	Submitted to Pattern Recognition. Pre-print: http://arxiv.org/abs/1512.07143
 
         Talavera, E., Dimiccoli, M., Bolaños, M., Aghaei, M., & Radeva, P. (2015).
         “R-Clustering for Egocentric Video Segmentation”. 
