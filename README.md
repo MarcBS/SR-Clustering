@@ -26,4 +26,4 @@ If you use this code, please cite the following papers:
         “R-Clustering for Egocentric Video Segmentation”. 
         In 7th Iberian Conference on Pattern Recognition and Image Analysis (IbPRIA).
 
-Use code in Demo folder for a simple execution of our SR-Clustering algorithm (read before execution Demo/README.txt).
+Use code in Demo folder for a simple execution of our SR-Clustering algorithm (read Demo/README.txt before execution).
