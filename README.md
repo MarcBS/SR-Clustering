@@ -18,10 +18,12 @@ Requirements:
 
 If you use this code, please cite the following papers:
 
-	New paper announced soon...
+        Dimiccoli, M., Bolaños, M., Talavera, E., Aghaei, M., Nikolov, S. & Radeva, P. (2015) 
+        "SR-Clustering: Semantic Regularized Clustering for Egocentric Photo Streams Segmentation". 
+        Submitted to Pattern Recognition. Pre-print: http://arxiv.org/abs/1512.07143
 
         Talavera, E., Dimiccoli, M., Bolaños, M., Aghaei, M., & Radeva, P. (2015).
         “R-Clustering for Egocentric Video Segmentation”. 
         In 7th Iberian Conference on Pattern Recognition and Image Analysis (IbPRIA).
 
-Use code in Demo folder for a simple execution of our SR-Clustering algorithm (read before execution Demo/README.txt).
+Use code in Demo folder for a simple execution of our SR-Clustering algorithm (read Demo/README.txt before execution).
