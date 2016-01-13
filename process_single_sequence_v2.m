@@ -123,6 +123,7 @@ function events = process_single_sequence_v2(folder, params)
             tag_matrix = [];
         end
     else
+	tag_matrix_GC = [];
         tag_matrix = [];
     end
     
