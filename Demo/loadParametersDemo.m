@@ -87,7 +87,7 @@ Semantic_params.path_lsda_repository = '../LSDA/lsda';
 %% Plot results parameters
 
 % Minimum #images allowed per segment when plotting
-plot_params.min_imgs_event = 1%9;
+plot_params.min_imgs_event = 1;%9;
 
 % Proportions for plot purposes
 plot_params.prop_div = 20;
