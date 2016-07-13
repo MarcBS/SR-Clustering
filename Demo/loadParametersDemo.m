@@ -51,23 +51,25 @@ R_Clustering_params.features_used = 3; 	% 1 -> Global CNN only
 
 %% CNN parameters (Global Features)
 % Installation-dependent
-CNN_params.caffe_path = '/usr/local/caffe-master2/matlab/caffe'; % installation path
 CNN_params.use_gpu = 1;
-% Model-dependent
-CNN_params.batch_size = 10; % Depending on the deploy net structure!!
-CNN_params.model_file = '/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
+CNN_params.batch_size = 40; % Depending on the deploy net structure!!
+CNN_params.model_file ='/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
 CNN_params.size_features = 4096;
+CNN_params.caffe_path = '/usr/local/caffe-master2/matlab/caffe'; % installation path
+
+% Model-dependent
 CNN_params.parallel = false; % allow loading images in parallel
 CNN_params.mean_file = '../Utils/ilsvrc_2012_mean.mat';
 
 [structure_path, ~, ~] = fileparts(pwd);
 CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.prototxt'];
+%CNN_params.model_def_file = '../../models/bvlc_reference_caffenet/deploy_signed_features.prototxt';
 
 
 %% Semantic Features parameters
 Semantic_params.endpoint = 'https://api.imagga.com/v1'; % link to Imagga's API
-Semantic_params.api_key = 'enter_key'; % API key of IMAGGA account
-Semantic_params.api_secret = 'enter_password'; % API password of IMAGGA account
+Semantic_params.api_key = 'imagga_key'; % API key of IMAGGA account
+Semantic_params.api_secret = 'imagga_secret'; % API password of IMAGGA account
 
 % Filters all tags with a mean value over or under times_std
 Semantic_params.filter_tags_high_mean = true;
@@ -85,14 +87,14 @@ Semantic_params.path_lsda_repository = '../LSDA/lsda';
 %% Plot results parameters
 
 % Minimum #images allowed per segment when plotting
-plot_params.min_imgs_event = 9;
+plot_params.min_imgs_event = 1%9;
 
 % Proportions for plot purposes
 plot_params.prop_div = 20;
 
 % Which plots apply?
 % {image whole dataset,   image per segment,    single images splitted by segments in folders}
-plot_params.doPlots = {true, false, false};
+plot_params.doPlots = {true, false, true};
 
 
 %% Create some folders for results
