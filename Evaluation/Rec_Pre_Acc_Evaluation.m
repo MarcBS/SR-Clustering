@@ -17,7 +17,7 @@ else
     rec = TP/(TP+FN);
 end
 %Accuracy
-if TP+TN+FP+FN == 0a
+if TP+TN+FP+FN == 0
     acc=0;
 else
     acc = (TP+TN)/(TP+TN+FP+FN);

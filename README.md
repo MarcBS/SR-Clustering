@@ -10,7 +10,7 @@ Requirements:
 	2) IMAGGA account (for semantic features calculation)
 		http://www.imagga.com/
 	2) [ALTERNATIVE] if using LSDA instead of IMAGGA, download and install the needed files to ./LSDA from the GitHub repository
-		https://github.com/jhoffman/lsda
+		[https://github.com/jhoffman/lsda](https://github.com/jhoffman/lsda)
 	3) Compile files in GCMex for your system.
 	4) MATLAB
 	5) [IMAGGA only] Python 2.7 (with nltk libraries)
