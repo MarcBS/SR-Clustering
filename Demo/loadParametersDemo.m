@@ -17,45 +17,45 @@ data_params.RC_plot_results_path = [pwd '/Plot_Results'];
 
 % Agglomerative clustering distance criterion
 % methods_indx={'ward', 'complete','centroid','average','single','weighted','median'};
-R_Clustering_params.methods_indx = 'single'; 	% Narrative Semantic (Imagga) 'complete'
-						% Narrative LSDA 'single'
-						% All Non-Semantic 'single'
+R_Clustering_params.methods_indx = 'centroid';  % Narrative Semantic (Imagga) 'centroid'
+                                                % Narrative LSDA 'single'
+                                                % All Non-Semantic 'single'
 
 % R-Clustering combined methods
-R_Clustering_params.clus_type = 'Both1'; % Clustering type used before the GraphCuts. 
-                        % It can take the following values:
-                        %   'Clustering' : Clustering + GC
-                        %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
+R_Clustering_params.clus_type = 'Both1';    % Clustering type used before the GraphCuts. 
+                                            % It can take the following values:
+                                            %   'Clustering' : Clustering + GC
+                                            %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
 
 %%% Cut values used
-R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.8
-					% Narrative LSDA 0.4
-					% All Non-Semantic 0.2
+R_Clustering_params.cut_indx_use = 0.2; % Narrative Semantic (Imagga) 0.2
+                                        % Narrative LSDA 0.4
+                                        % All Non-Semantic 0.2
 
 %%% GT weight values
-R_Clustering_params.W_unary = 0.9;		% 0 <= W_unary <= 1  
-						% Narrative Semantic (Imagga) 0.1
-						% Narrative LSDA 0.9
-						% All Non-Semantic 1
+R_Clustering_params.W_unary = 0.9;      % 0 <= W_unary <= 1  
+                                        % Narrative Semantic (Imagga) 0.9
+                                        % Narrative LSDA 0.9
+                                        % All Non-Semantic 1
 
-R_Clustering_params.W_pairwise = 1;   		% 0.00001 <= W_pairwise <= 1  
-						% Narrative Semantic 0.6 
-						% Narrative LSDA 1
-						% All Non-Semantic 0.5
+R_Clustering_params.W_pairwise = 0.9;   % 0.00001 <= W_pairwise <= 1  
+                                        % Narrative Semantic (Imagga) 0.9
+                                        % Narrative LSDA 1
+                                        % All Non-Semantic 0.5
 
 %%% Features used
-R_Clustering_params.features_used = 3; 	% 1 -> Global CNN only
-					% 2 -> Global and Semantic (IMAGGA)
-					% 3 -> Global and Semantic (LSDA)
+R_Clustering_params.features_used = 2;  % 1 -> Global CNN only
+                                        % 2 -> Global and Semantic (IMAGGA)
+                                        % 3 -> Global and Semantic (LSDA)
 
 
 %% CNN parameters (Global Features)
 % Installation-dependent
 CNN_params.use_gpu = 1;
-CNN_params.batch_size = 40; % Depending on the deploy net structure!!
+CNN_params.batch_size = 100; % Depending on the deploy net structure!!
 CNN_params.model_file ='/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
 CNN_params.size_features = 4096;
-CNN_params.caffe_path = '/usr/local/caffe-master2/matlab/caffe'; % installation path
+CNN_params.caffe_path = '~/code/caffe/matlab'; % installation path
 
 % Model-dependent
 CNN_params.parallel = false; % allow loading images in parallel
@@ -68,8 +68,8 @@ CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.proto
 
 %% Semantic Features parameters
 Semantic_params.endpoint = 'https://api.imagga.com/v1'; % link to Imagga's API
-Semantic_params.api_key = 'imagga_key'; % API key of IMAGGA account
-Semantic_params.api_secret = 'imagga_secret'; % API password of IMAGGA account
+Semantic_params.api_key = 'acc_948b5cb9d9903d2'; % API key of IMAGGA account
+Semantic_params.api_secret = '571beaa89bafc4b03a72030379a70963'; % API password of IMAGGA account
 
 % Filters all tags with a mean value over or under times_std
 Semantic_params.filter_tags_high_mean = true;
@@ -77,11 +77,11 @@ Semantic_params.times_std_over = 6; % the smaller, the more we filter
 Semantic_params.times_std_under = 1; % the smaller, the more we filter
 
 % Smoothing
-Semantic_params.use_smoothing = true;
+Semantic_params.use_smoothing = false;
 Semantic_params.smoothing_param = 10;
 
 % LSDA
-Semantic_params.path_lsda_repository = '../LSDA/lsda';
+Semantic_params.path_lsda_repository = '../LSDA';
 
 
 %% Plot results parameters
@@ -94,7 +94,7 @@ plot_params.prop_div = 20;
 
 % Which plots apply?
 % {image whole dataset,   image per segment,    single images splitted by segments in folders}
-plot_params.doPlots = {true, false, true};
+plot_params.doPlots = {false, false, false};
 
 
 %% Create some folders for results
