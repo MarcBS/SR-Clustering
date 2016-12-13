@@ -1,5 +1,5 @@
 
-addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_Detector;../Concept_Detector/fastsmooth;../LSDA');
+addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_Detector;../Concept_Detector/fastsmooth;../LSDA;../Evaluation');
 
 %%%%%%%%%%% Parameters %%%%%%%%%%%
 
@@ -11,6 +11,9 @@ data_params.features_path = [pwd '/Features'];
 %%% R-Clustering results path
 data_params.RC_results_path = [pwd '/Results'];
 data_params.RC_plot_results_path = [pwd '/Plot_Results'];
+
+% Additional parameters
+data_params.min_length_merge = 5; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
 
 
 %% Methods used
@@ -52,7 +55,7 @@ R_Clustering_params.features_used = 2;  % 1 -> Global CNN only
 %% CNN parameters (Global Features)
 % Installation-dependent
 CNN_params.use_gpu = 1;
-CNN_params.batch_size = 100; % Depending on the deploy net structure!!
+CNN_params.batch_size = 20; % Depending on the deploy net structure!!
 CNN_params.model_file ='/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
 CNN_params.size_features = 4096;
 CNN_params.caffe_path = '~/code/caffe/matlab'; % installation path
@@ -84,9 +87,10 @@ Semantic_params.smoothing_param = 10;
 Semantic_params.path_lsda_repository = '../LSDA';
 
 
+
 %% Plot results parameters
 
-% Minimum #images allowed per segment when plotting
+% Minimum number of images allowed per segment when plotting
 plot_params.min_imgs_event = 1;%9;
 
 % Proportions for plot purposes

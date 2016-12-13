@@ -22,6 +22,7 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
         eval_GT = true;
     end
     
+    params.min_length_merge = data_params.min_length_merge;
     %% Build params in case the results are not generated
     params.RC_results_path = data_params.RC_results_path;
     params.features_path = data_params.features_path;
