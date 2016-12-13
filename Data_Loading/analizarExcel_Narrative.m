@@ -29,7 +29,7 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
     %%% Read GT file segments
     [~,~,format] = fileparts(excelfile);
 
-    if(strcmp(format, '.xls'))
+    if(strcmp(format, '.xls') || strcmp(format, '.xlsx'))
         [~,textA] = xlsread(excelfile);
         [f,c]=size(textA);
         eventsString = textA(2:f,2);
@@ -47,28 +47,49 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
     end
     num_clustauto_def=length(eventsString);
 
-
-
     for i=1:num_clustauto_def
-        eString=eventsString{i,1};
+        eString=strtrim(eventsString{i,1});
         if v == 1
-            a = str2num(eString);
+            if(~isempty(findstr(eString, '-')))
+                a = regexp(eString, '-', 'split');
+            elseif(~isempty(findstr(eString, ',')))
+                a = regexp(eString, ',', 'split');
+            elseif(~isempty(findstr(eString, ' ')))
+                a = regexp(eString, ' ', 'split');
+            else
+                error(['Incorrect init-final images separator used in line ' eString])
+            end
+            a = str2num(a);
         elseif v == 2
-            a = regexp(eString, ' ', 'split');
+            if(~isempty(findstr(eString, '-')))
+                a = regexp(eString, '-', 'split');
+            elseif(~isempty(findstr(eString, ',')))
+                a = regexp(eString, ',', 'split');
+            elseif(~isempty(findstr(eString, ' ')))
+                a = regexp(eString, ' ', 'split');
+            else
+                error(['Incorrect init-final images separator used in line ' eString])
+            end
             a1 = regexp(a{1}, '_', 'split');
             a2 = regexp(a{2}, '_', 'split');
             a = [str2num(a1{2}) str2num(a2{2})];
         end
         p=1;
+
         % Buscamos si hay coincidencia en la carpeta de imagenes
-        for j=a(1):1:a(2)
-            if(find(array==j)>0)
-                aux_Eve2(1,p)=j;
-                p=p+1;
+        try
+            for j=a(1):1:a(2)
+                if(find(array==j)>0)
+                    aux_Eve2(1,p)=j;
+                    p=p+1;
+                end
             end
+            events{i,1}=aux_Eve2;
+            clearvars aux_Eve2 a
+        catch
+            disp(a);
+            error(['Error found on the shown line.']);
         end
-        events{i,1}=aux_Eve2;
-        clearvars aux_Eve2 a
     end
     
     %Generar array Ids
