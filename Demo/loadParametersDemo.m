@@ -68,8 +68,8 @@ CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.proto
 
 %% Semantic Features parameters
 Semantic_params.endpoint = 'https://api.imagga.com/v1'; % link to Imagga's API
-Semantic_params.api_key = 'acc_948b5cb9d9903d2'; % API key of IMAGGA account
-Semantic_params.api_secret = '571beaa89bafc4b03a72030379a70963'; % API password of IMAGGA account
+Semantic_params.api_key = 'api_key'; % API key of IMAGGA account
+Semantic_params.api_secret = 'api_secret'; % API password of IMAGGA account
 
 % Filters all tags with a mean value over or under times_std
 Semantic_params.filter_tags_high_mean = true;
