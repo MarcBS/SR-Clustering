@@ -1,7 +1,7 @@
 # SR-Clustering
 Semantic Segmentation of events in egocentric lifelogging photo streams.
 
-Requirements:
+## Requirements:
 
 	1) Caffe Deep Learning Framework and matcaffe wrapper (for global features calculation)
 		Caffe main page: http://caffe.berkeleyvision.org/
@@ -15,8 +15,13 @@ Requirements:
 	4) MATLAB
 	5) [IMAGGA only] Python 2.7 (with nltk libraries)
 
+## Dataset
 
-If you use this code, please cite the following papers:
+The training and validation of the code was performed using the [EDUB-Seg dataset](http://www.ub.edu/cvub/egocentric-dataset-of-the-university-of-barcelona-segmentation-edub-seg/).
+
+## Citation
+
+If you use this code or the dataset, please cite the following papers:
 
         Dimiccoli, M., Bolaños, M., Talavera, E., Aghaei, M., Nikolov, S. & Radeva, P. (2015) 
         "SR-Clustering: Semantic Regularized Clustering for Egocentric Photo Streams Segmentation". 
@@ -26,4 +31,6 @@ If you use this code, please cite the following papers:
         “R-Clustering for Egocentric Video Segmentation”. 
         In 7th Iberian Conference on Pattern Recognition and Image Analysis (IbPRIA).
 
-Use code in Demo folder for a simple execution of our SR-Clustering algorithm (read Demo/README.txt before execution).
+## Demo
+
+Use code in Demo folder for a simple execution of our SR-Clustering algorithm (read [Demo/README.txt](Demo/README.txt) before execution).
