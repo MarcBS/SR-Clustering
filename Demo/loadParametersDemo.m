@@ -84,7 +84,7 @@ Semantic_params.use_smoothing = false;
 Semantic_params.smoothing_param = 10;
 
 % LSDA
-Semantic_params.path_lsda_repository = '../LSDA';
+Semantic_params.path_lsda_repository = '../LSDA/lsda';
 
 
 
