@@ -33,6 +33,10 @@ catch ME
     end
 end
 
+rcnn_feat.cnn.batch_size = Semantic_params.batch_size;
+rcnn_feat.cnn.definition_file = Semantic_params.definition_file;
+
+
 %% Run LSDA
 % nFolders = length(folder_list);
 % for i = 1:nFolders

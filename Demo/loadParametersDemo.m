@@ -20,7 +20,7 @@ data_params.min_length_merge = 5; % (default 0) minimum length of segments, if s
 
 % Agglomerative clustering distance criterion
 % methods_indx={'ward', 'complete','centroid','average','single','weighted','median'};
-R_Clustering_params.methods_indx = 'centroid';  % Narrative Semantic (Imagga) 'centroid'
+R_Clustering_params.methods_indx = 'single';  % Narrative Semantic (Imagga) 'centroid'
                                                 % Narrative LSDA 'single'
                                                 % All Non-Semantic 'single'
 
@@ -31,7 +31,7 @@ R_Clustering_params.clus_type = 'Both1';    % Clustering type used before the Gr
                                             %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
 
 %%% Cut values used
-R_Clustering_params.cut_indx_use = 0.2; % Narrative Semantic (Imagga) 0.2
+R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.2
                                         % Narrative LSDA 0.4
                                         % All Non-Semantic 0.2
 
@@ -41,13 +41,13 @@ R_Clustering_params.W_unary = 0.9;      % 0 <= W_unary <= 1
                                         % Narrative LSDA 0.9
                                         % All Non-Semantic 1
 
-R_Clustering_params.W_pairwise = 0.9;   % 0.00001 <= W_pairwise <= 1  
+R_Clustering_params.W_pairwise = 1;   % 0.00001 <= W_pairwise <= 1  
                                         % Narrative Semantic (Imagga) 0.9
                                         % Narrative LSDA 1
                                         % All Non-Semantic 0.5
 
 %%% Features used
-R_Clustering_params.features_used = 2;  % 1 -> Global CNN only
+R_Clustering_params.features_used = 3;  % 1 -> Global CNN only
                                         % 2 -> Global and Semantic (IMAGGA)
                                         % 3 -> Global and Semantic (LSDA)
 
@@ -55,10 +55,10 @@ R_Clustering_params.features_used = 2;  % 1 -> Global CNN only
 %% CNN parameters (Global Features)
 % Installation-dependent
 CNN_params.use_gpu = 1;
-CNN_params.batch_size = 50; % Depending on the deploy net structure!!
+CNN_params.batch_size = 30; % Depending on the deploy net structure!!
 CNN_params.model_file ='/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
 CNN_params.size_features = 4096;
-CNN_params.caffe_path = '~/code/caffe/matlab'; % installation path
+CNN_params.caffe_path = '/usr/local/caffe-master2/matlab/caffe'; % installation path
 
 % Model-dependent
 CNN_params.parallel = false; % allow loading images in parallel
@@ -85,7 +85,8 @@ Semantic_params.smoothing_param = 10;
 
 % LSDA
 Semantic_params.path_lsda_repository = '../LSDA/lsda';
-
+Semantic_params.batch_size = 128; % batch size must match the definition file!
+Semantic_params.definition_file = 'model-defs/imagenet_rcnn_batch_256_output_fc7.prototxt';
 
 
 %% Plot results parameters
