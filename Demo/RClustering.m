@@ -22,6 +22,7 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
         eval_GT = true;
     end
     
+    params.min_length_merge = data_params.min_length_merge;
     %% Build params in case the results are not generated
     params.RC_results_path = data_params.RC_results_path;
     params.features_path = data_params.features_path;
@@ -63,34 +64,44 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
     %% Check if semantic features are computed
     if(R_Clustering_params.features_used == 2) % IMAGGA's features
         params.use_semantic = true;
+        path_tags = [data_params.features_path '/SemanticFeatures/SemanticFeatures_matrix_complete_' folder_name '.mat'];
         path_semantic = [data_params.features_path '/SemanticFeatures/SemanticFeatures_' folder_name '.mat'];
-	this_feat_path = [data_params.features_path '/SemanticFeatures'];
-        if(~exist(path_semantic, 'file'))
+        this_feat_path = [data_params.features_path '/SemanticFeatures'];
+        if(~exist(path_tags, 'file'))
             % Compute Semantic features
             disp(['Extracting Semantic features of folder ' folder_name]);
             [tag_matrix, tag_names_cluster, tag_matrix_complete, tag_names] = extractSemanticFeaturesDemo(folder, format, Semantic_params);
             save([this_feat_path '/SemanticFeatures_' folder_name '.mat'], 'tag_matrix');
-	    save([this_feat_path '/SemanticFeatures_tags_cluster_' folder_name '.mat'], 'tag_names_cluster');
-	    save([this_feat_path '/SemanticFeatures_matrix_complete_' folder_name '.mat'], 'tag_matrix_complete');
-	    save([this_feat_path '/SemanticFeatures_tags_' folder_name '.mat'], 'tag_names');
-	else
-	    load([this_feat_path '/SemanticFeatures_matrix_complete_' folder_name '.mat']);
-	    load([this_feat_path '/SemanticFeatures_tags_' folder_name '.mat']);
+            save([this_feat_path '/SemanticFeatures_tags_cluster_' folder_name '.mat'], 'tag_names_cluster');
+            save([this_feat_path '/SemanticFeatures_matrix_complete_' folder_name '.mat'], 'tag_matrix_complete');
+            save([this_feat_path '/SemanticFeatures_tags_' folder_name '.mat'], 'tag_names');
+        elseif(~exist(path_semantic, 'file'))
+            % Tags are already computed, need to reuse them and compute the desired features
+            disp('Re-using pre-computed tags.');
+            disp(['Extracting Semantic features of folder ' folder_name]);
+            load([this_feat_path '/SemanticFeatures_matrix_complete_' folder_name '.mat']);
+            load([this_feat_path '/SemanticFeatures_tags_' folder_name '.mat']);
+            [tag_matrix, tag_names_cluster, tag_matrix_complete, tag_names] = extractSemanticFeaturesDemo(folder, format, Semantic_params, tag_matrix_complete, tag_names);
+            save([this_feat_path '/SemanticFeatures_' folder_name '.mat'], 'tag_matrix');
+            save([this_feat_path '/SemanticFeatures_tags_cluster_' folder_name '.mat'], 'tag_names_cluster');
+        else
+            load([this_feat_path '/SemanticFeatures_matrix_complete_' folder_name '.mat']);
+            load([this_feat_path '/SemanticFeatures_tags_' folder_name '.mat']);
         end
     elseif(R_Clustering_params.features_used == 3) % LSDA's features
         params.use_semantic = true;
         path_semantic = [data_params.features_path '/SemanticFeatures/SemanticFeaturesLSDA_' folder_name '.mat'];
-	this_feat_path = [data_params.features_path '/SemanticFeatures'];
+        this_feat_path = [data_params.features_path '/SemanticFeatures'];
         if(~exist(path_semantic, 'file'))
             % Compute Semantic features
             disp(['Extracting Semantic features of folder ' folder_name]);
             [tag_matrix, resultsLSDA, tag_names] = extractLSDAFeatures(folder, format, Semantic_params);
             save([this_feat_path '/SemanticFeaturesLSDA_' folder_name '.mat'], 'tag_matrix');
-	    save([this_feat_path '/SemanticFeaturesLSDA_tags_' folder_name '.mat'], 'tag_names');
-	    save([this_feat_path '/LSDA_' folder_name '.mat'], 'resultsLSDA');
-	else
-	    load([this_feat_path '/SemanticFeaturesLSDA_' folder_name '.mat']);
-	    load([this_feat_path '/SemanticFeaturesLSDA_tags_' folder_name '.mat']);
+            save([this_feat_path '/SemanticFeaturesLSDA_tags_' folder_name '.mat'], 'tag_names');
+            save([this_feat_path '/LSDA_' folder_name '.mat'], 'resultsLSDA');
+        else
+            load([this_feat_path '/SemanticFeaturesLSDA_' folder_name '.mat']);
+            load([this_feat_path '/SemanticFeaturesLSDA_tags_' folder_name '.mat']);
         end
     else
         params.use_semantic = false;

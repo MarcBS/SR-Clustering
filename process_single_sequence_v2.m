@@ -186,9 +186,11 @@ function events = process_single_sequence_v2(folder, params)
         
         %% PCA
         if(paramsPCA.usePCA_Clustering &&   strcmp(paramsfeatures.type, 'CNN'))
-            similarities=pdist([featuresPCA, tag_matrix'],'cosine');
+            clust_features = [featuresPCA, tag_matrix'];
+            similarities=pdist(clust_features,'cosine');
         elseif( strcmp(paramsfeatures.type, 'CNN'))
-            similarities=pdist([features_norm, tag_matrix'],'cosine');    
+            clust_features = [features_norm, tag_matrix'];
+            similarities=pdist(clust_features,'cosine');    
         end  
         
         for met_indx=1:length(methods_indx)
@@ -243,7 +245,77 @@ function events = process_single_sequence_v2(folder, params)
         clearvars LH_Clus start_clus
     end %end if clustering || both1  
 
+
+    %% Merge small segments to the most similar adjacent ones
+    if (isfield(params,'min_length_merge') && params.min_length_merge > 1)
+        
+        s = 1;
+        num_frames = length(labels);
+        finished = false;
+        while (~finished)
+        
+            % Measure length of segments
+            id_segments = unique(labels);
+            num_segments = length(id_segments);
+            segm_lengths = zeros(1,num_segments);
+            for s_iter = 1:num_segments
+                segm_lengths(s_iter) = sum(labels==id_segments(s_iter));
+            end
+            
+            % Finished checking all segments
+            if (s == num_segments+1)
+                finished = true;
+            end
+        
+            % Find segments smaller than the defined minimum length
+            if (~finished && segm_lengths(s) < params.min_length_merge)
+                % Measure similarity to adjacent segments
+                if (s == 1)
+                    % Merge to next
+                    tomerge = s+1;
+                elseif (s == num_segments)
+                    % Merge to previous
+                    tomerge = s-1;
+                else
+                    % Merge to most similar
+                    thisfeat = mean(clust_features(find(labels==id_segments(s)),:), 1);
+                    prevfeat = mean(clust_features(find(labels==id_segments(s-1)),:), 1);
+                    nextfeat = mean(clust_features(find(labels==id_segments(s+1)),:), 1);
+                    [dist, tomerge] = pdist2(thisfeat, [prevfeat; nextfeat], 'cosine', 'Smallest', 1);
+                    if (tomerge == 1)
+                        tomerge = s-1;
+                    elseif (tomerge == 2)
+                        tomerge = s+1;
+                    end
+                end
+            
+                % Merge to most similar segment
+                idmerge = id_segments(tomerge);
+                labels(find(labels==id_segments(s))) = idmerge;
+            else
+                s = s+1;
+            end
+            
+        end
+        
+        % Evaluate results
+        [final_boundaries]=compute_boundaries(labels,num_frames);
+        num_clusters = length(final_boundaries)+1;
+        if(doEvaluation)
+            [recMerge,precMerge,accMerge,fMeasureMerge]=Rec_Pre_Acc_Evaluation(GT,final_boundaries,num_frames,tol);
+
+            disp('-------- Results small segments merging --------');
+            disp(['Precision: ' num2str(precMerge)]);
+            disp(['Recall: ' num2str(recMerge)]);
+            disp(['F-Measure: ' num2str(fMeasureMerge)]);
+        end
+        disp(['Number of events: ' num2str(num_clusters)]);
+        disp(['Mean frames per event: ' num2str(num_frames/num_clusters)]);
+        disp(' ');
+    end
+
     
+    %% Convert output result representation
     nFrames = length(labels);
     events = zeros(1, nFrames); events(1) = 1;
     prev = 1;

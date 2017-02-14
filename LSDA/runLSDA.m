@@ -1,6 +1,6 @@
 %%%%%
 %
-%   results = [x y h w score class class_id]
+%   results = [x y h w score class class_id all_scores]
 %
 %%
 
