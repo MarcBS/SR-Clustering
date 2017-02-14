@@ -128,6 +128,16 @@ function events = process_single_sequence_v2(folder, params)
     end
     
     
+    %% Check if we only have one sample
+    if(paramsPCA.usePCA_Adwin && strcmp(paramsfeatures.type, 'CNN'))
+        num_samp = size(featuresPCA,1);
+    elseif( strcmp(paramsfeatures.type, 'CNN'))
+        num_samp = size(features_norm,1);
+    end
+    if(num_samp == 1)
+        events = [1];
+
+    else
     %% CLUSTERING 
 
     LH_Clus={};
@@ -141,11 +151,11 @@ function events = process_single_sequence_v2(folder, params)
 
         % PCA
         if(paramsPCA.usePCA_Adwin && strcmp(paramsfeatures.type, 'CNN'))
-            [labels,dist2mean] = runAdwin([featuresPCA, tag_matrix'], confidence, pnorm); 
+            [labels,dist2mean] = runAdwin([featuresPCA, tag_matrix'], confidence, pnorm);
         elseif( strcmp(paramsfeatures.type, 'CNN'))
             [features_norm] = signedRootNormalization(features);
             [labels,dist2mean] = runAdwin([features_norm, tag_matrix'], confidence, pnorm); 
-        end
+	end
 
         index=1;
         automatic2 = [];
@@ -248,4 +258,6 @@ function events = process_single_sequence_v2(folder, params)
             end
             prev = i;
         end
+    end
+
     end

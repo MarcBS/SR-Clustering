@@ -52,7 +52,7 @@ R_Clustering_params.features_used = 3; 	% 1 -> Global CNN only
 %% CNN parameters (Global Features)
 % Installation-dependent
 CNN_params.use_gpu = 1;
-CNN_params.batch_size = 40; % Depending on the deploy net structure!!
+CNN_params.batch_size = 50; % Depending on the deploy net structure!!
 CNN_params.model_file ='/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
 CNN_params.size_features = 4096;
 CNN_params.caffe_path = '/usr/local/caffe-master2/matlab/caffe'; % installation path
@@ -94,7 +94,7 @@ plot_params.prop_div = 20;
 
 % Which plots apply?
 % {image whole dataset,   image per segment,    single images splitted by segments in folders}
-plot_params.doPlots = {true, false, true};
+plot_params.doPlots = {false, false, true};
 
 
 %% Create some folders for results

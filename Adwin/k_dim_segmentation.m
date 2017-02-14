@@ -15,7 +15,12 @@ function [w3, indexes]=k_dim_segmentation(data,fi, p, flag)
 w3=zeros(n_tot, k);
 w=zeros(1, n_tot);
 
-len=5;
+len = min(5,n_tot);
+
+if len == 1
+    indexes = [1];
+else
+
 W=data(1:len,1:k);
 
 for t=len+1:n_tot
@@ -82,4 +87,6 @@ indexes=[1 indexes length(w)];
 
 for i=1:length(indexes)-1
     w3(indexes(i):indexes(i+1), 1:k)=(repmat(mean(data(indexes(i):indexes(i+1), 1:k)), [length([indexes(i):indexes(i+1)]) 1]));
+end
+
 end
