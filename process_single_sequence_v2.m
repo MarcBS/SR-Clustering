@@ -268,7 +268,7 @@ function events = process_single_sequence_v2(folder, params)
             end
         
             % Find segments smaller than the defined minimum length
-            if (~finished && segm_lengths(s) < params.min_length_merge)
+            if (~finished && segm_lengths(s) < params.min_length_merge && num_segments > 1)
                 % Measure similarity to adjacent segments
                 if (s == 1)
                     % Merge to next
@@ -299,12 +299,12 @@ function events = process_single_sequence_v2(folder, params)
         end
         
         % Evaluate results
+        disp('-------- Results small segments merging --------');
         [final_boundaries]=compute_boundaries(labels,num_frames);
         num_clusters = length(final_boundaries)+1;
         if(doEvaluation)
             [recMerge,precMerge,accMerge,fMeasureMerge]=Rec_Pre_Acc_Evaluation(GT,final_boundaries,num_frames,tol);
 
-            disp('-------- Results small segments merging --------');
             disp(['Precision: ' num2str(precMerge)]);
             disp(['Recall: ' num2str(recMerge)]);
             disp(['F-Measure: ' num2str(fMeasureMerge)]);
