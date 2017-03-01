@@ -5,12 +5,12 @@ addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_
 
 %% Data parameters
 
-%%% Features path
-data_params.features_path = [pwd '/Features'];
+%% Features path
+data_params.features_path = ['/media/********/HDD/EDUB-Seg/Features'];
 
 %%% R-Clustering results path
-data_params.RC_results_path = [pwd '/Results'];
-data_params.RC_plot_results_path = [pwd '/Plot_Results'];
+data_params.RC_results_path = ['/media/********/HDD/EDUB-Seg/Results'];
+data_params.RC_plot_results_path = ['/media/********/HDD/EDUB-Seg/Plot_Results'];
 
 % Additional parameters
 data_params.min_length_merge = 5; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
@@ -25,7 +25,7 @@ R_Clustering_params.methods_indx = 'single';  % Narrative Semantic (Imagga) 'cen
                                                 % All Non-Semantic 'single'
 
 % R-Clustering combined methods
-R_Clustering_params.clus_type = 'Both1';    % Clustering type used before the GraphCuts. 
+R_Clustering_params.clus_type = 'Both1';    % Clustering type used before the GraphCuts.
                                             % It can take the following values:
                                             %   'Clustering' : Clustering + GC
                                             %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
@@ -36,12 +36,12 @@ R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.2
                                         % All Non-Semantic 0.2
 
 %%% GT weight values
-R_Clustering_params.W_unary = 0.9;      % 0 <= W_unary <= 1  
+R_Clustering_params.W_unary = 0.9;      % 0 <= W_unary <= 1
                                         % Narrative Semantic (Imagga) 0.9
                                         % Narrative LSDA 0.9
                                         % All Non-Semantic 1
 
-R_Clustering_params.W_pairwise = 1;   % 0.00001 <= W_pairwise <= 1  
+R_Clustering_params.W_pairwise = 1;   % 0.00001 <= W_pairwise <= 1
                                         % Narrative Semantic (Imagga) 0.9
                                         % Narrative LSDA 1
                                         % All Non-Semantic 0.5
@@ -70,7 +70,7 @@ CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.proto
 
 
 %% Semantic Features parameters
-Semantic_params.endpoint = 'https://api.imagga.com/v1'; % link to Imagga's API
+Semantic_params.endpoint = 'http://api.imagga.com/'; % link to Imagga's API
 Semantic_params.api_key = 'api_key'; % API key of IMAGGA account
 Semantic_params.api_secret = 'api_secret'; % API password of IMAGGA account
 
