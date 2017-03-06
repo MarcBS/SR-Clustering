@@ -1,12 +1,14 @@
-function [ features, tags_names, scores_complete, tags_complete ] = extractSemanticFeaturesDemo( folder, format, Semantic_params, scores_complete, tags_complete, R_Clustering_params )
+function [ features, tags_names, scores_complete, tags_complete ] = extractSemanticFeaturesDemo( folder, format, Semantic_params, scores_complete, tags_complete, features_used )
     %EXTRACTSEMANTICFEATURESDEMO Extracts semantic features for the files
     %passed by parameter.
 
-    if nargin > 3
+    if nargin > 4
         precomputed_tags = true;
     else
         precomputed_tags = false;
     end
+    
+    features_used = 4;
 
     %% Variables and folders initialization
     this_path = pwd;
@@ -25,13 +27,13 @@ function [ features, tags_names, scores_complete, tags_complete ] = extractSeman
 
         mkdir(tmp_dir);
         mkdir(tags_dir);
-        mkdir(list_clusters_dir);
+        mkdir(list_clusters_dir); 
     end
 
     % If we are not providing a matrix of precomputed taggs we have to request them to Imagga
     if (~precomputed_tags)
 
-        if (R_Clustering_params.features_used == 2)
+        if (features_used == 2)
 
             % File for handling the tagging connection errors
             errors_file = [tmp_dir '/errors_file.txt'];
@@ -104,7 +106,7 @@ function [ features, tags_names, scores_complete, tags_complete ] = extractSeman
             cd(this_path);
             disp('Done requesting tags with errors.');
 
-        elseif (R_Clustering_params.features_used == 4)
+        elseif (features_used == 4)
 
             % File for handling the tagging connection errors
             errors_file = [tmp_dir '/errors_file.txt'];

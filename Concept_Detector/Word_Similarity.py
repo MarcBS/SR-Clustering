@@ -24,7 +24,7 @@ def getSimilarity(w1, w2, method='max'):
         similarity = 0
         for i in range(nm1):
             m1 = wn.synset(meanings_1[i].name())
-            for j in range(nm2):      
+            for j in range(nm2):
                 m2 = wn.synset(meanings_2[j].name())
 
                 sim = wn.path_similarity(m1, m2)
@@ -32,12 +32,12 @@ def getSimilarity(w1, w2, method='max'):
     elif(method == 'mean'):
         if(nm1*nm2 == 0):
             return 0
-        
+
         similarities = [0 for i in range(nm1*nm2)]
         count = 0
         for i in range(nm1):
             m1 = wn.synset(meanings_1[i].name())
-            for j in range(nm2):      
+            for j in range(nm2):
                 m2 = wn.synset(meanings_2[j].name())
 
                 sim = wn.path_similarity(m1, m2)
@@ -46,7 +46,7 @@ def getSimilarity(w1, w2, method='max'):
                 similarities[count] = sim
                 count += 1
         similarity = float(sum(similarities))/count
-            
+
     return similarity
 
 # ### Compute Clustering
@@ -90,13 +90,13 @@ for f in range(nFolders):
 	result_dir = path_result + '/' + folders[f]
 	list_imgs = glob(path_images + '/' + folders[f] + '/*' + formats[f])
 	nList = len(list_imgs)
-	
+
 	for i in range(nList):
 		img_name = ntpath.basename(list_imgs[i])
 		jsons_list.append(result_dir + '/' + img_name + '.json')
-	
+
 	print "Processing folder " + folders[f]
-	
+
 	list_output = open(path_output_lists +'/list_'+ folders[f] +'.txt', 'w')
 
 	# ### Find co-occurrences of words in all files
@@ -120,7 +120,7 @@ for f in range(nFolders):
 	        pos = [m.span() for m in re.finditer(': "\w+"', text)]
 	        words = [text[p[0]+3:p[1]-1] for p in pos]
 	        words = words[1:]
-	    
+
 	    # Find word positions in the whole list of words
 	    positions = []
 	    nW = len(words)
@@ -134,7 +134,7 @@ for f in range(nFolders):
 	            word_list.append(w)
 	            word_count.append(1)
 	            positions.append(len(word_list)-1)
-	    
+
 	    # For each pair of words, increment their co-ocurrences
 	    for i in range(nW):
 	        for j in range(i,nW):
@@ -154,12 +154,12 @@ for f in range(nFolders):
 	sim_mat = [sim_mat[i][0:nWords] for i in range(nWords)]
 	for i in range(nWords):
 	    sim_mat[i][i] = 1
-	    
+
 	print "Found " + str(nWords) + " different tags."
 	print "Found " + str(count_coocurrences) + " co-ocurring pairs."
 
 
-	sc = SpectralClustering(n_clusters=100, affinity='precomputed')
+	sc = SpectralClustering(n_clusters=min(100, nWords-1), affinity='precomputed')
 	clusters = sc.fit_predict(normalize(sim_mat))
 	clusterIDs = sorted(set(clusters))
 
@@ -169,26 +169,25 @@ for f in range(nFolders):
 	for cID in range(nClusters):
 		words_cluster = [i for i, x in enumerate(clusters) if x == cID]
 		nWords = len(words_cluster)
-		
+
 		conn_count = [0 for i in range(nWords)]
 		# Count connections for each word
 		for w in range(nWords):
 			cluster_connections = [sim_mat[words_cluster[w]][x] for x in words_cluster[0:w] + words_cluster[w+1:]]
 			conn_count[w] = sum([x for x in cluster_connections if x > 0])
-		
+
 		# Find word with max number of connections
 		max_word = conn_count.index(max(conn_count))
-		
+
 		#print cID
 		#print word_list[words_cluster[max_word]]
 		#print max(conn_count)
 		#print [word_list[w] for w in words_cluster]
 		#print conn_count
 		#print
-		
+
 		list_output.write(word_list[words_cluster[max_word]] + ' ' +  str([word_list[w] for w in words_cluster]) +'\n')
-		
+
 	list_output.close()
 
 print 'Done'
-

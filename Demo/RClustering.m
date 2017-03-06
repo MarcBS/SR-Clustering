@@ -50,7 +50,7 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
     files = files(arrayfun(@(x) x.name(1) ~= '.', files));
 
     %% Check if global features are computed
-    path_features = [data_params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.mat'];
+    path_features = [data_params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.csv'];
     if (~exist(path_features, 'file'))
         % Compute CNN features
         disp(['Extracting CNN global features of folder ' folder_name]);

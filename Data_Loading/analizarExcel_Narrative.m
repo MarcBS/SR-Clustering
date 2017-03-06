@@ -15,10 +15,10 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
     for i=1:(length(files_images))
         filenumber=strread(files_images(i).name,'%s','delimiter','.');
         if v == 1
-            filenumber=str2num(filenumber{1});
+            filenumber=str2double(filenumber{1});
         elseif v == 2
             filenumber = regexp(filenumber{1}, '_', 'split');
-            filenumber = str2num(filenumber{2});
+            filenumber = str2double(filenumber{2});
         end
         if (isempty(filenumber)==0)
             array(m) = filenumber;
@@ -59,7 +59,7 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
             else
                 error(['Incorrect init-final images separator used in line ' eString])
             end
-            a = str2num(a);
+            a = str2double(a);
         elseif v == 2
             if(~isempty(findstr(eString, '-')))
                 a = regexp(eString, '-', 'split');
@@ -72,7 +72,7 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
             end
             a1 = regexp(a{1}, '_', 'split');
             a2 = regexp(a{2}, '_', 'split');
-            a = [str2num(a1{2}) str2num(a2{2})];
+            a = [str2double(a1{2}) str2double(a2{2})];
         end
         p=1;
 
@@ -91,7 +91,7 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
             error(['Error found on the shown line.']);
         end
     end
-    
+
     %Generar array Ids
     clustersId=zeros(1,length(array));
     pos=0;
@@ -100,19 +100,17 @@ function [events,clustersId,cl_limGT,sum]=analizarExcel_Narrative(excelfile, fil
         clustersId(1,pos+1:(pos+clust_length))=i;
         pos=pos+clust_length;
     end
-    
+
     %Generar límites F-Measure
     cl_limGT = zeros(size(events,1),1);
     cl_limGT(1)=1;
     for i=1:(size(events,1)-1)
         cl_limGT(i+1) = cl_limGT(i) + size(events{i},2);
     end
-    
+
     %Comprobar que lee todas las imágenes
     sum=0;
     for i=1:length(events)
         sum=sum+ size(events{i},2);
     end
 end
-
-   

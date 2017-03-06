@@ -6,11 +6,11 @@ addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_
 %% Data parameters
 
 %% Features path
-data_params.features_path = ['/media/********/HDD/EDUB-Seg/Features'];
+data_params.features_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Features'];
 
 %%% R-Clustering results path
-data_params.RC_results_path = ['/media/********/HDD/EDUB-Seg/Results'];
-data_params.RC_plot_results_path = ['/media/********/HDD/EDUB-Seg/Plot_Results'];
+data_params.RC_results_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Results'];
+data_params.RC_plot_results_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Plot_Results'];
 
 % Additional parameters
 data_params.min_length_merge = 5; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
@@ -47,9 +47,10 @@ R_Clustering_params.W_pairwise = 1;   % 0.00001 <= W_pairwise <= 1
                                         % All Non-Semantic 0.5
 
 %%% Features used
-R_Clustering_params.features_used = 3;  % 1 -> Global CNN only
+R_Clustering_params.features_used = 4;  % 1 -> Global CNN only
                                         % 2 -> Global and Semantic (IMAGGA)
                                         % 3 -> Global and Semantic (LSDA)
+                                        % 4 -> YOLO
 
 
 %% CNN parameters (Global Features)
@@ -92,7 +93,7 @@ Semantic_params.definition_file = 'model-defs/imagenet_rcnn_batch_256_output_fc7
 %% Plot results parameters
 
 % Minimum number of images allowed per segment when plotting
-plot_params.min_imgs_event = 1;%9;
+plot_params.min_imgs_event = 1;
 
 % Proportions for plot purposes
 plot_params.prop_div = 20;

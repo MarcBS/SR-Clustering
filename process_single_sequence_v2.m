@@ -7,7 +7,7 @@ function events = process_single_sequence_v2(folder, params)
     load_features = true;
 
     %% Parameters loading
-    fichero = params.files_path;               
+    fichero = params.files_path;
     formats = params.formats;
 
     doEvaluation = params.doEvaluation;
@@ -35,7 +35,7 @@ function events = process_single_sequence_v2(folder, params)
 % paramsPCA.minVarPCA=0.8;
     paramsPCA.standarizePCA=false;
     paramsPCA.usePCA_Clustering = true;
-    
+
     plotFigResults = false;
     %% Adwin parameters
     pnorm = 2;
@@ -48,21 +48,21 @@ function events = process_single_sequence_v2(folder, params)
 % window_len = 50;
 
     %% Evaluation parameters
-    tol=5; % tolerance for the final evaluation  
+    tol=5; % tolerance for the final evaluation
 
 
 
     %% Build paths for images, features and results
     [~, folder_name, ~] = fileparts(folder);
-    path_features = [params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.mat'];
+    path_features = [params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.csv'];
     path_features_PCA = [params.features_path '/CNNfeatures/CNNfeaturesPCA_' folder_name '.mat'];
 
-    if(params.semantic_type == 2) % IMAGGA
+    if(params.semantic_type == 2 || params.semantic_type == 4) % IMAGGA
         path_semantic_features = [params.features_path '/SemanticFeatures/SemanticFeatures_' folder_name '.mat'];
     elseif(params.semantic_type == 3) % LSDA
         path_semantic_features = [params.features_path '/SemanticFeatures/SemanticFeaturesLSDA_' folder_name '.mat'];
     end
-    
+
     %% Images
     files_aux=dir([fichero '/*' formats]);
     count = 1;
@@ -79,12 +79,12 @@ function events = process_single_sequence_v2(folder, params)
 
 % files = files(1:10:end);
 % Nframes = length(files);
-    
+
 
     %% Global Features
     if strcmp(paramsfeatures.type, 'CNN')
         if(load_features)
-            load(path_features);
+            features = csvread(path_features); %load(path_features);
 
 
 
@@ -102,19 +102,19 @@ function events = process_single_sequence_v2(folder, params)
 %         if(exist(path_features_PCA) > 0)
 %             load(path_features_PCA);
 %         else
-            [ featuresPCA, ~, ~ ] = applyPCA( features_norm, paramsPCA ) ; 
+            [ featuresPCA, ~, ~ ] = applyPCA( features_norm, paramsPCA ) ;
             if(load_features) % if we wanted to load the stored features, then we will also store PCA features
                 save(path_features_PCA, 'featuresPCA');
             end
 %         end
     end
-    
+
     %% Semantic Features
     if(params.use_semantic)
         if(load_features)
             load(path_semantic_features); % 'tag_matrix'
         end
-	tag_matrix_GC = tag_matrix;	
+	tag_matrix_GC = tag_matrix;
 
 	if(size(tag_matrix,2) ~= Nframes)
                 error('The number of Semantic features does not match the number of images. TIP: remove the existent features file for re-calculation.');
@@ -126,24 +126,14 @@ function events = process_single_sequence_v2(folder, params)
 	tag_matrix_GC = [];
         tag_matrix = [];
     end
-    
-    
-    %% Check if we only have one sample
-    if(paramsPCA.usePCA_Adwin && strcmp(paramsfeatures.type, 'CNN'))
-        num_samp = size(featuresPCA,1);
-    elseif( strcmp(paramsfeatures.type, 'CNN'))
-        num_samp = size(features_norm,1);
-    end
-    if(num_samp == 1)
-        events = [1];
 
-    else
-    %% CLUSTERING 
+
+    %% CLUSTERING
 
     LH_Clus={};
     start_clus={};
     previousMethods = {};
-            
+
     %% ADWIN
     if strcmp(clus_type,'Both1')||strcmp(clus_type,'Both2')
 
@@ -154,8 +144,8 @@ function events = process_single_sequence_v2(folder, params)
             [labels,dist2mean] = runAdwin([featuresPCA, tag_matrix'], confidence, pnorm);
         elseif( strcmp(paramsfeatures.type, 'CNN'))
             [features_norm] = signedRootNormalization(features);
-            [labels,dist2mean] = runAdwin([features_norm, tag_matrix'], confidence, pnorm); 
-	end
+            [labels,dist2mean] = runAdwin([features_norm, tag_matrix'], confidence, pnorm);
+        end
 
         index=1;
         automatic2 = [];
@@ -168,8 +158,8 @@ function events = process_single_sequence_v2(folder, params)
         if (exist('automatic2','var')==0)
             automatic2=0;
         end
-      
- 
+
+
         % Normalize distances
         dist2mean = normalizeAll(dist2mean);
         %dist2mean = signedRootNormalization(dist2mean')';
@@ -179,26 +169,26 @@ function events = process_single_sequence_v2(folder, params)
         start_clus{2}=labels;
         previousMethods{2} = 'ADWIN';
     end % end Adwin
-            
-            
+
+
     %% Clustering
     if strcmp(clus_type,'Both1')||strcmp(clus_type,'Clustering')
-        
+
         %% PCA
         if(paramsPCA.usePCA_Clustering &&   strcmp(paramsfeatures.type, 'CNN'))
             clust_features = [featuresPCA, tag_matrix'];
             similarities=pdist(clust_features,'cosine');
         elseif( strcmp(paramsfeatures.type, 'CNN'))
             clust_features = [features_norm, tag_matrix'];
-            similarities=pdist(clust_features,'cosine');    
-        end  
-        
+            similarities=pdist(clust_features,'cosine');
+        end
+
         for met_indx=1:length(methods_indx)
-            
-            method=methods_indx{met_indx};  
+
+            method=methods_indx{met_indx};
 
 
-            %% Clustering 
+            %% Clustering
             Z = linkage(similarities, method);
 
             %% Cut value
@@ -209,12 +199,12 @@ function events = process_single_sequence_v2(folder, params)
 
                 clustersId = cluster(Z, 'cutoff', cut, 'criterion', 'distance');
                 automatic = compute_boundaries(clustersId,files);
-               
-                
+
+
                 if( strcmp(paramsfeatures.type, 'CNN'))
                     P=getLHFromClustering(features_norm,clustersId);
                 else
-                    P=getLHFromClustering(features,clustersId);                
+                    P=getLHFromClustering(features,clustersId);
                 end
                 LH_Clus{1} = P;
                 start_clus{1}=clustersId';
@@ -223,37 +213,37 @@ function events = process_single_sequence_v2(folder, params)
 
                 %% Graph Cut
                 % Build and calculate the Graph-Cuts
-                
+
                 disp('Start GC');
-                
+
                 %% PCA
                 if(paramsPCA.usePCA_GC && strcmp(paramsfeatures.type, 'CNN'))
                     features_GC = [featuresPCA, tag_matrix_GC'];
                 else
                     features_GC = [features, tag_matrix_GC'];
                 end
-                
+
                 [features_GC, ~, ~] = normalize(features_GC);
 
                 [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W_pairwise, features_GC, tol, GT, doEvaluation, previousMethods);
-                
+
                 close all;
              end%end cut
 
-             
+
         end %end method
         clearvars LH_Clus start_clus
-    end %end if clustering || both1  
+    end %end if clustering || both1
 
 
     %% Merge small segments to the most similar adjacent ones
     if (isfield(params,'min_length_merge') && params.min_length_merge > 1)
-        
+
         s = 1;
         num_frames = length(labels);
         finished = false;
         while (~finished)
-        
+
             % Measure length of segments
             id_segments = unique(labels);
             num_segments = length(id_segments);
@@ -261,12 +251,12 @@ function events = process_single_sequence_v2(folder, params)
             for s_iter = 1:num_segments
                 segm_lengths(s_iter) = sum(labels==id_segments(s_iter));
             end
-            
+
             % Finished checking all segments
             if (s == num_segments+1)
                 finished = true;
             end
-        
+
             % Find segments smaller than the defined minimum length
             if (~finished && segm_lengths(s) < params.min_length_merge)
                 % Measure similarity to adjacent segments
@@ -288,16 +278,16 @@ function events = process_single_sequence_v2(folder, params)
                         tomerge = s+1;
                     end
                 end
-            
+
                 % Merge to most similar segment
                 idmerge = id_segments(tomerge);
                 labels(find(labels==id_segments(s))) = idmerge;
             else
                 s = s+1;
             end
-            
+
         end
-        
+
         % Evaluate results
         [final_boundaries]=compute_boundaries(labels,num_frames);
         num_clusters = length(final_boundaries)+1;
@@ -314,7 +304,7 @@ function events = process_single_sequence_v2(folder, params)
         disp(' ');
     end
 
-    
+
     %% Convert output result representation
     nFrames = length(labels);
     events = zeros(1, nFrames); events(1) = 1;
@@ -330,6 +320,4 @@ function events = process_single_sequence_v2(folder, params)
             end
             prev = i;
         end
-    end
-
     end
