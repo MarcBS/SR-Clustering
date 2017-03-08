@@ -114,7 +114,7 @@ function [ features, tags_names, scores_complete, tags_complete ] = extractSeman
             %% Prepare and run runRequestTagging.py
             tmp_script = 'runRequestTaggingYOLO_tmp.py';
             log_file = 'runRequestTaggingYOLO_log.txt';
-            text = fileread([path_concept_detector '/runRequestTaggingYOLO.py']);
+            text = fileread([path_concept_detector '/runRequestTaggingYOLOv2.py']);
 
             text = regexp(text, '%folder_path%', 'split');
             text = strjoin(text, folder_path);
