@@ -8,7 +8,7 @@ def requestTagging(img_path, auth, endpoint):
 	    # Upload the multipart-encoded image with a POST
 	    # request to the /content endpoint
 	    content_response = requests.post(
-	        '%s/content' % endpoint,
+			'%s/content' % endpoint,
 	        auth=auth,
 	        files={filename: image_file})
 

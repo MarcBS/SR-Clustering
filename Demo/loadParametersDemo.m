@@ -13,7 +13,7 @@ data_params.RC_results_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Results'];
 data_params.RC_plot_results_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Plot_Results'];
 
 % Additional parameters
-data_params.min_length_merge = 5; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
+data_params.min_length_merge = 3; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
 
 
 %% Methods used
@@ -31,7 +31,7 @@ R_Clustering_params.clus_type = 'Both1';    % Clustering type used before the Gr
                                             %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
 
 %%% Cut values used
-R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.2
+R_Clustering_params.cut_indx_use = 0.6; % Narrative Semantic (Imagga) 0.2
                                         % Narrative LSDA 0.4
                                         % All Non-Semantic 0.2
 
@@ -71,9 +71,9 @@ CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.proto
 
 
 %% Semantic Features parameters
-Semantic_params.endpoint = 'http://api.imagga.com/'; % link to Imagga's API
-Semantic_params.api_key = 'api_key'; % API key of IMAGGA account
-Semantic_params.api_secret = 'api_secret'; % API password of IMAGGA account
+Semantic_params.endpoint = 'http://api.imagga.com/v1'; % link to Imagga's API
+Semantic_params.api_key = 'acc_796e63e85b31884'; % API key of IMAGGA account
+Semantic_params.api_secret = '5246c747298db55ced60408998a4051f'; % API password of IMAGGA account
 
 % Filters all tags with a mean value over or under times_std
 Semantic_params.filter_tags_high_mean = true;
