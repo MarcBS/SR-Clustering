@@ -1,1963 +1,0 @@
-nohup: ignoring input
-
-                            < M A T L A B (R) >
-                  Copyright 1984-2014 The MathWorks, Inc.
-                    R2014a (8.3.0.532) 64-bit (glnxa64)
-                             February 11, 2014
-
- 
-To get started, type one of these: helpwin, helpdesk, or demo.
-For product information, visit www.mathworks.com.
- 
-WARNING: Logging before InitGoogleLogging() is written to STDERR
-E0923 23:04:03.956048 26747 upgrade_proto.cpp:618] Attempting to upgrade input file specified using deprecated V1LayerParameter: /media/lifelogging/HDD_2TB/CNN_MODELS/Caffenet_Reference/deploy_signed_features.prototxt
-I0923 23:04:03.956210 26747 upgrade_proto.cpp:626] Successfully upgraded file specified using deprecated V1LayerParameter
-I0923 23:04:03.956403 26747 net.cpp:42] Initializing net from parameters: 
-name: "CaffeNet"
-input: "data"
-input_dim: 10
-input_dim: 3
-input_dim: 227
-input_dim: 227
-state {
-  phase: TEST
-}
-layer {
-  name: "conv1"
-  type: "Convolution"
-  bottom: "data"
-  top: "conv1"
-  convolution_param {
-    num_output: 96
-    kernel_size: 11
-    stride: 4
-  }
-}
-layer {
-  name: "relu1"
-  type: "ReLU"
-  bottom: "conv1"
-  top: "conv1"
-}
-layer {
-  name: "pool1"
-  type: "Pooling"
-  bottom: "conv1"
-  top: "pool1"
-  pooling_param {
-    pool: MAX
-    kernel_size: 3
-    stride: 2
-  }
-}
-layer {
-  name: "norm1"
-  type: "LRN"
-  bottom: "pool1"
-  top: "norm1"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "conv2"
-  type: "Convolution"
-  bottom: "norm1"
-  top: "conv2"
-  convolution_param {
-    num_output: 256
-    pad: 2
-    kernel_size: 5
-    group: 2
-  }
-}
-layer {
-  name: "relu2"
-  type: "ReLU"
-  bottom: "conv2"
-  top: "conv2"
-}
-layer {
-  name: "pool2"
-  type: "Pooling"
-  bottom: "conv2"
-  top: "pool2"
-  pooling_param {
-    pool: MAX
-    kernel_size: 3
-    stride: 2
-  }
-}
-layer {
-  name: "norm2"
-  type: "LRN"
-  bottom: "pool2"
-  top: "norm2"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "conv3"
-  type: "Convolution"
-  bottom: "norm2"
-  top: "conv3"
-  convolution_param {
-    num_output: 384
-    pad: 1
-    kernel_size: 3
-  }
-}
-layer {
-  name: "relu3"
-  type: "ReLU"
-  bottom: "conv3"
-  top: "conv3"
-}
-layer {
-  name: "conv4"
-  type: "Convolution"
-  bottom: "conv3"
-  top: "conv4"
-  convolution_param {
-    num_output: 384
-    pad: 1
-    kernel_size: 3
-    group: 2
-  }
-}
-layer {
-  name: "relu4"
-  type: "ReLU"
-  bottom: "conv4"
-  top: "conv4"
-}
-layer {
-  name: "conv5"
-  type: "Convolution"
-  bottom: "conv4"
-  top: "conv5"
-  convolution_param {
-    num_output: 256
-    pad: 1
-    kernel_size: 3
-    group: 2
-  }
-}
-layer {
-  name: "relu5"
-  type: "ReLU"
-  bottom: "conv5"
-  top: "conv5"
-}
-layer {
-  name: "pool5"
-  type: "Pooling"
-  bottom: "conv5"
-  top: "pool5"
-  pooling_param {
-    pool: MAX
-    kernel_size: 3
-    stride: 2
-  }
-}
-layer {
-  name: "fc6"
-  type: "InnerProduct"
-  bottom: "pool5"
-  top: "fc6"
-  inner_product_param {
-    num_output: 4096
-  }
-}
-layer {
-  name: "relu6"
-  type: "ReLU"
-  bottom: "fc6"
-  top: "fc6"
-}
-layer {
-  name: "drop6"
-  type: "Dropout"
-  bottom: "fc6"
-  top: "fc6"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
-}
-layer {
-  name: "fc7"
-  type: "InnerProduct"
-  bottom: "fc6"
-  top: "fc7"
-  inner_product_param {
-    num_output: 4096
-  }
-}
-I0923 23:04:03.956487 26747 net.cpp:340] Input 0 -> data
-I0923 23:04:03.956545 26747 layer_factory.hpp:74] Creating layer conv1
-I0923 23:04:03.956588 26747 net.cpp:84] Creating Layer conv1
-I0923 23:04:03.956624 26747 net.cpp:380] conv1 <- data
-I0923 23:04:03.956657 26747 net.cpp:338] conv1 -> conv1
-I0923 23:04:03.956693 26747 net.cpp:113] Setting up conv1
-I0923 23:04:03.956774 26747 net.cpp:120] Top shape: 10 96 55 55 (2904000)
-I0923 23:04:03.956817 26747 layer_factory.hpp:74] Creating layer relu1
-I0923 23:04:03.956856 26747 net.cpp:84] Creating Layer relu1
-I0923 23:04:03.956889 26747 net.cpp:380] relu1 <- conv1
-I0923 23:04:03.956923 26747 net.cpp:327] relu1 -> conv1 (in-place)
-I0923 23:04:03.956957 26747 net.cpp:113] Setting up relu1
-I0923 23:04:03.956993 26747 net.cpp:120] Top shape: 10 96 55 55 (2904000)
-I0923 23:04:03.957058 26747 layer_factory.hpp:74] Creating layer pool1
-I0923 23:04:03.957094 26747 net.cpp:84] Creating Layer pool1
-I0923 23:04:03.957128 26747 net.cpp:380] pool1 <- conv1
-I0923 23:04:03.957161 26747 net.cpp:338] pool1 -> pool1
-I0923 23:04:03.957195 26747 net.cpp:113] Setting up pool1
-I0923 23:04:03.957236 26747 net.cpp:120] Top shape: 10 96 27 27 (699840)
-I0923 23:04:03.957269 26747 layer_factory.hpp:74] Creating layer norm1
-I0923 23:04:03.957306 26747 net.cpp:84] Creating Layer norm1
-I0923 23:04:03.957340 26747 net.cpp:380] norm1 <- pool1
-I0923 23:04:03.957373 26747 net.cpp:338] norm1 -> norm1
-I0923 23:04:03.957408 26747 net.cpp:113] Setting up norm1
-I0923 23:04:03.957443 26747 net.cpp:120] Top shape: 10 96 27 27 (699840)
-I0923 23:04:03.957476 26747 layer_factory.hpp:74] Creating layer conv2
-I0923 23:04:03.957511 26747 net.cpp:84] Creating Layer conv2
-I0923 23:04:03.957542 26747 net.cpp:380] conv2 <- norm1
-I0923 23:04:03.957577 26747 net.cpp:338] conv2 -> conv2
-I0923 23:04:03.957612 26747 net.cpp:113] Setting up conv2
-I0923 23:04:03.957871 26747 net.cpp:120] Top shape: 10 256 27 27 (1866240)
-I0923 23:04:03.957916 26747 layer_factory.hpp:74] Creating layer relu2
-I0923 23:04:03.957952 26747 net.cpp:84] Creating Layer relu2
-I0923 23:04:03.957986 26747 net.cpp:380] relu2 <- conv2
-I0923 23:04:03.958019 26747 net.cpp:327] relu2 -> conv2 (in-place)
-I0923 23:04:03.958052 26747 net.cpp:113] Setting up relu2
-I0923 23:04:03.958087 26747 net.cpp:120] Top shape: 10 256 27 27 (1866240)
-I0923 23:04:03.958120 26747 layer_factory.hpp:74] Creating layer pool2
-I0923 23:04:03.958154 26747 net.cpp:84] Creating Layer pool2
-I0923 23:04:03.958186 26747 net.cpp:380] pool2 <- conv2
-I0923 23:04:03.958220 26747 net.cpp:338] pool2 -> pool2
-I0923 23:04:03.958256 26747 net.cpp:113] Setting up pool2
-I0923 23:04:03.958292 26747 net.cpp:120] Top shape: 10 256 13 13 (432640)
-I0923 23:04:03.958324 26747 layer_factory.hpp:74] Creating layer norm2
-I0923 23:04:03.958359 26747 net.cpp:84] Creating Layer norm2
-I0923 23:04:03.958390 26747 net.cpp:380] norm2 <- pool2
-I0923 23:04:03.958425 26747 net.cpp:338] norm2 -> norm2
-I0923 23:04:03.958458 26747 net.cpp:113] Setting up norm2
-I0923 23:04:03.958493 26747 net.cpp:120] Top shape: 10 256 13 13 (432640)
-I0923 23:04:03.958526 26747 layer_factory.hpp:74] Creating layer conv3
-I0923 23:04:03.958561 26747 net.cpp:84] Creating Layer conv3
-I0923 23:04:03.958595 26747 net.cpp:380] conv3 <- norm2
-I0923 23:04:03.958628 26747 net.cpp:338] conv3 -> conv3
-I0923 23:04:03.958662 26747 net.cpp:113] Setting up conv3
-I0923 23:04:03.959905 26747 net.cpp:120] Top shape: 10 384 13 13 (648960)
-I0923 23:04:03.959993 26747 layer_factory.hpp:74] Creating layer relu3
-I0923 23:04:03.960033 26747 net.cpp:84] Creating Layer relu3
-I0923 23:04:03.960068 26747 net.cpp:380] relu3 <- conv3
-I0923 23:04:03.960104 26747 net.cpp:327] relu3 -> conv3 (in-place)
-I0923 23:04:03.960140 26747 net.cpp:113] Setting up relu3
-I0923 23:04:03.960175 26747 net.cpp:120] Top shape: 10 384 13 13 (648960)
-I0923 23:04:03.960209 26747 layer_factory.hpp:74] Creating layer conv4
-I0923 23:04:03.960244 26747 net.cpp:84] Creating Layer conv4
-I0923 23:04:03.960278 26747 net.cpp:380] conv4 <- conv3
-I0923 23:04:03.960312 26747 net.cpp:338] conv4 -> conv4
-I0923 23:04:03.960348 26747 net.cpp:113] Setting up conv4
-I0923 23:04:03.961261 26747 net.cpp:120] Top shape: 10 384 13 13 (648960)
-I0923 23:04:03.961321 26747 layer_factory.hpp:74] Creating layer relu4
-I0923 23:04:03.961359 26747 net.cpp:84] Creating Layer relu4
-I0923 23:04:03.961402 26747 net.cpp:380] relu4 <- conv4
-I0923 23:04:03.961460 26747 net.cpp:327] relu4 -> conv4 (in-place)
-I0923 23:04:03.961503 26747 net.cpp:113] Setting up relu4
-I0923 23:04:03.961544 26747 net.cpp:120] Top shape: 10 384 13 13 (648960)
-I0923 23:04:03.961580 26747 layer_factory.hpp:74] Creating layer conv5
-I0923 23:04:03.961618 26747 net.cpp:84] Creating Layer conv5
-I0923 23:04:03.961653 26747 net.cpp:380] conv5 <- conv4
-I0923 23:04:03.961690 26747 net.cpp:338] conv5 -> conv5
-I0923 23:04:03.961729 26747 net.cpp:113] Setting up conv5
-I0923 23:04:03.962118 26747 net.cpp:120] Top shape: 10 256 13 13 (432640)
-I0923 23:04:03.962167 26747 layer_factory.hpp:74] Creating layer relu5
-I0923 23:04:03.962205 26747 net.cpp:84] Creating Layer relu5
-I0923 23:04:03.962240 26747 net.cpp:380] relu5 <- conv5
-I0923 23:04:03.962276 26747 net.cpp:327] relu5 -> conv5 (in-place)
-I0923 23:04:03.962314 26747 net.cpp:113] Setting up relu5
-I0923 23:04:03.962352 26747 net.cpp:120] Top shape: 10 256 13 13 (432640)
-I0923 23:04:03.962386 26747 layer_factory.hpp:74] Creating layer pool5
-I0923 23:04:03.962424 26747 net.cpp:84] Creating Layer pool5
-I0923 23:04:03.962460 26747 net.cpp:380] pool5 <- conv5
-I0923 23:04:03.962497 26747 net.cpp:338] pool5 -> pool5
-I0923 23:04:03.962535 26747 net.cpp:113] Setting up pool5
-I0923 23:04:03.962575 26747 net.cpp:120] Top shape: 10 256 6 6 (92160)
-I0923 23:04:03.962611 26747 layer_factory.hpp:74] Creating layer fc6
-I0923 23:04:03.962648 26747 net.cpp:84] Creating Layer fc6
-I0923 23:04:03.962684 26747 net.cpp:380] fc6 <- pool5
-I0923 23:04:03.962721 26747 net.cpp:338] fc6 -> fc6
-I0923 23:04:03.962759 26747 net.cpp:113] Setting up fc6
-I0923 23:04:04.018954 26747 net.cpp:120] Top shape: 10 4096 (40960)
-I0923 23:04:04.019098 26747 layer_factory.hpp:74] Creating layer relu6
-I0923 23:04:04.019146 26747 net.cpp:84] Creating Layer relu6
-I0923 23:04:04.019186 26747 net.cpp:380] relu6 <- fc6
-I0923 23:04:04.019227 26747 net.cpp:327] relu6 -> fc6 (in-place)
-I0923 23:04:04.019268 26747 net.cpp:113] Setting up relu6
-I0923 23:04:04.019306 26747 net.cpp:120] Top shape: 10 4096 (40960)
-I0923 23:04:04.019341 26747 layer_factory.hpp:74] Creating layer drop6
-I0923 23:04:04.019382 26747 net.cpp:84] Creating Layer drop6
-I0923 23:04:04.019418 26747 net.cpp:380] drop6 <- fc6
-I0923 23:04:04.019455 26747 net.cpp:327] drop6 -> fc6 (in-place)
-I0923 23:04:04.019493 26747 net.cpp:113] Setting up drop6
-I0923 23:04:04.019533 26747 net.cpp:120] Top shape: 10 4096 (40960)
-I0923 23:04:04.019569 26747 layer_factory.hpp:74] Creating layer fc7
-I0923 23:04:04.019608 26747 net.cpp:84] Creating Layer fc7
-I0923 23:04:04.019642 26747 net.cpp:380] fc7 <- fc6
-I0923 23:04:04.019680 26747 net.cpp:338] fc7 -> fc7
-I0923 23:04:04.019719 26747 net.cpp:113] Setting up fc7
-I0923 23:04:04.435897 26747 net.cpp:120] Top shape: 10 4096 (40960)
-I0923 23:04:04.436034 26747 net.cpp:169] fc7 does not need backward computation.
-I0923 23:04:04.436075 26747 net.cpp:169] drop6 does not need backward computation.
-I0923 23:04:04.436111 26747 net.cpp:169] relu6 does not need backward computation.
-I0923 23:04:04.436146 26747 net.cpp:169] fc6 does not need backward computation.
-I0923 23:04:04.436180 26747 net.cpp:169] pool5 does not need backward computation.
-I0923 23:04:04.436214 26747 net.cpp:169] relu5 does not need backward computation.
-I0923 23:04:04.436249 26747 net.cpp:169] conv5 does not need backward computation.
-I0923 23:04:04.436293 26747 net.cpp:169] relu4 does not need backward computation.
-I0923 23:04:04.436332 26747 net.cpp:169] conv4 does not need backward computation.
-I0923 23:04:04.436368 26747 net.cpp:169] relu3 does not need backward computation.
-I0923 23:04:04.436417 26747 net.cpp:169] conv3 does not need backward computation.
-I0923 23:04:04.436460 26747 net.cpp:169] norm2 does not need backward computation.
-I0923 23:04:04.436516 26747 net.cpp:169] pool2 does not need backward computation.
-I0923 23:04:04.436558 26747 net.cpp:169] relu2 does not need backward computation.
-I0923 23:04:04.436596 26747 net.cpp:169] conv2 does not need backward computation.
-I0923 23:04:04.436636 26747 net.cpp:169] norm1 does not need backward computation.
-I0923 23:04:04.436673 26747 net.cpp:169] pool1 does not need backward computation.
-I0923 23:04:04.436712 26747 net.cpp:169] relu1 does not need backward computation.
-I0923 23:04:04.436748 26747 net.cpp:169] conv1 does not need backward computation.
-I0923 23:04:04.436785 26747 net.cpp:205] This network produces output fc7
-I0923 23:04:04.436836 26747 net.cpp:447] Collecting Learning Rate and Weight Decay.
-I0923 23:04:04.436880 26747 net.cpp:217] Network initialization done.
-I0923 23:04:04.436956 26747 net.cpp:218] Memory required for data: 62090240
-E0923 23:04:05.138550 26747 upgrade_proto.cpp:609] Attempting to upgrade input file specified using deprecated transformation parameters: /media/lifelogging/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel
-I0923 23:04:05.138649 26747 upgrade_proto.cpp:612] Successfully upgraded file specified using deprecated data transformation parameters.
-E0923 23:04:05.138685 26747 upgrade_proto.cpp:614] Note that future Caffe releases will only support transform_param messages for transformation fields.
-E0923 23:04:05.138720 26747 upgrade_proto.cpp:618] Attempting to upgrade input file specified using deprecated V1LayerParameter: /media/lifelogging/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel
-I0923 23:04:05.614267 26747 upgrade_proto.cpp:626] Successfully upgraded file specified using deprecated V1LayerParameter
-Done with init
-Using GPU Mode
-Done with set_mode
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064526.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064456.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064426.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064354.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064324.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064254.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064222.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064152.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064122.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064051.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065034.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065002.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064932.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064902.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064830.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064759.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064729.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064657.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064627.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/064557.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065527.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065457.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065437.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065407.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065337.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065305.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065235.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065205.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065134.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065104.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070035.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070005.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065935.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065902.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065832.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065802.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065730.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065700.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065630.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/065557.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070545.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070512.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070442.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070412.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070341.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070311.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070241.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070208.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070138.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070108.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071052.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071022.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070950.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070920.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070850.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070817.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070746.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070716.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070645.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/070615.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071559.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071529.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071459.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071427.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071357.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071327.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071254.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071224.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071154.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071122.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072107.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072035.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072005.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071935.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071903.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071833.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071803.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071732.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071702.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/071632.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072613.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072543.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072511.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072441.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072411.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072340.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072310.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072240.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072208.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072137.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073115.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073049.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073019.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072947.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072917.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072847.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072815.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072745.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072715.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/072643.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073621.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073550.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073518.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073448.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073418.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073347.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073317.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073247.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073215.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073145.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074127.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074057.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074027.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073955.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073925.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073855.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073823.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073753.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073723.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/073651.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074633.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074602.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074532.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074502.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074431.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074401.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074330.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074259.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074229.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074159.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075138.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075108.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075036.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075006.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074936.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074904.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074834.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074804.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074733.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/074703.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075643.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075613.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075542.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075511.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075441.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075411.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075339.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075309.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075239.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075208.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080151.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080118.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080048.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080018.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075946.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075916.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075846.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075814.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075744.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/075714.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080657.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080627.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080556.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080526.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080456.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080423.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080353.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080323.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080251.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080221.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081204.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081132.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081102.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081031.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080959.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080929.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080859.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080827.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080757.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/080727.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081711.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081641.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081608.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081538.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081508.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081436.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081406.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081336.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081304.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081234.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082410.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082340.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082310.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082238.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082208.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082138.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081912.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081842.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081812.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/081741.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082918.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082846.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082816.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082746.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082713.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082643.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082613.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082542.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082512.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082442.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083425.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083355.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083324.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083253.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083223.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083151.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083121.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083051.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083018.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/082948.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083933.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083902.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083832.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083759.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083729.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083659.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083626.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083556.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083526.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/083455.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084442.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084409.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084339.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084309.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084237.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084207.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084137.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084104.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084034.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084004.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084945.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084914.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084844.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084814.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084741.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084711.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084641.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084609.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084539.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/084509.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092235.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085431.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085351.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085320.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085250.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085218.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085148.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085118.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085045.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/085015.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092745.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092712.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092642.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092612.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092539.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092509.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092439.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092406.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092336.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092306.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093250.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093220.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093148.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093118.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093048.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093016.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092946.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092916.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092845.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/092815.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093756.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093726.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093656.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093624.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093554.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093524.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093453.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093423.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093353.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093320.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094301.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094231.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094158.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094128.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094058.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094031.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094001.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093929.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093859.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/093829.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094806.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094736.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094706.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094634.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094604.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094534.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094502.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094432.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094402.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/094331.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095637.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095607.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095534.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095504.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095434.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095402.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095333.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095313.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095241.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095211.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100143.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100113.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100043.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100010.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095940.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095910.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095839.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095809.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095739.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/095707.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100652.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100619.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100549.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100519.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100447.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100417.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100347.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100314.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100244.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100214.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101158.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101128.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101056.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101026.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100955.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100923.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100853.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100823.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100752.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/100722.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101702.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101634.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101604.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101532.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101502.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101432.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101359.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101329.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101259.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101228.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102209.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102139.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102106.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102036.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102006.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101934.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101904.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101834.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101802.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/101732.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102714.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102644.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102614.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102543.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102512.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102442.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102411.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102341.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102311.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102239.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103122.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103109.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103106.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103035.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103005.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102935.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102903.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102832.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102817.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/102747.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103543.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103511.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103441.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103410.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103338.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103308.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103238.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103205.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103135.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103126.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104051.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104021.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103949.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103919.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103849.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103816.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103746.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103715.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103643.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/103613.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104600.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104530.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104500.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104427.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104357.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104327.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104254.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104224.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104154.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104121.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105110.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105037.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105006.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104936.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104904.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104834.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104804.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104732.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104702.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/104632.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105613.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105540.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105510.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105440.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105407.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105337.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105307.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105235.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105205.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105135.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110122.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110052.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110020.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105950.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105919.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105846.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105816.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105746.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105713.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/105643.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110630.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110600.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110530.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110457.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110427.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110357.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110325.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110255.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110224.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110152.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111448.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111414.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111040.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111010.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110936.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110906.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110836.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110804.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110734.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/110704.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111954.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111924.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111852.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111822.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111752.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111720.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111650.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111620.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111548.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/111518.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140356.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140326.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140256.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140224.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140154.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140123.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140052.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140022.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/112057.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/112024.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140905.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140833.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140803.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140733.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140702.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140632.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140602.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140528.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140458.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140428.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142317.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142247.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142216.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142146.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142116.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/141137.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/141107.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/141036.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/141005.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/140935.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142855.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142823.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142753.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142723.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142650.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142620.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142550.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142519.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142448.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142347.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143502.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143431.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143400.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143330.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143258.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143228.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143158.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143126.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142955.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/142925.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144005.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143934.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143904.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143834.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143802.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143732.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143702.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143634.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143602.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/143532.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144511.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144440.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144409.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144339.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144309.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144237.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144207.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144136.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144105.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144035.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145018.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144948.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144917.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144845.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144815.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144745.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144713.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144643.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144613.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/144541.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145524.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145453.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145422.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145352.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145321.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145251.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145220.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145149.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145119.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145049.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150029.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145959.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145928.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145858.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145828.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145756.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145726.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145656.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145624.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/145554.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150939.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150909.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150838.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150808.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150738.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150707.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150230.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150200.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150130.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/150059.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151443.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151412.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151342.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151312.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151244.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151214.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151143.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151113.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151042.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151009.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151948.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151917.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151846.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151816.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151746.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151715.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151645.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151615.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151544.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/151514.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152454.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152424.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152354.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152322.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152252.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152222.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152150.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152120.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152050.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152018.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155443.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155412.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155342.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155312.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155239.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152727.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152657.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152625.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152555.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/152525.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155930.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155900.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155829.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155759.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155729.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155658.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155628.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155558.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155543.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/155513.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160421.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160351.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160321.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160303.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160233.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160203.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160132.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160102.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160032.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160000.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160927.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160855.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160825.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160755.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160723.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160634.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160604.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160536.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160505.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160435.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161433.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161403.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161331.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161301.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161231.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161159.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161129.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161059.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161027.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/160957.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161939.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161909.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161839.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161808.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161738.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161708.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161636.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161606.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161536.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/161503.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162447.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162415.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162345.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162315.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162243.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162213.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162143.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162111.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162041.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162011.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162952.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162922.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162851.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162821.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162751.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162719.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162649.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162619.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162547.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/162517.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163459.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163429.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163359.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163326.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163256.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163226.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163154.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163124.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163054.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163023.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164107.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163935.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163905.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163835.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163803.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163733.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163703.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163632.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163602.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/163531.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164611.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164541.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164511.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164438.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164408.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164338.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164306.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164236.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164206.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164139.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165121.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165049.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165018.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164948.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164916.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164846.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164816.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164744.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164713.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/164643.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165628.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165558.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165525.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165455.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165425.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165353.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165323.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165253.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165221.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165151.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170133.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170103.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170032.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170001.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165931.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165901.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165830.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165800.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165730.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/165658.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170711.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170641.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170609.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170539.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170509.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170437.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170407.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170306.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170236.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170206.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/171218.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/171148.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/171118.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/171045.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/171015.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170945.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170913.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170843.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170813.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya2/170742.jpg
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
-Completed folder 1 with 780 images.
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070443.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070413.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070343.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070311.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070241.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070211.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070139.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070109.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070039.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070025.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071020.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070950.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070919.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070849.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070819.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070716.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070646.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070615.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070545.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/070515.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071526.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071456.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071426.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071354.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071324.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071254.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071223.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071153.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071123.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071050.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072034.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072000.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071930.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071900.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071829.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071759.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071729.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071657.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071627.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/071557.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072609.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072539.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072437.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072407.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072337.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072305.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072235.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072205.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072134.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072104.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073048.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073017.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072947.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072916.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072845.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072815.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072745.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072712.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072642.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/072640.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073555.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073525.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073453.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073423.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073353.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073321.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073251.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073221.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073148.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073118.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083444.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/074027.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073957.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073927.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073856.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073825.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073755.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073723.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073653.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/073623.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083950.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083920.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083850.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083817.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083747.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083717.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083645.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083615.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083545.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/083514.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084459.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084428.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084358.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084328.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084255.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084225.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084155.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084123.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084053.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084023.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/085006.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084936.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084903.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084833.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084803.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084731.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084701.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084631.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084559.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/084529.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090938.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090907.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090837.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090807.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090734.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090704.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090634.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090608.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/090538.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/085036.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091444.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091414.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091341.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091311.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091241.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091210.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091140.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091110.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091038.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091008.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/112905.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/112752.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/112722.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/112652.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/112621.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/112551.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091646.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091616.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091546.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/091514.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113440.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113410.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113338.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113308.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113238.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113206.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113136.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113038.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113008.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/112938.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113947.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113917.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113847.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113814.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113744.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113714.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113642.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113612.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113542.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/113510.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114454.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114423.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114353.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114323.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114251.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114220.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114150.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114119.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114049.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114019.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115001.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114931.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114859.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114829.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114759.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114727.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114657.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114627.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114555.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/114524.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115540.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115508.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115438.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115408.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115337.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115307.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115236.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115134.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115104.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115031.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120149.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120118.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120048.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120018.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115945.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115915.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115845.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115813.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115713.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/115640.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120656.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120626.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120554.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120524.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120454.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120423.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120353.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120323.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120249.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120219.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121200.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121128.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121058.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121028.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120956.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120926.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120856.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120823.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120753.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/120723.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121707.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121637.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121606.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121536.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121506.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121433.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121403.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121333.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121300.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121230.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122214.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122144.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122114.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122041.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122011.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121940.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121909.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121839.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121809.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/121737.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122724.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122652.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122622.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122551.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122519.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122449.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122419.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122346.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122316.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122246.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/163807.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/163737.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/123128.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/123058.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/123028.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122956.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122926.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122856.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122824.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/122754.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164311.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164241.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164211.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164140.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164110.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164040.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164009.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/163939.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/163908.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/163837.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164817.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164746.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164716.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164646.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164614.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164544.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164514.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164443.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164413.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164343.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165353.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165323.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165253.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165221.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165151.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165050.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165020.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164950.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164917.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/164847.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165902.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165830.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165800.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165730.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165657.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165627.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165557.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165525.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165455.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165425.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170409.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170339.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170307.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170237.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170207.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170134.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170104.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170034.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170002.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/165932.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170912.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170842.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170812.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170740.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170710.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170640.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170612.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170542.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170512.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170439.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171450.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171420.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171319.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171249.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171216.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171146.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171116.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171045.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171015.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/170944.jpg
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171755.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171725.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171652.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171622.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171552.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Maya3/171520.jpg
-Completed folder 2 with 336 images.
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081220.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081150.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081118.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081048.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081018.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/080947.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/080917.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/080847.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/080820.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/080750.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081836.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081806.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081736.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081704.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081634.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081604.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081532.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081502.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081432.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081250.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082344.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082313.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082243.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082213.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082141.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082111.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082041.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082008.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081938.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/081908.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082849.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082819.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082747.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082717.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082647.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082615.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082545.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082515.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082445.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082414.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102231.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102201.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102131.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102100.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102030.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102000.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/101929.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/101859.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082950.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/082919.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102736.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102706.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102636.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102604.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102534.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102504.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102433.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102403.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102333.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102301.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111044.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111013.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/110943.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/110913.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/110842.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/110812.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/110741.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102907.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102837.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/102807.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111548.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111518.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111447.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111417.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111347.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111316.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111246.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111216.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111144.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111114.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112254.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112024.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111954.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111922.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111852.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111822.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111751.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111721.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111651.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/111619.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112759.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112728.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112658.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112628.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112557.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112527.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112456.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112425.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112355.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112325.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113300.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113228.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113158.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113128.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113057.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113027.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112957.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112931.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112859.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/112829.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113806.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113736.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113704.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113634.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113604.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113531.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113501.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113431.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113400.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113330.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114311.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114241.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114211.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114140.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114110.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114040.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114009.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113938.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113908.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/113836.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114819.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114747.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114717.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114647.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114616.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114546.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114516.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114443.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114413.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114343.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115324.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115254.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115223.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115153.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115123.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115051.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115021.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114951.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114919.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/114849.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/123803.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/123733.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/123702.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115713.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115628.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115558.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115527.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115457.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115427.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/115354.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124309.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124239.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124209.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124137.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124107.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124037.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124006.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/123936.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/123906.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/123833.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124848.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124818.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124748.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124646.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124616.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124544.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124514.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124444.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124410.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124340.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125422.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125352.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125321.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125251.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125221.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125150.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125120.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125050.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125019.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/124949.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161327.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125858.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125828.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125757.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125727.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125656.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125624.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125554.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125524.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/125452.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161833.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161801.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161731.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161701.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161630.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161600.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161530.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161458.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161428.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161358.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162337.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162307.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162235.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162205.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162135.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162105.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162035.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162005.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161934.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/161904.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162842.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162812.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162742.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162711.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162641.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162611.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162539.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162509.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162439.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162407.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163418.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163348.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163316.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163246.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163216.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163145.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163115.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163045.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163013.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/162914.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163924.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163854.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163824.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163751.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163721.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163651.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163620.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163549.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163519.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/163448.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165301.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165231.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165159.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165129.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165059.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165028.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/164958.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/164928.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/164056.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/164026.jpg
- Preparing  
-[Warning: Problems with file] 
-[> In prepare_batch>(parfor body) at 39
-  In parallel_function at 478
-  In prepare_batch at 21
-  In extractCNNFeatures at 47
-  In runExtractCNNFeatures at 24] 
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165736.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165706.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165635.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165604.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165534.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165503.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165433.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165403.jpg
- Preparing /media/lifelogging/HDD_2TB/DATASETS/LIFELOG_DATASETS/Narrative/imageSets/Estefania3/165331.jpg
-Completed folder 3 with 269 images.
-Elapsed time is 170.118986 seconds.
-Done
-F0923 23:06:56.223891 26747 syncedmem.cpp:16] Check failed: error == cudaSuccess (29 vs. 0)  driver shutting down
-*** Check failure stack trace: ***
-
-------------------------------------------------------------------------
-              abort() detected at Wed Sep 23 23:06:56 2015
-------------------------------------------------------------------------
-
-Configuration:
-  Crash Decoding     : Disabled
-  Current Visual     : None
-  Default Encoding   : UTF-8
-  GNU C Library      : 2.19 stable
-  MATLAB Architecture: glnxa64
-  MATLAB Root        : /usr/local/MATLAB/R2014a
-  MATLAB Version     : 8.3.0.532 (R2014a)
-  Operating System   : Linux 3.13.0-37-generic #64-Ubuntu SMP Mon Sep 22 21:28:38 UTC 2014 x86_64
-  Processor ID       : x86 Family 6 Model 62 Stepping 4, GenuineIntel
-  Window System      : No active display
-
-Fault Count: 1
-
-
-Abnormal termination:
-abort()
-
-Register State (from fault):
-  RAX = 0000000000000000  RBX = 00007f40e9b11620
-  RCX = ffffffffffffffff  RDX = 0000000000000006
-  RSP = 00007f41072b4aa8  RBP = 00007f41072b4be0
-  RSI = 000000000000687b  RDI = 0000000000006844
-
-   R8 = 000000000000ff08   R9 = 00007f4119763d40
-  R10 = 0000000000000008  R11 = 0000000000000206
-  R12 = 00007f40f8bf2210  R13 = 00007f40f8bf99b0
-  R14 = 00007f40f8bf9a80  R15 = 00007f40f8bf99b8
-
-  RIP = 00007f4119649cc9  EFL = 0000000000000206
-
-   CS = 0033   FS = 0000   GS = 0000
-
-Stack Trace (from fault):
-[  0] 0x00007f4119649cc9                    /lib/x86_64-linux-gnu/libc.so.6+00224457 gsignal+00000057
-[  1] 0x00007f411964d0d8                    /lib/x86_64-linux-gnu/libc.so.6+00237784 abort+00000328
-[  2] 0x00007f40e98ebd81             /usr/lib/x86_64-linux-gnu/libglog.so.0+00068993 _ZN6google22InstallFailureFunctionEPFvvE+00000000
-[  3] 0x00007f40e98ebdaa             /usr/lib/x86_64-linux-gnu/libglog.so.0+00069034 _ZN6google10LogMessage10SendToSinkEv+00000000
-[  4] 0x00007f40e98ebce4             /usr/lib/x86_64-linux-gnu/libglog.so.0+00068836 _ZN6google10LogMessage9SendToLogEv+00001224
-[  5] 0x00007f40e98eb6e6             /usr/lib/x86_64-linux-gnu/libglog.so.0+00067302 _ZN6google10LogMessage5FlushEv+00000414
-[  6] 0x00007f40e98ee687             /usr/lib/x86_64-linux-gnu/libglog.so.0+00079495 _ZN6google15LogMessageFatalD1Ev+00000025
-[  7] 0x00007f40ef62bebc /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00618172
-[  8] 0x00007f40ef62c8a2 /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00620706
-[  9] 0x00007f40ef5cc0c8 /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00225480
-[ 10] 0x00007f40ef615c22 /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00527394
-[ 11] 0x00007f40ef66f171 /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00893297
-[ 12] 0x00007f40ef66f409 /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00893961
-[ 13] 0x00007f40ef5cbecd /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00224973
-[ 14] 0x00007f40ef5cbfa2 /usr/local/caffe-master2/matlab/caffe/caffe.mexa64+00225186
-[ 15] 0x00007f411964f259                    /lib/x86_64-linux-gnu/libc.so.6+00246361
-[ 16] 0x00007f411964f2a5                    /lib/x86_64-linux-gnu/libc.so.6+00246437
-[ 17] 0x00007f411a763db0   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00576944
-[ 18] 0x00007f411a762a6d   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00572013
-[ 19] 0x00007f411092dde3 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_dispatcher.so+00417251
-[ 20] 0x00007f411091a874 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_dispatcher.so+00338036 _ZN13Mfh_MATLAB_fn11dispatch_fhEiPP11mxArray_tagiS2_+00000244
-[ 21] 0x00007f410fa4220e /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02601486
-[ 22] 0x00007f410f9e31b0 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02212272
-[ 23] 0x00007f410f9fe25f /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02323039
-[ 24] 0x00007f410fa02167 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02339175
-[ 25] 0x00007f410fa0026f /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02331247
-[ 26] 0x00007f410fa00ec4 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02334404
-[ 27] 0x00007f410fa5e30b /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02716427
-[ 28] 0x00007f411096bc5f /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_dispatcher.so+00670815 _ZN8Mfh_file11dispatch_fhEiPP11mxArray_tagiS2_+00001087
-[ 29] 0x00007f410fa4220e /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02601486
-[ 30] 0x00007f410f9e31b0 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02212272
-[ 31] 0x00007f410f9fe25f /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02323039
-[ 32] 0x00007f410fa02167 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02339175
-[ 33] 0x00007f410fa0026f /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02331247
-[ 34] 0x00007f410fa00ec4 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02334404
-[ 35] 0x00007f410fa5e30b /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02716427
-[ 36] 0x00007f411096bc5f /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_dispatcher.so+00670815 _ZN8Mfh_file11dispatch_fhEiPP11mxArray_tagiS2_+00001087
-[ 37] 0x00007f410fa31135 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02531637
-[ 38] 0x00007f410f9f80d9 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02298073
-[ 39] 0x00007f410f9f59e1 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02288097
-[ 40] 0x00007f410f9f5bf1 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02288625
-[ 41] 0x00007f410f9f7290 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+02294416
-[ 42] 0x00007f410f99ca75 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwm_interpreter.so+01923701 _Z51inEvalCmdWithLocalReturnInDesiredWSAndPublishEventsPKcPibbP15inWorkSpace_tag+00000085
-[ 43] 0x00007f4111a53e68   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwiqm.so+00650856 _ZNK3iqm18InternalEvalPlugin24inEvalCmdWithLocalReturnERKSbIDsSt11char_traitsIDsESaIDsEEP15inWorkSpace_tag+00000120
-[ 44] 0x00007f4111a54328   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwiqm.so+00652072 _ZN3iqm18InternalEvalPlugin7executeEP15inWorkSpace_tagRN5boost10shared_ptrIN14cmddistributor17IIPCompletedEventEEE+00000120
-[ 45] 0x00007f411a7410c5   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00434373
-[ 46] 0x00007f4111a46565   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwiqm.so+00595301
-[ 47] 0x00007f4111a34b05   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwiqm.so+00523013
-[ 48] 0x00007f4111799ad9 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwbridge.so+00121561 _Z10ioReadLinebP8_IO_FILERKN5boost8optionalIKP15inWorkSpace_tagEEb+00000345
-[ 49] 0x00007f411179a081 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwbridge.so+00123009
-[ 50] 0x00007f411179ec2d /usr/local/MATLAB/R2014a/bin/glnxa64/libmwbridge.so+00142381
-[ 51] 0x00007f411179efe9 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwbridge.so+00143337
-[ 52] 0x00007f411179f70b /usr/local/MATLAB/R2014a/bin/glnxa64/libmwbridge.so+00145163 _Z8mnParserv+00000587
-[ 53] 0x00007f411a74e92f   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00489775 _ZN11mcrInstance30mnParser_on_interpreter_threadEv+00000031
-[ 54] 0x00007f411a72fb6d   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00363373
-[ 55] 0x00007f411a72fbe9   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00363497
-[ 56] 0x00007f411adfee33 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwservices.so+01646131 _ZN10eventqueue18UserEventQueueImpl5flushEv+00000611
-[ 57] 0x00007f410f10d1ed   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwuix.so+00221677
-[ 58] 0x00007f411aea46ea /usr/local/MATLAB/R2014a/bin/glnxa64/libmwservices.so+02324202
-[ 59] 0x00007f411aea4a24 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwservices.so+02325028
-[ 60] 0x00007f411aea057f /usr/local/MATLAB/R2014a/bin/glnxa64/libmwservices.so+02307455
-[ 61] 0x00007f411aea59b5 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwservices.so+02329013
-[ 62] 0x00007f411aea5de7 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwservices.so+02330087
-[ 63] 0x00007f411aea64c0 /usr/local/MATLAB/R2014a/bin/glnxa64/libmwservices.so+02331840 _Z25svWS_ProcessPendingEventsiib+00000080
-[ 64] 0x00007f411a730098   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00364696
-[ 65] 0x00007f411a7303bf   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00365503
-[ 66] 0x00007f411a72b28f   /usr/local/MATLAB/R2014a/bin/glnxa64/libmwmcr.so+00344719
-[ 67] 0x00007f41199e0182              /lib/x86_64-linux-gnu/libpthread.so.0+00033154
-[ 68] 0x00007f411970d47d                    /lib/x86_64-linux-gnu/libc.so.6+01025149 clone+00000109
-
-
-If this problem is reproducible, please submit a Service Request via:
-    http://www.mathworks.com/support/contact_us/
-
-A technical support engineer might contact you with further information.
-
-Thank you for your help.** This crash report has been saved to disk as /home/lifelogging/matlab_crash_dump.26692-1 **
-
-
-
-MATLAB is exiting because of fatal error
