@@ -8,7 +8,6 @@ Semantic Segmentation of events in egocentric lifelogging photo streams.
 The training and validation of the code was performed using the [EDUB-Seg dataset](http://www.ub.edu/cvub/egocentric-dataset-of-the-university-of-barcelona-segmentation-edub-seg/).
 
 ## Citation
-
 If you use this code or the dataset, please cite the following papers:
 
         Dimiccoli, M., Bolaños, M., Talavera, E., Aghaei, M., Nikolov, S. & Radeva, P. (2015) 
