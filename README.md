@@ -2,21 +2,9 @@
 Semantic Segmentation of events in egocentric lifelogging photo streams.
 
 ## Requirements:
-
-	1) Caffe Deep Learning Framework and matcaffe wrapper (for global features calculation)
-		Caffe main page: http://caffe.berkeleyvision.org/
-		Good Linux installation tutorial: https://github.com/tiangolo/caffe/blob/ubuntu-tutorial-b/docs/install_apt2.md
-		CaffeNet model: http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel 
-	2) IMAGGA account (for semantic features calculation)
-		http://www.imagga.com/
-	2) [ALTERNATIVE] if using LSDA instead of IMAGGA, download and install the needed files to ./LSDA from the GitHub repository
-		[https://github.com/jhoffman/lsda](https://github.com/jhoffman/lsda)
-	3) Compile files in GCMex for your system.
-	4) MATLAB
-	5) [IMAGGA only] Python 2.7 (with nltk libraries)
+[TODO]
 
 ## Dataset
-
 The training and validation of the code was performed using the [EDUB-Seg dataset](http://www.ub.edu/cvub/egocentric-dataset-of-the-university-of-barcelona-segmentation-edub-seg/).
 
 ## Citation
@@ -32,5 +20,4 @@ If you use this code or the dataset, please cite the following papers:
         In 7th Iberian Conference on Pattern Recognition and Image Analysis (IbPRIA).
 
 ## Demo
-
-Use code in Demo folder for a simple execution of our SR-Clustering algorithm (read [Demo/README.txt](Demo/README.txt) before execution).
+[TODO]
