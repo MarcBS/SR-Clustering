@@ -1,7 +1,7 @@
 # SR-Clustering
 Semantic Segmentation of events in egocentric lifelogging photo streams.
 
-## Requirements:
+## Requirements
 [TODO]
 
 ## Dataset
