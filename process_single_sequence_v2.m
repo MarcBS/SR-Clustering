@@ -1,4 +1,4 @@
-function events = process_single_sequence_v2(folder, params)
+function [events, results] = process_single_sequence_v2(folder, params)
 
     %% Load paths
     addpath('Adwin;Data_Loading;Evaluation;Features_Preprocessing');
@@ -50,11 +50,27 @@ function events = process_single_sequence_v2(folder, params)
     %% Evaluation parameters
     tol=5; % tolerance for the final evaluation
 
+    %% Grid Search
+    %folders = {'Subject1_Set1', 'Subject1_Set2', 'Subject1_Set3'};
+    %methods_indx = {'ward', 'complete','centroid','average','single','weighted','median'};
+
+
+
+%for f_ix=1:size(folders, 2)
+    tot_res = [];
+  %  folder = ['/media/marcvaldivia/HDD/EDUB-Seg/images/' folders{f_ix}];
+   % [~, folder_name, ~] = fileparts(folder);
+   % files = dir([folder '/*' '.jpg']);
+   % files = files(arrayfun(@(x) x.name(1) ~= '.', files));
+   % [~,~,cl_limGT, ~] = analizarExcel_Narrative(['/media/marcvaldivia/HDD/EDUB-Seg/GT/' 'GT_' folder_name '.xls'], files);
+   % delim = cl_limGT';
+   % if delim(1) == 1, delim=delim(2:end); end
+    %GT = delim;
 
 
     %% Build paths for images, features and results
     [~, folder_name, ~] = fileparts(folder);
-    path_features = [params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.csv'];
+    path_features = [params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.mat'];
     path_features_PCA = [params.features_path '/CNNfeatures/CNNfeaturesPCA_' folder_name '.mat'];
 
     if(params.semantic_type == 2 || params.semantic_type == 4) % IMAGGA
@@ -84,7 +100,7 @@ function events = process_single_sequence_v2(folder, params)
     %% Global Features
     if strcmp(paramsfeatures.type, 'CNN')
         if(load_features)
-            features = csvread(path_features); %load(path_features);
+           load(path_features); %features = csvread(path_features);%load(path_features); %load(path_features);
 
 
 
@@ -126,6 +142,11 @@ function events = process_single_sequence_v2(folder, params)
 	tag_matrix_GC = [];
         tag_matrix = [];
     end
+
+%for cut_indx_use=0.1:0.1:1.0
+
+    %folder_name = folders{f_ix};
+    %cut_indx = cut_indx_use;
 
 
     %% CLUSTERING
@@ -225,7 +246,9 @@ function events = process_single_sequence_v2(folder, params)
 
                 [features_GC, ~, ~] = normalize(features_GC);
 
-                [ labels, start_GC ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W_pairwise, features_GC, tol, GT, doEvaluation, previousMethods);
+                [ labels, start_GC, results ] = doSingleTest(LH_Clus, start_clus, bound_GC ,window_len, W_unary, W_pairwise, features_GC, tol, GT, doEvaluation, previousMethods);
+
+                tot_res = [tot_res; results];
 
                 close all;
              end%end cut
@@ -321,3 +344,6 @@ function events = process_single_sequence_v2(folder, params)
             prev = i;
         end
     end
+
+%end
+%csvwrite([params.features_path '/' folder_name '.csv'],tot_res);

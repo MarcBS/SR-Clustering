@@ -6,14 +6,14 @@ addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_
 %% Data parameters
 
 %% Features path
-data_params.features_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Features'];
+data_params.features_path = ['/media/marcvaldivia/HDD1/EDUB-Seg/Features'];
 
 %%% R-Clustering results path
-data_params.RC_results_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Results'];
-data_params.RC_plot_results_path = ['/media/marcvaldivia/HDD/EDUB-Seg/Plot_Results'];
+data_params.RC_results_path = ['/media/marcvaldivia/HDD1/EDUB-Seg/Results'];
+data_params.RC_plot_results_path = ['/media/marcvaldivia/HDD1/EDUB-Seg/Plot_Results'];
 
 % Additional parameters
-data_params.min_length_merge = 3; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
+data_params.min_length_merge = 0; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
 
 
 %% Methods used
@@ -31,7 +31,7 @@ R_Clustering_params.clus_type = 'Both1';    % Clustering type used before the Gr
                                             %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
 
 %%% Cut values used
-R_Clustering_params.cut_indx_use = 0.6; % Narrative Semantic (Imagga) 0.2
+R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.2
                                         % Narrative LSDA 0.4
                                         % All Non-Semantic 0.2
 
@@ -57,17 +57,17 @@ R_Clustering_params.features_used = 4;  % 1 -> Global CNN only
 % Installation-dependent
 CNN_params.use_gpu = 1;
 CNN_params.batch_size = 30; % Depending on the deploy net structure!!
-CNN_params.model_file ='/media/HDD_2TB/CNN_MODELS/Caffenet_Reference/bvlc_reference_caffenet.caffemodel';
+CNN_params.model_file ='/home/marcvaldivia/code/caffe/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel';
 CNN_params.size_features = 4096;
-CNN_params.caffe_path = '/usr/local/caffe-master2/matlab/caffe'; % installation path
+CNN_params.caffe_path = '/home/marcvaldivia/code/caffe/matlab/'; % installation path
 
 % Model-dependent
 CNN_params.parallel = false; % allow loading images in parallel
 CNN_params.mean_file = '../Utils/ilsvrc_2012_mean.mat';
 
 [structure_path, ~, ~] = fileparts(pwd);
-CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.prototxt'];
-%CNN_params.model_def_file = '../../models/bvlc_reference_caffenet/deploy_signed_features.prototxt';
+%CNN_params.model_def_file = [structure_path '/Utils/deploy_signed_features.prototxt'];
+CNN_params.model_def_file = '/home/marcvaldivia/code/caffe/models/bvlc_reference_caffenet/deploy_signed_features.prototxt';
 
 
 %% Semantic Features parameters

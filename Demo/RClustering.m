@@ -1,5 +1,5 @@
 
-function segmentation = RClustering(folder, format, data_params, R_Clustering_params, CNN_params, Semantic_params, plot_params, GT_path)
+function [segmentation, results] = RClustering(folder, format, data_params, R_Clustering_params, CNN_params, Semantic_params, plot_params, GT_path)
 %%RClustering Segments a day lifelog using visual features.
 %
 %   Applies the R-Clustering segmentation algorithm on the data in
@@ -50,7 +50,7 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
     files = files(arrayfun(@(x) x.name(1) ~= '.', files));
 
     %% Check if global features are computed
-    path_features = [data_params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.csv'];
+    path_features = [data_params.features_path '/CNNfeatures/CNNfeatures_' folder_name '.mat'];
     if (~exist(path_features, 'file'))
         % Compute CNN features
         disp(['Extracting CNN global features of folder ' folder_name]);
@@ -127,7 +127,7 @@ function segmentation = RClustering(folder, format, data_params, R_Clustering_pa
     %%% Get cluster indices applying R-Clustering
     path_here = pwd;
     cd ..
-    events = process_single_sequence_v2(folder, params);
+    [events, results] = process_single_sequence_v2(folder, params);
     cd(path_here)
 
     num_clusters = max(events);

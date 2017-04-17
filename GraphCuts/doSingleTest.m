@@ -1,11 +1,11 @@
-function [ labels, start_GC ] = doSingleTest( LHs, clusterId, bound_GC, win_len, W_unary, W_pairwise, features, tolerance, GT, doEvaluation, previousMethods )
+function [ labels, start_GC, results ] = doSingleTest( LHs, clusterId, bound_GC, win_len, W_unary, W_pairwise, features, tolerance, GT, doEvaluation, previousMethods )
 %%
 %   Applies a single GC test.
 %
-%   LHs:        likelihoods resulting from the previously applied 
+%   LHs:        likelihoods resulting from the previously applied
 %               clustering and/or adwin. This variable is a cell array with
 %               1 or 2 positions, depending on the methods applied before.
-%   clusterId:  clustering ids for each sample. 
+%   clusterId:  clustering ids for each sample.
 %               This variable is a cell array with
 %               1 or 2 positions, depending on the methods applied before.
 %   bound_GC:   resulting event boundaries for each of the previously
@@ -25,7 +25,7 @@ function [ labels, start_GC ] = doSingleTest( LHs, clusterId, bound_GC, win_len,
 %               of the methods combined in the GraphCut smoothing.
 %%%%%%
     nSamples = size(features,1);
-    
+
     %% Calculate distances between features
     dists = pdist(features);
     dists = squareform(dists);
@@ -43,27 +43,35 @@ function [ labels, start_GC ] = doSingleTest( LHs, clusterId, bound_GC, win_len,
     else
         error('LHs and start_clus variables must be cells with the same length and 2 terms as maximum!');
     end
-    
+
     %% Execute Graph-Cuts
-    LH_GC = buildGraphCuts(LH_Clus, features, win_len, W_pairwise, dists); 
-    
+    LH_GC = buildGraphCuts(LH_Clus, features, win_len, W_pairwise, dists);
+
     %% Convert LH results on events separation (on GC result)
     [ labels, start_GC, num_clusters ] = getEventsFromLH(LH_GC);
-    
+
     disp(' ');
     if(doEvaluation)
         [recGC,precGC,accGC,fMeasureGC]=Rec_Pre_Acc_Evaluation(GT,start_GC,nSamples,tolerance);
+
+        %results = zeros(1, 9);
 
         if(nClus == 2)
             disp('-------- Results Clustering --------');
             disp(['Precision: ' num2str(precClus)]);
             disp(['Recall: ' num2str(recClus)]);
             disp(['F-Measure: ' num2str(fMeasureClus)]);
+            %results(1,1) = precClus;
+            %results(1,2) = recClus;
+            %results(1,3) = fMeasureClus;
             disp(' ');
             disp(['-------- Results ' previousMethods{2} ' --------']);
             disp(['Precision: ' num2str(precClus2)]);
             disp(['Recall: ' num2str(recClus2)]);
             disp(['F-Measure: ' num2str(fMeasureClus2)]);
+            %results(1,4) = precClus2;
+            %results(1,5) = recClus2;
+            %results(1,6) = fMeasureClus2;
         elseif(nClus == 1);
             disp(['-------- Results ' previousMethods{1} ' --------']);
             disp(['Precision: ' num2str(precClus)]);
@@ -75,10 +83,13 @@ function [ labels, start_GC ] = doSingleTest( LHs, clusterId, bound_GC, win_len,
         disp(['Precision: ' num2str(precGC)]);
         disp(['Recall: ' num2str(recGC)]);
         disp(['F-Measure: ' num2str(fMeasureGC)]);
+        %results(1,7) = precGC;
+        %results(1,8) = recGC;
+        %results(1,9) = fMeasureGC;
+        results = fMeasureGC;
     end
     disp(['Number of events: ' num2str(num_clusters)]);
     disp(['Mean frames per event: ' num2str(length(labels)/num_clusters)]);
     disp(' ');
 
 end
-
