@@ -6,11 +6,11 @@ addpath('../Data_Loading;..;../Tests;../Features_Extraction;../Utils;../Concept_
 %% Data parameters
 
 %% Features path
-data_params.features_path = ['/media/marcvaldivia/HDD1/EDUB-Seg/Features'];
+data_params.features_path = ['/home/marcvaldivia/HDD/EDUB-Seg/Features'];
 
 %%% R-Clustering results path
-data_params.RC_results_path = ['/media/marcvaldivia/HDD1/EDUB-Seg/Results'];
-data_params.RC_plot_results_path = ['/media/marcvaldivia/HDD1/EDUB-Seg/Plot_Results'];
+data_params.RC_results_path = ['/home/marcvaldivia/HDD/EDUB-Seg/Results'];
+data_params.RC_plot_results_path = ['/home/marcvaldivia/HDD/EDUB-Seg/Plot_Results'];
 
 % Additional parameters
 data_params.min_length_merge = 0; % (default 0) minimum length of segments, if smaller, will be merged to most similar adjacent segment.
@@ -21,36 +21,36 @@ data_params.min_length_merge = 0; % (default 0) minimum length of segments, if s
 % Agglomerative clustering distance criterion
 % methods_indx={'ward', 'complete','centroid','average','single','weighted','median'};
 R_Clustering_params.methods_indx = 'single';  % Narrative Semantic (Imagga) 'centroid'
-                                                % Narrative LSDA 'single'
-                                                % All Non-Semantic 'single'
+% Narrative LSDA 'single'
+% All Non-Semantic 'single'
 
 % R-Clustering combined methods
 R_Clustering_params.clus_type = 'Both1';    % Clustering type used before the GraphCuts.
-                                            % It can take the following values:
-                                            %   'Clustering' : Clustering + GC
-                                            %   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
+% It can take the following values:
+%   'Clustering' : Clustering + GC
+%   'Both1' : Clustering + Adwin + GC (RECOMMENDED)
 
 %%% Cut values used
 R_Clustering_params.cut_indx_use = 0.4; % Narrative Semantic (Imagga) 0.2
-                                        % Narrative LSDA 0.4
-                                        % All Non-Semantic 0.2
+% Narrative LSDA 0.4
+% All Non-Semantic 0.2
 
 %%% GT weight values
 R_Clustering_params.W_unary = 0.9;      % 0 <= W_unary <= 1
-                                        % Narrative Semantic (Imagga) 0.9
-                                        % Narrative LSDA 0.9
-                                        % All Non-Semantic 1
+% Narrative Semantic (Imagga) 0.9
+% Narrative LSDA 0.9
+% All Non-Semantic 1
 
 R_Clustering_params.W_pairwise = 1;   % 0.00001 <= W_pairwise <= 1
-                                        % Narrative Semantic (Imagga) 0.9
-                                        % Narrative LSDA 1
-                                        % All Non-Semantic 0.5
+% Narrative Semantic (Imagga) 0.9
+% Narrative LSDA 1
+% All Non-Semantic 0.5
 
 %%% Features used
 R_Clustering_params.features_used = 4;  % 1 -> Global CNN only
-                                        % 2 -> Global and Semantic (IMAGGA)
-                                        % 3 -> Global and Semantic (LSDA)
-                                        % 4 -> YOLO
+% 2 -> Global and Semantic (IMAGGA)
+% 3 -> Global and Semantic (LSDA)
+% 4 -> YOLO
 
 
 %% CNN parameters (Global Features)
@@ -88,6 +88,9 @@ Semantic_params.smoothing_param = 10;
 Semantic_params.path_lsda_repository = '../LSDA/lsda';
 Semantic_params.batch_size = 128; % batch size must match the definition file!
 Semantic_params.definition_file = 'model-defs/imagenet_rcnn_batch_256_output_fc7.prototxt';
+
+% Darknet
+Semantic_params.darknet_path = '/home/marcvaldivia/test/darknet/';
 
 
 %% Plot results parameters

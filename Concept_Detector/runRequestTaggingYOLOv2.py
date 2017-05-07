@@ -13,7 +13,7 @@ formats = ['%format%']
 path_result = '%result_path%'
 
 # Framework directory
-os.chdir("/home/marcvaldivia/code/darknet")
+os.chdir('%darknet_path%')
 
 ## Apply on each image
 nFolders = len(folders)
