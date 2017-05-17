@@ -99,7 +99,7 @@ plot_params.prop_div = 20;
 
 % Which plots apply?
 % {image whole dataset,   image per segment,    single images splitted by segments in folders}
-plot_params.doPlots = {false, false, false};
+plot_params.doPlots = {false, false, true};
 
 
 %% Create some folders for results
